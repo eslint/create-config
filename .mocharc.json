@@ -1,0 +1,4 @@
+{
+    "ui": "bdd",
+    "require": "./tests/mocha.setup.js"
+}
