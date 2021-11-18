@@ -8,6 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import fs from "fs";
 import chai from "chai";
 import spawn from "cross-spawn";
 import sinon from "sinon";
@@ -27,12 +28,11 @@ const proxyquire = proxyquireMod.noCallThru().noPreserveCache();
 /**
  * Import `npm-utils` with the in-memory file system.
  * @param {Object} files The file definitions.
- * @returns {Object} `npm-utils`.
+ * @returns {void}
  */
-function requireNpmUtilsWithInMemoryFileSystem(files) {
-    const fs = defineInMemoryFs({ files });
-
-    return proxyquire("../../lib/init/npm-utils.js", { fs });
+function mockFiles(files) {
+    const mfs = defineInMemoryFs({ files });
+    npmUtils._setFs(mfs);
 }
 
 //------------------------------------------------------------------------------
@@ -42,6 +42,7 @@ function requireNpmUtilsWithInMemoryFileSystem(files) {
 describe("npmUtils", () => {
     afterEach(() => {
         sinon.verifyAndRestore();
+        npmUtils._setFs(fs);
     });
 
     describe("checkDevDeps()", () => {
@@ -72,25 +73,22 @@ describe("npmUtils", () => {
             assert.isFalse(installStatus.notarealpackage);
         });
 
-        // TODO
-        it.skip("should handle missing devDependencies key", () => {
-            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
-                "package.json": JSON.stringify({ private: true, dependencies: {} })
-            });
+        it("should handle missing devDependencies key", async () => {
+            mockFiles({ "package.json": JSON.stringify({ private: true, dependencies: {} }) });
 
             // Should not throw.
-            stubbedNpmUtils.checkDevDeps(["some-package"]);
+            npmUtils.checkDevDeps(["some-package"]);
         });
 
         // TODO
-        it.skip("should throw with message when parsing invalid package.json", () => {
-            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
+        it("should throw with message when parsing invalid package.json", () => {
+            mockFiles({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    stubbedNpmUtils.checkDevDeps(["some-package"]);
+                    npmUtils.checkDevDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -133,25 +131,23 @@ describe("npmUtils", () => {
             }, "Could not find a package.json file");
         });
 
-        // TODO
-        it.skip("should handle missing dependencies key", () => {
-            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
+        it("should handle missing dependencies key", () => {
+            mockFiles({
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
             // Should not throw.
-            stubbedNpmUtils.checkDeps(["some-package"]);
+            npmUtils.checkDeps(["some-package"]);
         });
 
-        // TODO
-        it.skip("should throw with message when parsing invalid package.json", () => {
-            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
+        it("should throw with message when parsing invalid package.json", () => {
+            mockFiles({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    stubbedNpmUtils.checkDeps(["some-package"]);
+                    npmUtils.checkDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -161,20 +157,17 @@ describe("npmUtils", () => {
     });
 
     describe("checkPackageJson()", () => {
-        // TODO
-        it.skip("should return true if package.json exists", () => {
-            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({
+        it("should return true if package.json exists", () => {
+            mockFiles({
                 "package.json": "{ \"file\": \"contents\" }"
             });
 
-            assert.strictEqual(stubbedNpmUtils.checkPackageJson(), true);
+            assert.strictEqual(npmUtils.checkPackageJson(), true);
         });
+        it("should return false if package.json does not exist", () => {
+            mockFiles({});
 
-        // TODO
-        it.skip("should return false if package.json does not exist", () => {
-            const stubbedNpmUtils = requireNpmUtilsWithInMemoryFileSystem({});
-
-            assert.strictEqual(stubbedNpmUtils.checkPackageJson(), false);
+            assert.strictEqual(npmUtils.checkPackageJson(), false);
         });
     });
 
@@ -200,16 +193,17 @@ describe("npmUtils", () => {
         });
 
         // TODO
-        it.skip("should log an error message if npm throws ENOENT error", () => {
-            const logErrorStub = sinon.stub(log, "error");
-            const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+        it.skip("should log an error message if npm throws ENOENT error", async () => {
+            await td.replaceEsm("../../lib/shared/logging.js", {
+                info: td.func(),
+                error: td.func()
+            });
+
+            const sync = td.replace(spawn, "sync");
+            // td.when(sync("npm", ["i", "--save-dev", "some-package"], { stdio: "inherit" })).thenReturn({ error: { code: "ENOENT" } });
 
             npmUtils.installSyncSaveDev("some-package");
-
-            assert(logErrorStub.calledOnce);
-
-            logErrorStub.restore();
-            npmUtilsStub.restore();
+            td.verify(log.error(), { times: 1, ignoreExtraArgs: true }); // called once
         });
     });
 
