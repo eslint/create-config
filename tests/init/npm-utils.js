@@ -23,10 +23,7 @@ import * as log from "../../lib/shared/logging.js";
 import { defineInMemoryFs } from "../_utils/index.js";
 import esmock from "esmock";
 
-import proxyquireMod from "proxyquire";
-
 const { assert } = chai;
-const proxyquire = proxyquireMod.noCallThru().noPreserveCache();
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -202,16 +199,15 @@ describe("npmUtils", () => {
         });
 
         it("should log an error message if npm throws ENOENT error", async () => {
-            const logErrorStub = sinon.stub();
-            const { installSyncSaveDev: stubbedinstallSyncSaveDev } = await esmock("../../lib/init/npm-utils.js", {
+            const logErrorStub = sinon.spy();
+            const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+
+            const {installSyncSaveDev: stubinstallSyncSaveDev} = await esmock("../../lib/init/npm-utils.js", {
                 "../../lib/shared/logging.js": {
                     error: logErrorStub
                 }
-            });
-
-            const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
-
-            stubbedinstallSyncSaveDev("some-package");
+            })
+            stubinstallSyncSaveDev("some-package");
 
             assert(logErrorStub.calledOnce);
 
