@@ -15,12 +15,31 @@ import os from "os";
 import sinon from "sinon";
 import sh from "shelljs";
 import * as npmUtils from "../../lib/init/npm-utils.js";
-
 import esmock from "esmock";
-import { Legacy } from "@eslint/eslintrc";
 
 const originalDir = process.cwd();
 const { assert } = chai;
+
+
+//------------------------------------------------------------------------------
+// Helpers
+//------------------------------------------------------------------------------
+
+let fixtureDir;
+let localInstalledEslintDir;
+
+/**
+ * change local installed eslint version in fixtures
+ * @param {string|null} version installed eslint version, null => not installed
+ * @returns {void}
+ */
+function setLocalInstalledEslint(version) {
+    const eslintPkgPath = path.join(localInstalledEslintDir, "./package.json");
+    const pkg = version ? { name: "eslint", version } : {};
+
+    fs.writeFileSync(eslintPkgPath, JSON.stringify(pkg, null, 2), "utf8");
+}
+
 
 //------------------------------------------------------------------------------
 // Tests
@@ -32,20 +51,20 @@ let pkgJSONPath = "";
 
 describe("configInitializer", () => {
 
-    let fixtureDir;
     let npmCheckStub;
     let npmInstallStub;
     let npmFetchPeerDependenciesStub;
     let init;
-    let localESLintVersion = null;
     let log;
 
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
         fixtureDir = path.join(os.tmpdir(), "eslint/fixtures/config-initializer");
-        sh.mkdir("-p", fixtureDir);
+        localInstalledEslintDir = path.join(fixtureDir, "./node_modules/eslint");
+        sh.mkdir("-p", localInstalledEslintDir);
         sh.cp("-r", "./tests/fixtures/config-initializer/.", fixtureDir);
+        sh.cp("-r", "./tests/fixtures/eslint/.", localInstalledEslintDir);
         fixtureDir = fs.realpathSync(fixtureDir);
     });
 
@@ -74,28 +93,8 @@ describe("configInitializer", () => {
                 installSyncSaveDev: npmInstallStub,
                 checkDevDeps: npmCheckStub,
                 fetchPeerDependencies: npmFetchPeerDependenciesStub
-            },
-            "@eslint/eslintrc": {
-                Legacy: {
-                    ...Legacy,
-                    ModuleResolver: {
-                        resolve() {
-                            if (localESLintVersion) {
-                                return `local-eslint-${localESLintVersion}`;
-                            }
-                            throw new Error("Cannot find module");
-                        }
-                    }
-                }
             }
         };
-
-        // const globalMocks = {
-        //     "local-eslint-3.18.0": { default: { linter: { version: "3.18.0" } }, "@noCallThru": true },
-        //     "local-eslint-3.19.0": { default: { linter: { version: "3.19.0" } }, "@noCallThru": true },
-        //     "local-eslint-4.0.0": { default: { linter: { version: "4.0.0" } }, "@noCallThru": true }
-        // };
-
 
         init = await esmock("../../lib/init/config-initializer.js", requireStubs, {});
     });
@@ -287,10 +286,17 @@ describe("configInitializer", () => {
                 );
             });
 
-            describe.skip('hasESLintVersionConflict (Note: peerDependencies always `eslint: "^3.19.0"` by stubs)', () => {
+            describe('hasESLintVersionConflict (Note: peerDependencies always `eslint: "^3.19.0"` by stubs)', () => {
+
+                before(() => {
+
+                    // FIX: not sure why it was changed somewhere???
+                    process.chdir(fixtureDir);
+                });
+
                 describe("if local ESLint is not found,", () => {
                     before(() => {
-                        localESLintVersion = null;
+                        setLocalInstalledEslint(null);
                     });
 
                     it("should return false.", () => {
@@ -302,7 +308,7 @@ describe("configInitializer", () => {
 
                 describe("if local ESLint is 3.19.0,", () => {
                     before(() => {
-                        localESLintVersion = "3.19.0";
+                        setLocalInstalledEslint("3.19.0");
                     });
 
                     it("should return false.", () => {
@@ -314,7 +320,7 @@ describe("configInitializer", () => {
 
                 describe("if local ESLint is 4.0.0,", () => {
                     before(() => {
-                        localESLintVersion = "4.0.0";
+                        setLocalInstalledEslint("4.0.0");
                     });
 
                     it("should return true.", () => {
@@ -326,7 +332,7 @@ describe("configInitializer", () => {
 
                 describe("if local ESLint is 3.18.0,", () => {
                     before(() => {
-                        localESLintVersion = "3.18.0";
+                        setLocalInstalledEslint("3.18.0");
                     });
 
                     it("should return true.", () => {
