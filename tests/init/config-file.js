@@ -121,7 +121,7 @@ describe("ConfigFile", () => {
 
             sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                 "test-config.js",
-                sinon.match(value => !value.includes("\"")),
+                sinon.match(value => !value.includes('"')),
                 "utf8"
             );
 
@@ -150,7 +150,7 @@ describe("ConfigFile", () => {
 
             const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
                 fs: fakeFS,
-                eslint: { ESLint: fakeESLint }
+                eslint: { default: { ESLint: fakeESLint } }
             });
 
             nodeAssert.rejects(async () => {

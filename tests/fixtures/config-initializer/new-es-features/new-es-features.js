@@ -1,3 +1,3 @@
 async function fn() {
-    await Promise.resolve();
+  await Promise.resolve();
 }

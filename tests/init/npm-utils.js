@@ -88,7 +88,7 @@ describe("npmUtils", () => {
 
         it("should throw with message when parsing invalid package.json", async () => {
             const { checkDevDeps: stubcheckDevDeps } = await requireNpmUtilsWithInMemoryFileSystem({
-                "package.json": "{ \"not: \"valid json\" }"
+                "package.json": '{ "not: "valid json" }'
             });
 
             assert.throws(() => {
@@ -147,7 +147,7 @@ describe("npmUtils", () => {
 
         it("should throw with message when parsing invalid package.json", async () => {
             const { checkDeps: stubbedcheckDeps } = await requireNpmUtilsWithInMemoryFileSystem({
-                "package.json": "{ \"not: \"valid json\" }"
+                "package.json": '{ "not: "valid json" }'
             });
 
             assert.throws(() => {
@@ -164,7 +164,7 @@ describe("npmUtils", () => {
     describe("checkPackageJson()", () => {
         it("should return true if package.json exists", async () => {
             const { checkPackageJson: stubbedcheckPackageJson } = await requireNpmUtilsWithInMemoryFileSystem({
-                "package.json": "{ \"file\": \"contents\" }"
+                "package.json": '{ "file": "contents" }'
             });
 
             assert.strictEqual(stubbedcheckPackageJson(), true);
@@ -202,11 +202,12 @@ describe("npmUtils", () => {
             const logErrorStub = sinon.spy();
             const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            const {installSyncSaveDev: stubinstallSyncSaveDev} = await esmock("../../lib/init/npm-utils.js", {
+            const { installSyncSaveDev: stubinstallSyncSaveDev } = await esmock("../../lib/init/npm-utils.js", {
                 "../../lib/shared/logging.js": {
                     error: logErrorStub
                 }
-            })
+            });
+
             stubinstallSyncSaveDev("some-package");
 
             assert(logErrorStub.calledOnce);
