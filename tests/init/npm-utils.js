@@ -14,12 +14,9 @@ import sinon from "sinon";
 import {
     installSyncSaveDev,
     fetchPeerDependencies,
-    findPackageJson,
     checkDeps,
-    checkDevDeps,
-    checkPackageJson
+    checkDevDeps
 } from "../../lib/init/npm-utils.js";
-import * as log from "../../lib/shared/logging.js";
 import { defineInMemoryFs } from "../_utils/index.js";
 import esmock from "esmock";
 

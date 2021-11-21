@@ -18,9 +18,6 @@ import nodeAssert from "assert";
 import eslint from "eslint";
 const { ESLint } = eslint;
 
-import proxyquireMod from "proxyquire";
-const proxyquire = proxyquireMod.noCallThru().noPreserveCache();
-
 import esmock from "esmock";
 
 //------------------------------------------------------------------------------

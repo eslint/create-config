@@ -16,14 +16,11 @@ import sinon from "sinon";
 import sh from "shelljs";
 import * as npmUtils from "../../lib/init/npm-utils.js";
 
-// import * as log from "../../lib/shared/logging.js";
-import proxyquireMod from "proxyquire";
 import esmock from "esmock";
 import { Legacy } from "@eslint/eslintrc";
 
 const originalDir = process.cwd();
 const { assert } = chai;
-const proxyquire = proxyquireMod.noPreserveCache();
 
 //------------------------------------------------------------------------------
 // Tests
