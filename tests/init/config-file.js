@@ -14,10 +14,14 @@ import yaml from "js-yaml";
 import * as espree from "espree";
 import * as ConfigFile from "../../lib/init/config-file.js";
 import nodeAssert from "assert";
-import fs from "fs";
 
 import eslint from "eslint";
 const { ESLint } = eslint;
+
+import proxyquireMod from "proxyquire";
+const proxyquire = proxyquireMod.noCallThru().noPreserveCache();
+
+import esmock from "esmock";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -30,7 +34,9 @@ const { ESLint } = eslint;
  * @private
  */
 function getFixturePath(filepath) {
-    return path.resolve(__dirname, "../../fixtures/config-file", filepath);
+    const dirname = path.dirname(new URL(import.meta.url).pathname);
+
+    return path.resolve(dirname, "../../fixtures/config-file", filepath);
 }
 
 //------------------------------------------------------------------------------
@@ -38,17 +44,10 @@ function getFixturePath(filepath) {
 //------------------------------------------------------------------------------
 
 describe("ConfigFile", () => {
-    let writeFileSync;
-    let ConfigFile;
-
-    beforeEach(async () => {
-
-    });
-
     describe("write()", () => {
         let config;
 
-        beforeEach(async () => {
+        beforeEach(() => {
             config = {
                 env: {
                     browser: true,
@@ -59,8 +58,10 @@ describe("ConfigFile", () => {
                     semi: 1
                 }
             };
-            writeFileSync = td.replace(fs, "writeFileSync");
-            ConfigFile = await import("../../lib/init/config-file.js");
+        });
+
+        afterEach(() => {
+            sinon.verifyAndRestore();
         });
 
         [
@@ -71,17 +72,46 @@ describe("ConfigFile", () => {
         ].forEach(([fileType, filename, validate]) => {
 
             it(`should write a file through fs when a ${fileType} path is passed`, async () => {
-                await ConfigFile.write(config, filename);
-                td.verify(writeFileSync(filename, td.matchers.argThat(value => !!validate(value)), "utf8"));
+                const fakeFS = {
+                    writeFileSync: () => {}
+                };
+
+                sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                    filename,
+                    sinon.match(value => !!validate(value)),
+                    "utf8"
+                );
+
+                const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
+                    fs: fakeFS
+                });
+
+                await StubbedConfigFile.write(config, filename);
             });
 
             it("should include a newline character at EOF", async () => {
-                await ConfigFile.write(config, filename);
-                td.verify(writeFileSync(filename, td.matchers.argThat(value => value.endsWith("\n")), "utf8"));
+                const fakeFS = {
+                    writeFileSync: () => {}
+                };
+
+                sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                    filename,
+                    sinon.match(value => value.endsWith("\n")),
+                    "utf8"
+                );
+
+                const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
+                    fs: fakeFS
+                });
+
+                await StubbedConfigFile.write(config, filename);
             });
         });
 
         it("should make sure js config files match linting rules", async () => {
+            const fakeFS = {
+                writeFileSync: () => {}
+            };
 
             const singleQuoteConfig = {
                 rules: {
@@ -89,19 +119,42 @@ describe("ConfigFile", () => {
                 }
             };
 
-            await ConfigFile.write(singleQuoteConfig, "test-config.js");
-            td.verify(writeFileSync("test-config.js", td.matchers.argThat(value => !value.includes("\"")), "utf8"));
+            sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
+                "test-config.js",
+                sinon.match(value => !value.includes("\"")),
+                "utf8"
+            );
+
+            const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
+                fs: fakeFS
+            });
+
+            StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
         });
 
-        // TODO: confirm the test was working as expected.
-        it("should still write a js config file even if linting fails", () => {
+        // TODO: seems esmock cannot mock "eslint"(maybe import()/cjs?)
+        it.skip("should still write a js config file even if linting fails", async () => {
+            const fakeFS = {
+                writeFileSync: () => {}
+            };
+            const fakeESLint = sinon.mock().withExactArgs(sinon.match({
+                baseConfig: config,
+                fix: true,
+                useEslintrc: false
+            }));
+
+            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
+            sinon.stub(fakeESLint.prototype, "lintText").throws();
+
+            sinon.mock(fakeFS).expects("writeFileSync").once();
+
+            const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
+                fs: fakeFS,
+                eslint: { ESLint: fakeESLint }
+            });
+
             nodeAssert.rejects(async () => {
-                try {
-                    await ConfigFile.write(config, "test-config.js");
-                } catch (e) {
-                    td.verify(writeFileSync(), { times: 1, ignoreExtraArgs: true }); // called once
-                    throw e;
-                }
+                await StubbedConfigFile.write(config, "test-config.js");
             });
         });
 

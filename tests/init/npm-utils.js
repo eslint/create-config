@@ -8,13 +8,20 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import fs from "fs";
 import chai from "chai";
 import spawn from "cross-spawn";
 import sinon from "sinon";
-import * as npmUtils from "../../lib/init/npm-utils.js";
+import {
+    installSyncSaveDev,
+    fetchPeerDependencies,
+    findPackageJson,
+    checkDeps,
+    checkDevDeps,
+    checkPackageJson
+} from "../../lib/init/npm-utils.js";
 import * as log from "../../lib/shared/logging.js";
 import { defineInMemoryFs } from "../_utils/index.js";
+import esmock from "esmock";
 
 import proxyquireMod from "proxyquire";
 
@@ -28,28 +35,28 @@ const proxyquire = proxyquireMod.noCallThru().noPreserveCache();
 /**
  * Import `npm-utils` with the in-memory file system.
  * @param {Object} files The file definitions.
- * @returns {void}
+ * @returns {Object} `npm-utils`.
  */
-function mockFiles(files) {
-    const mfs = defineInMemoryFs({ files });
-    npmUtils._setFs(mfs);
+async function requireNpmUtilsWithInMemoryFileSystem(files) {
+    const fs = defineInMemoryFs({ files });
+
+    return await esmock("../../lib/init/npm-utils.js", { fs });
 }
 
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
-// TODO: make the tests passing!
+
 describe("npmUtils", () => {
     afterEach(() => {
         sinon.verifyAndRestore();
-        npmUtils._setFs(fs);
     });
 
     describe("checkDevDeps()", () => {
         let installStatus;
 
         before(() => {
-            installStatus = npmUtils.checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
+            installStatus = checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
         });
 
         it("should not find a direct dependency of the project", () => {
@@ -69,26 +76,27 @@ describe("npmUtils", () => {
         });
 
         it("should return false for a single, non-existent package", () => {
-            installStatus = npmUtils.checkDevDeps(["notarealpackage"]);
+            installStatus = checkDevDeps(["notarealpackage"]);
             assert.isFalse(installStatus.notarealpackage);
         });
 
         it("should handle missing devDependencies key", async () => {
-            mockFiles({ "package.json": JSON.stringify({ private: true, dependencies: {} }) });
+            const { checkDevDeps: stubcheckDevDeps } = await requireNpmUtilsWithInMemoryFileSystem({
+                "package.json": JSON.stringify({ private: true, dependencies: {} })
+            });
 
             // Should not throw.
-            npmUtils.checkDevDeps(["some-package"]);
+            stubcheckDevDeps(["some-package"]);
         });
 
-        // TODO
-        it("should throw with message when parsing invalid package.json", () => {
-            mockFiles({
+        it("should throw with message when parsing invalid package.json", async () => {
+            const { checkDevDeps: stubcheckDevDeps } = await requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    npmUtils.checkDevDeps(["some-package"]);
+                    stubcheckDevDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -101,7 +109,7 @@ describe("npmUtils", () => {
         let installStatus;
 
         before(() => {
-            installStatus = npmUtils.checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
+            installStatus = checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
         });
 
         it("should find a direct dependency of the project", () => {
@@ -121,33 +129,33 @@ describe("npmUtils", () => {
         });
 
         it("should return false for a single, non-existent package", () => {
-            installStatus = npmUtils.checkDeps(["notarealpackage"]);
+            installStatus = checkDeps(["notarealpackage"]);
             assert.isFalse(installStatus.notarealpackage);
         });
 
         it("should throw if no package.json can be found", () => {
             assert.throws(() => {
-                installStatus = npmUtils.checkDeps(["notarealpackage"], "/fakepath");
+                installStatus = checkDeps(["notarealpackage"], "/fakepath");
             }, "Could not find a package.json file");
         });
 
-        it("should handle missing dependencies key", () => {
-            mockFiles({
+        it("should handle missing dependencies key", async () => {
+            const { checkDeps: stubbedcheckDeps } = await requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
             // Should not throw.
-            npmUtils.checkDeps(["some-package"]);
+            stubbedcheckDeps(["some-package"]);
         });
 
-        it("should throw with message when parsing invalid package.json", () => {
-            mockFiles({
+        it("should throw with message when parsing invalid package.json", async () => {
+            const { checkDeps: stubbedcheckDeps } = await requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"not: \"valid json\" }"
             });
 
             assert.throws(() => {
                 try {
-                    npmUtils.checkDeps(["some-package"]);
+                    stubbedcheckDeps(["some-package"]);
                 } catch (error) {
                     assert.strictEqual(error.messageTemplate, "failed-to-read-json");
                     throw error;
@@ -157,17 +165,18 @@ describe("npmUtils", () => {
     });
 
     describe("checkPackageJson()", () => {
-        it("should return true if package.json exists", () => {
-            mockFiles({
+        it("should return true if package.json exists", async () => {
+            const { checkPackageJson: stubbedcheckPackageJson } = await requireNpmUtilsWithInMemoryFileSystem({
                 "package.json": "{ \"file\": \"contents\" }"
             });
 
-            assert.strictEqual(npmUtils.checkPackageJson(), true);
+            assert.strictEqual(stubbedcheckPackageJson(), true);
         });
-        it("should return false if package.json does not exist", () => {
-            mockFiles({});
 
-            assert.strictEqual(npmUtils.checkPackageJson(), false);
+        it("should return false if package.json does not exist", async () => {
+            const { checkPackageJson: stubbedcheckPackageJson } = await requireNpmUtilsWithInMemoryFileSystem({});
+
+            assert.strictEqual(stubbedcheckPackageJson(), false);
         });
     });
 
@@ -175,7 +184,7 @@ describe("npmUtils", () => {
         it("should invoke npm to install a single desired package", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtils.installSyncSaveDev("desired-package");
+            installSyncSaveDev("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "desired-package"]);
@@ -185,25 +194,28 @@ describe("npmUtils", () => {
         it("should accept an array of packages to install", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtils.installSyncSaveDev(["first-package", "second-package"]);
+            installSyncSaveDev(["first-package", "second-package"]);
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["i", "--save-dev", "first-package", "second-package"]);
             stub.restore();
         });
 
-        // TODO
-        it.skip("should log an error message if npm throws ENOENT error", async () => {
-            await td.replaceEsm("../../lib/shared/logging.js", {
-                info: td.func(),
-                error: td.func()
+        it("should log an error message if npm throws ENOENT error", async () => {
+            const logErrorStub = sinon.stub();
+            const { installSyncSaveDev: stubbedinstallSyncSaveDev } = await esmock("../../lib/init/npm-utils.js", {
+                "../../lib/shared/logging.js": {
+                    error: logErrorStub
+                }
             });
 
-            const sync = td.replace(spawn, "sync");
-            // td.when(sync("npm", ["i", "--save-dev", "some-package"], { stdio: "inherit" })).thenReturn({ error: { code: "ENOENT" } });
+            const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            npmUtils.installSyncSaveDev("some-package");
-            td.verify(log.error(), { times: 1, ignoreExtraArgs: true }); // called once
+            stubbedinstallSyncSaveDev("some-package");
+
+            assert(logErrorStub.calledOnce);
+
+            npmUtilsStub.restore();
         });
     });
 
@@ -211,7 +223,7 @@ describe("npmUtils", () => {
         it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            npmUtils.fetchPeerDependencies("desired-package");
+            fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
@@ -221,7 +233,7 @@ describe("npmUtils", () => {
         it("should return null if npm throws ENOENT error", () => {
             const stub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            const peerDependencies = npmUtils.fetchPeerDependencies("desired-package");
+            const peerDependencies = fetchPeerDependencies("desired-package");
 
             assert.isNull(peerDependencies);
 

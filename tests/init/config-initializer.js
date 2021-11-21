@@ -15,9 +15,8 @@ import os from "os";
 import sinon from "sinon";
 import sh from "shelljs";
 import * as npmUtils from "../../lib/init/npm-utils.js";
-import * as log from "../../lib/shared/logging.js";
 import proxyquireMod from "proxyquire";
-import { Legacy, FlatCompat } from "@eslint/eslintrc";
+import esmock from "esmock";
 
 const originalDir = process.cwd();
 const { assert } = chai;
@@ -40,6 +39,32 @@ describe("configInitializer", () => {
     let init;
     let localESLintVersion = null;
 
+    const log = {
+        info: sinon.spy(),
+        error: sinon.spy()
+    };
+    const requireStubs = {
+        "../shared/logging.js": log,
+        "@eslint/eslintrc": {
+            Legacy: {
+                ModuleResolver: {
+                    resolve() {
+                        if (localESLintVersion) {
+                            return `local-eslint-${localESLintVersion}`;
+                        }
+                        throw new Error("Cannot find module");
+                    }
+                }
+            }
+        }
+    };
+
+    const globalMocks = {
+        "local-eslint-3.18.0": { default: { linter: { version: "3.18.0" } }, "@noCallThru": true },
+        "local-eslint-3.19.0": { default: { linter: { version: "3.19.0" } }, "@noCallThru": true },
+        "local-eslint-4.0.0": { default: { linter: { version: "4.0.0" } }, "@noCallThru": true }
+    };
+
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
         fixtureDir = path.join(os.tmpdir(), "eslint/fixtures/config-initializer");
@@ -49,82 +74,29 @@ describe("configInitializer", () => {
     });
 
     beforeEach(async () => {
-        td.replaceEsm("../../lib/init/npm-utils.js", {
-            ...npmUtils,
-            checkDevDeps: packages => packages.reduce((status, pkg) => {
-                status[pkg] = false;
-                return status;
-            }, {}),
-            fetchPeerDependencies: () => ({
+        npmInstallStub = sinon.stub(npmUtils, "installSyncSaveDev");
+        npmCheckStub = sinon.stub(npmUtils, "checkDevDeps").callsFake(packages => packages.reduce((status, pkg) => {
+            status[pkg] = false;
+            return status;
+        }, {}));
+        npmFetchPeerDependenciesStub = sinon
+            .stub(npmUtils, "fetchPeerDependencies")
+            .returns({
                 eslint: "^3.19.0",
                 "eslint-plugin-jsx-a11y": "^5.0.1",
                 "eslint-plugin-import": "^2.2.0",
                 "eslint-plugin-react": "^7.0.1"
-            })
-        });
-
-        td.replaceEsm("@eslint/eslintrc", {
-            FlatCompat,
-            Legacy: {
-                ...Legacy,
-                ModuleResolver: {
-                    resolve: () => {
-                        if (localESLintVersion) {
-                            return `local-eslint-${localESLintVersion}`;
-                        }
-                        throw new Error("Cannot find module");
-                    }
-                }
-            }
-        })
-        // td.replace(npmUtils, "checkDevDeps",
-        //     packages => packages.reduce((status, pkg) => {
-        //         status[pkg] = false;
-        //         return status;
-        //     }, {})
-        // );
-        // td.when(npmUtils.fetchPeerDependencies(td.matchers.anything())).thenReturn({
-        //     eslint: "^3.19.0",
-        //     "eslint-plugin-jsx-a11y": "^5.0.1",
-        //     "eslint-plugin-import": "^2.2.0",
-        //     "eslint-plugin-react": "^7.0.1"
-        // });
-        // td.replace(Legacy, "ModuleResolver", {
-        //     resolve: function () {
-        //         if (localESLintVersion) {
-        //             return `local-eslint-${localESLintVersion}`;
-        //         }
-        //         throw new Error("Cannot find module");
-        //     }
-        // });
-        td.replace("local-eslint-3.18.0", {linter: { version: "3.18.0" }, "@noCallThru": true });
-        td.replace("local-eslint-3.19.0", {linter: { version: "3.19.0" }, "@noCallThru": true });
-        td.replace("local-eslint-4.0.0", {linter: { version: "4.0.0" }, "@noCallThru": true });
-        init = await import("../../lib/init/npm-utils.js");
-        // td.when(Legacy.ModuleResolver.resolve("local-eslint-3.18.0")).thenReturn({ linter: { version: "3.18.0" }, "@noCallThru": true });
-        // td.when(Legacy.ModuleResolver.resolve("local-eslint-3.19.0")).thenReturn({ linter: { version: "3.19.0" }, "@noCallThru": true });
-        // td.when(Legacy.ModuleResolver.resolve("local-eslint-4.0.0")).thenReturn({ linter: { version: "4.0.0" }, "@noCallThru": true });
-        // npmInstallStub = sinon.stub(npmUtils, "installSyncSaveDev");
-        // npmCheckStub = sinon.stub(npmUtils, "checkDevDeps").callsFake(packages => packages.reduce((status, pkg) => {
-        //     status[pkg] = false;
-        //     return status;
-        // }, {}));
-        // npmFetchPeerDependenciesStub = sinon
-        //     .stub(npmUtils, "fetchPeerDependencies")
-        //     .returns({
-        //         eslint: "^3.19.0",
-        //         "eslint-plugin-jsx-a11y": "^5.0.1",
-        //         "eslint-plugin-import": "^2.2.0",
-        //         "eslint-plugin-react": "^7.0.1"
-        //     });
-        init = await import ("../../lib/init/config-initializer.js");
+            });
+        init = await esmock("../../lib/init/config-initializer.js", requireStubs, globalMocks);
     });
 
-    // afterEach(() => {
-    //     npmInstallStub.restore();
-    //     npmCheckStub.restore();
-    //     npmFetchPeerDependenciesStub.restore();
-    // });
+    afterEach(() => {
+        log.info.resetHistory();
+        log.error.resetHistory();
+        npmInstallStub.restore();
+        npmCheckStub.restore();
+        npmFetchPeerDependenciesStub.restore();
+    });
 
     after(() => {
         sh.rm("-r", fixtureDir);
@@ -228,8 +200,7 @@ describe("configInitializer", () => {
             });
         });
 
-        // TODO
-        describe.skip("guide", () => {
+        describe("guide", () => {
             it("should support the google style guide", () => {
                 const config = { extends: "google" };
                 const modules = init.getModulesList(config);
@@ -423,13 +394,13 @@ describe("configInitializer", () => {
             process.chdir(originalDir);
         });
 
-        it("should create .eslintrc.json", async () => {
+        it("should create .eslintrc.json", () => {
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.json");
 
             fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
-            await init.writeFile(config, answers.format);
+            init.writeFile(config, answers.format);
 
             assert.isTrue(fs.existsSync(filePath));
 
@@ -453,7 +424,7 @@ describe("configInitializer", () => {
             fs.unlinkSync(pkgJSONPath);
         });
 
-        it("should create .eslintrc.yml", async () => {
+        it("should create .eslintrc.yml", () => {
             answers.format = "YAML";
 
             const config = init.processAnswers(answers);
@@ -461,7 +432,7 @@ describe("configInitializer", () => {
 
             fs.writeFileSync(pkgJSONPath, JSON.stringify(pkgJSONContents));
 
-            await init.writeFile(config, answers.format);
+            init.writeFile(config, answers.format);
 
             assert.isTrue(fs.existsSync(filePath));
 
@@ -489,7 +460,7 @@ describe("configInitializer", () => {
             fs.unlinkSync(pkgJSONPath);
         });
 
-        it("should create .eslintrc.json even with type: 'module'", async () => {
+        it("should create .eslintrc.json even with type: 'module'", () => {
             answers.format = "JSON";
 
             // create package.json with "type": "module"
@@ -500,7 +471,7 @@ describe("configInitializer", () => {
             const config = init.processAnswers(answers);
             const filePath = path.resolve(fixtureDir, ".eslintrc.json");
 
-            await init.writeFile(config, answers.format);
+            init.writeFile(config, answers.format);
 
             assert.isTrue(fs.existsSync(filePath));
 
