@@ -1,29 +1,26 @@
 name: CI
 on:
   push:
-    branches: [master, main]
+    branches:
+      - main
   pull_request:
-    branches: [master, main]
-
+    branches:
+      - main
 jobs:
-  verify_files:
-    name: Verify Files
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '14.x'
-    - name: Install Packages
-      run: npm install
-    - name: Lint Files
-      run: node Makefile lint
-    - name: Check Rule Files
-      run: node Makefile checkRuleFiles
-    - name: Check Licenses
-      run: node Makefile checkLicenses
-
-  test_on_node:
+      - uses: actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+      - name: Install dependencies
+        run: npm install
+      - name: Lint files
+        run: npm run lint
+  test:
     name: Test
     strategy:
       matrix:
@@ -40,24 +37,7 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node }}
-    - name: Install Packages
+    - name: Install dependencies
       run: npm install
-    - name: Test
-      run: node Makefile mocha
-    - name: Fuzz Test
-      run: node Makefile fuzz
-
-  test_on_browser:
-    name: Browser Test
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '12'
-    - name: Install Packages
-      run: npm install
-    - name: Test
-      run: node Makefile karma
-    - name: Fuzz Test
-      run: node Makefile fuzz
+    - name: Run tests
+      run: npm run test
