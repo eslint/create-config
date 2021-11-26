@@ -1,4 +1,4 @@
-# create-config
+# @eslint/create-config
 Utility to create ESLint config files
 
 ## <a name="usage"></a>Usage
@@ -13,5 +13,6 @@ npm init @eslint/config
 ```
 
 ```bash
+# use npx
 npx @eslint/create-config
 ```
