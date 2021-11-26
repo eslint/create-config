@@ -50,7 +50,7 @@
         "eslint-plugin-jsdoc": "^37.0.3",
         "eslint-plugin-node": "^11.1.0",
         "eslint-release": "^3.2.0",
-        "esmock": "github:iambumblehead/esmock#add-windows-latest-pipeline",
+        "esmock": "^1.1.0",
         "espree": "^9.0.0",
         "fs-teardown": "^0.2.0",
         "lint-staged": "^12.1.2",
