@@ -1,7 +1,7 @@
 {
     "name": "@eslint/create-config",
     "version": "1.0.0",
-    "description": "An AST-based pattern checker for JavaScript.",
+    "description": "Utility to create ESLint config files.",
     "keywords": [
         "ast",
         "lint",
