@@ -129,8 +129,7 @@ describe("ConfigFile", () => {
             StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
         });
 
-        // TODO: seems esmock cannot mock "eslint"(maybe import()/cjs?)
-        it.skip("should still write a js config file even if linting fails", async () => {
+        it("should still write a js config file even if linting fails", async () => {
             const fakeFS = {
                 writeFileSync: () => {}
             };
@@ -145,14 +144,16 @@ describe("ConfigFile", () => {
 
             sinon.mock(fakeFS).expects("writeFileSync").once();
 
-            const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
+            const StubbedConfigFile = await esmock.p("../../lib/init/config-file.js", {
                 fs: fakeFS,
-                eslint: { default: { ESLint: fakeESLint } }
+                eslint: { ESLint: fakeESLint }
             });
 
             nodeAssert.rejects(async () => {
                 await StubbedConfigFile.write(config, "test-config.js");
             });
+
+            esmock.purge(StubbedConfigFile);
         });
 
         it("should throw error if file extension is not valid", () => {
