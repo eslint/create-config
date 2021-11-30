@@ -61,10 +61,14 @@
         "memfs": "^3.4.0",
         "mocha": "^9.1.3",
         "shelljs": "^0.8.4",
-        "sinon": "^12.0.1"
+        "sinon": "^12.0.1",
+        "yorkie": "^2.0.0"
     },
     "engines": {
         "node": "^12.22.0 || ^14.17.0 || >=16.0.0"
+    },
+    "lint-staged": {
+        "*.js": "eslint --fix"
     },
     "gitHooks": {
         "pre-commit": "lint-staged"
