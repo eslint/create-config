@@ -26,14 +26,14 @@
         "lib"
     ],
     "scripts": {
+        "lint": "eslint .",
+        "test": "mocha \"tests/init/**/*.js\"",
+        "test:cov": "c8 npm test",
         "generate-alpharelease": "eslint-generate-prerelease alpha",
         "generate-betarelease": "eslint-generate-prerelease beta",
         "generate-rcrelease": "eslint-generate-prerelease rc",
         "generate-release": "eslint-generate-release",
-        "lint": "eslint .",
-        "publish-release": "eslint-publish-release",
-        "test": "mocha \"tests/init/**/*.js\"",
-        "test:cov": "c8 npm test"
+        "publish-release": "eslint-publish-release"
     },
     "mocha": {
         "loader": "esmock",
