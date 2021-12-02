@@ -32,7 +32,8 @@
         "generate-release": "eslint-generate-release",
         "lint": "eslint .",
         "publish-release": "eslint-publish-release",
-        "test": "mocha \"tests/init/**/*.js\""
+        "test": "mocha \"tests/init/**/*.js\"",
+        "test:cov": "c8 npm test"
     },
     "mocha": {
         "loader": "esmock",
@@ -48,6 +49,7 @@
         "semver": "^7.2.1"
     },
     "devDependencies": {
+        "c8": "^7.10.0",
         "chai": "^4.3.4",
         "eslint": "^8.2.0",
         "eslint-config-eslint": "^7.0.0",
