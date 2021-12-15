@@ -25,6 +25,9 @@
         "bin",
         "lib"
     ],
+    "publishConfig": { 
+        "access": "public"
+    },
     "scripts": {
         "lint": "eslint .",
         "test": "mocha \"tests/init/**/*.js\"",
