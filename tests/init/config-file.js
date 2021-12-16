@@ -146,7 +146,7 @@ describe("ConfigFile", () => {
 
             const StubbedConfigFile = await esmock.p("../../lib/init/config-file.js", {
                 fs: fakeFS,
-                eslint: { ESLint: fakeESLint }
+                eslint: { default: { ESLint: fakeESLint } }
             });
 
             nodeAssert.rejects(async () => {
