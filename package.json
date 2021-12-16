@@ -1,6 +1,6 @@
 {
     "name": "@eslint/create-config",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "description": "Utility to create ESLint config files.",
     "keywords": [
         "ast",
@@ -25,7 +25,7 @@
         "bin",
         "lib"
     ],
-    "publishConfig": { 
+    "publishConfig": {
         "access": "public"
     },
     "scripts": {
