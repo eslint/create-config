@@ -11,15 +11,14 @@
 import chai from "chai";
 import fs from "fs";
 import path from "path";
-import os from "os";
 import sinon from "sinon";
 import sh from "shelljs";
-import * as npmUtils from "../../lib/init/npm-utils.js";
 import esmock from "esmock";
+import { fileURLToPath } from "url";
+import * as npmUtils from "../../lib/init/npm-utils.js";
 
 const originalDir = process.cwd();
 const { assert } = chai;
-
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -35,7 +34,13 @@ let localInstalledEslintDir;
  */
 function setLocalInstalledEslint(version) {
     const eslintPkgPath = path.join(localInstalledEslintDir, "./package.json");
-    const pkg = version ? { name: "eslint", version } : {};
+    let pkg = JSON.parse(fs.readFileSync(eslintPkgPath, "utf8"));
+
+    if (version) {
+        pkg.version = version;
+    } else {
+        pkg = {};
+    }
 
     fs.writeFileSync(eslintPkgPath, JSON.stringify(pkg, null, 2), "utf8");
 }
@@ -60,7 +65,9 @@ describe("configInitializer", () => {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
-        fixtureDir = path.join(os.tmpdir(), "eslint/fixtures/config-initializer");
+        const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle
+
+        fixtureDir = path.join(__filename, "../../../tmp/eslint/fixtures/config-initializer");
         localInstalledEslintDir = path.join(fixtureDir, "./node_modules/eslint");
         sh.mkdir("-p", localInstalledEslintDir);
         sh.cp("-r", "./tests/fixtures/config-initializer/.", fixtureDir);
