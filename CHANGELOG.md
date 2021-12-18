@@ -1,3 +1,7 @@
+v0.1.1 - December 17, 2021
+
+* [`48d8025`](https://github.com/eslint/create-config/commit/48d8025e1d1b607d95dd93ac261aa9990104851f) fix: import("eslint") doesn't work (#9) (唯然)
+
 v0.1.0 - December 15, 2021
 
 * [`6d20aa3`](https://github.com/eslint/create-config/commit/6d20aa375ba3a4a408b1f751796450f8c6808189) chore:  add `publishConfig` field in `package.json` (#6) (Nitin Kumar)
