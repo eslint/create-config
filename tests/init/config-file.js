@@ -131,7 +131,7 @@ describe("ConfigFile", () => {
             StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
             nodeAssert(syncStub.called);
             nodeAssert(syncStub.calledWith(
-                sinon.match("node_modules/.bin/eslint"),
+                sinon.match("eslint"),
                 sinon.match.array.contains(["--fix"])
             ));
         });
