@@ -8,16 +8,6 @@ module.exports = {
     parserOptions: {
         ecmaVersion: "latest"
     },
-    rules: {
-        "node/no-unpublished-import": [
-            "error",
-            {
-                allowModules: [
-                    "eslint"
-                ]
-            }
-        ]
-    },
     overrides: [
         {
             files: [
