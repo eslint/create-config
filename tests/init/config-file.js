@@ -14,10 +14,6 @@ import yaml from "js-yaml";
 import * as espree from "espree";
 import * as ConfigFile from "../../lib/init/config-file.js";
 import nodeAssert from "assert";
-
-import eslint from "eslint";
-const { ESLint } = eslint;
-
 import esmock from "esmock";
 
 //------------------------------------------------------------------------------
@@ -105,7 +101,7 @@ describe("ConfigFile", () => {
             });
         });
 
-        it("should make sure js config files match linting rules", async () => {
+        it("should run 'eslint --fix' to make sure js config files match linting rules", async () => {
             const fakeFS = {
                 writeFileSync: () => {}
             };
@@ -118,42 +114,26 @@ describe("ConfigFile", () => {
 
             sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
                 "test-config.js",
-                sinon.match(value => !value.includes('"')),
+                sinon.match.string,
                 "utf8"
             );
 
+            const syncStub = sinon.fake();
             const StubbedConfigFile = await esmock("../../lib/init/config-file.js", {
-                fs: fakeFS
+                fs: fakeFS,
+                "cross-spawn": {
+                    default: {
+                        sync: syncStub
+                    }
+                }
             });
 
             StubbedConfigFile.write(singleQuoteConfig, "test-config.js");
-        });
-
-        it("should still write a js config file even if linting fails", async () => {
-            const fakeFS = {
-                writeFileSync: () => {}
-            };
-            const fakeESLint = sinon.mock().withExactArgs(sinon.match({
-                baseConfig: config,
-                fix: true,
-                useEslintrc: false
-            }));
-
-            Object.defineProperties(fakeESLint.prototype, Object.getOwnPropertyDescriptors(ESLint.prototype));
-            sinon.stub(fakeESLint.prototype, "lintText").throws();
-
-            sinon.mock(fakeFS).expects("writeFileSync").once();
-
-            const StubbedConfigFile = await esmock.p("../../lib/init/config-file.js", {
-                fs: fakeFS,
-                eslint: { default: { ESLint: fakeESLint } }
-            });
-
-            nodeAssert.rejects(async () => {
-                await StubbedConfigFile.write(config, "test-config.js");
-            });
-
-            esmock.purge(StubbedConfigFile);
+            nodeAssert(syncStub.called);
+            nodeAssert(syncStub.calledWith(
+                sinon.match("eslint"),
+                sinon.match.array.contains(["--fix"])
+            ));
         });
 
         it("should throw error if file extension is not valid", () => {
