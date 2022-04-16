@@ -151,7 +151,7 @@ describe("configInitializer", () => {
 
                 assert.throws(() => {
                     init.initializeConfig();
-                }, "Cannot initialize ESLint outside a node project");
+                }, "A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
             });
 
             it("should create default config", () => {
