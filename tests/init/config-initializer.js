@@ -16,6 +16,7 @@ import sh from "shelljs";
 import esmock from "esmock";
 import { fileURLToPath } from "url";
 import * as npmUtils from "../../lib/init/npm-utils.js";
+import { defineInMemoryFs } from "../_utils/index.js";
 
 const originalDir = process.cwd();
 const { assert } = chai;
@@ -136,6 +137,21 @@ describe("configInitializer", () => {
                     env: ["browser"],
                     format: "JSON"
                 };
+            });
+            it("should throw error with message when no package.json", async () => {
+                const requireStubs = {
+                    "../../lib/shared/logging.js": log,
+                    "../../lib/init/npm-utils.js": {
+                        ...await esmock("../../lib/init/npm-utils.js", { fs: defineInMemoryFs({}) })
+                    }
+                };
+
+
+                init = await esmock("../../lib/init/config-initializer.js", requireStubs, { });
+
+                assert.throws(() => {
+                    init.initializeConfig();
+                }, "A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
             });
 
             it("should create default config", () => {
