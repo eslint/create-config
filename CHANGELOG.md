@@ -1,3 +1,10 @@
+v0.2.0 - May 4, 2022
+
+* [`3c6197b`](https://github.com/eslint/create-config/commit/3c6197be5544a43b13a595e29a7f488e098f2f92) build: add node v18 (#29) (唯然)
+* [`dbd5e34`](https://github.com/eslint/create-config/commit/dbd5e34b96995d4732442783689f868aabbbb819) fix: throw error and exit when `package.json` not found (#27) (Strek)
+* [`8a26ef4`](https://github.com/eslint/create-config/commit/8a26ef4aef266d676302ffad89cb50e90aa8ad7a) feat: added yarn and pnpm installations (#24) (Strek)
+* [`a9841e2`](https://github.com/eslint/create-config/commit/a9841e2c297f7caff47317fdddc6853e24f293c8) chore: upgrade esmock (#26) (唯然)
+
 v0.1.2 - January 7, 2022
 
 * [`c8ba806`](https://github.com/eslint/create-config/commit/c8ba80657784f0076b6b247b24996df567058f43) fix: Wrong info about globally-installed copy of ESLint (#18) (唯然)
