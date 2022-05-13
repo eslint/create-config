@@ -186,11 +186,22 @@ describe("configInitializer", () => {
 
             it("should enable vue plugin", () => {
                 answers.framework = "vue";
+                answers.vueVersion = "vue2";
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
                 assert.deepStrictEqual(config.plugins, ["vue"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential"]);
+            });
+
+            it("should enable vue 3 plugin", () => {
+                answers.framework = "vue";
+                answers.vueVersion = "vue3";
+                const config = init.processAnswers(answers);
+
+                assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
+                assert.deepStrictEqual(config.plugins, ["vue"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-essential"]);
             });
 
             it("should enable typescript parser and plugin", () => {
@@ -204,10 +215,22 @@ describe("configInitializer", () => {
 
             it("should enable typescript parser and plugin with vue", () => {
                 answers.framework = "vue";
+                answers.vueVersion = "vue2";
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/essential", "plugin:@typescript-eslint/recommended"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:vue/essential"]);
+                assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
+                assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
+            });
+
+            it("should enable typescript parser and plugin with vue 3", () => {
+                answers.framework = "vue";
+                answers.vueVersion = "vue3";
+                answers.typescript = true;
+                const config = init.processAnswers(answers);
+
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:vue/vue3-essential"]);
                 assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
