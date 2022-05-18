@@ -180,6 +180,7 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
+                assert.deepStrictEqual(config.plugins, ["react"]);
                 assert.include(config.extends, "plugin:react/recommended");
             });
 
@@ -188,6 +189,7 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
+                assert.deepStrictEqual(config.plugins, ["vue"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-recommended"]);
             });
 
@@ -195,6 +197,7 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
+                assert.deepStrictEqual(config.plugins, ["@typescript-eslint"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended"]);
             });
 
@@ -203,6 +206,7 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
+                assert.deepStrictEqual(config.plugins, ["@typescript-eslint", "vue"]);
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:vue/vue3-recommended"]);
             });
 
