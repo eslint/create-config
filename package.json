@@ -40,7 +40,8 @@
     },
     "mocha": {
         "loader": "esmock",
-        "ui": "bdd"
+        "ui": "bdd",
+        "timeout": 10000
     },
     "dependencies": {
         "@eslint/eslintrc": "^1.0.3",
