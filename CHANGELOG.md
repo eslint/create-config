@@ -1,3 +1,7 @@
+v0.3.0 - July 1, 2022
+
+* [`f446191`](https://github.com/eslint/create-config/commit/f44619170e6e8a0881901f844a3604276e1d5424) feat: support vue3 (#34) (唯然)
+
 v0.2.0 - May 4, 2022
 
 * [`3c6197b`](https://github.com/eslint/create-config/commit/3c6197be5544a43b13a595e29a7f488e098f2f92) build: add node v18 (#29) (唯然)
