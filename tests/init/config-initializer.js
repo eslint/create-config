@@ -179,9 +179,9 @@ describe("configInitializer", () => {
                 answers.framework = "react";
                 const config = init.processAnswers(answers);
 
-                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
                 assert.deepStrictEqual(config.plugins, ["react"]);
+                assert.include(config.extends, "plugin:react/recommended");
             });
 
             it("should enable vue plugin", () => {
@@ -208,7 +208,6 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-essential", "plugin:@typescript-eslint/recommended"]);
-                assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
 
