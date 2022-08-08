@@ -179,9 +179,9 @@ describe("configInitializer", () => {
                 answers.framework = "react";
                 const config = init.processAnswers(answers);
 
-                assert.strictEqual(config.parserOptions.ecmaFeatures.jsx, true);
                 assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
                 assert.deepStrictEqual(config.plugins, ["react"]);
+                assert.include(config.extends, "plugin:react/recommended");
             });
 
             it("should enable vue plugin", () => {
@@ -208,7 +208,6 @@ describe("configInitializer", () => {
                 const config = init.processAnswers(answers);
 
                 assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-essential", "plugin:@typescript-eslint/recommended"]);
-                assert.strictEqual(config.parserOptions.parser, "@typescript-eslint/parser");
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
 
@@ -271,6 +270,17 @@ describe("configInitializer", () => {
 
                 assert.deepStrictEqual(config, { extends: "xo", installedESLint: true });
                 assert.include(modules, "eslint-config-xo@latest");
+            });
+
+            it("should support the xo-typescript style guide", () => {
+                const config = { extends: "xo", overrides: [{ files: ["*.ts"], extends: ["xo-typescript"] }] };
+                const modules = init.getModulesList(config);
+
+                assert.deepStrictEqual(config.extends, "xo");
+                assert.deepStrictEqual(config.overrides[0].extends[0], "xo-typescript");
+                assert.strictEqual(config.installedESLint, true);
+                assert.include(modules, "eslint-config-xo@latest");
+                assert.include(modules, "eslint-config-xo-typescript@latest");
             });
 
             it("should install required sharable config", () => {
