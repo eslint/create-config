@@ -1,3 +1,7 @@
+v0.3.1 - August 13, 2022
+
+* [`bf2a259`](https://github.com/eslint/create-config/commit/bf2a259097157d29748c7c3912b4961824ca1acd) fix: remove airbnb/google in style guides when using ts (#33) (唯然)
+
 v0.3.0 - July 1, 2022
 
 * [`f446191`](https://github.com/eslint/create-config/commit/f44619170e6e8a0881901f844a3604276e1d5424) feat: support vue3 (#34) (唯然)
