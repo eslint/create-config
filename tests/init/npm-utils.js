@@ -17,7 +17,7 @@ import {
     checkDeps,
     checkDevDeps
 } from "../../lib/init/npm-utils.js";
-import { defineInMemoryFs } from "../_utils/index.js";
+import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import esmock from "esmock";
 
 const { assert } = chai;
