@@ -16,7 +16,7 @@ import sh from "shelljs";
 import esmock from "esmock";
 import { fileURLToPath } from "url";
 import * as npmUtils from "../../lib/init/npm-utils.js";
-import { defineInMemoryFs } from "../_utils/index.js";
+import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 
 const originalDir = process.cwd();
 const { assert } = chai;

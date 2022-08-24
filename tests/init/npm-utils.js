@@ -17,7 +17,7 @@ import {
     checkDeps,
     checkDevDeps
 } from "../../lib/init/npm-utils.js";
-import { defineInMemoryFs } from "../_utils/index.js";
+import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import esmock from "esmock";
 
 const { assert } = chai;
@@ -89,13 +89,8 @@ describe("npmUtils", () => {
             });
 
             assert.throws(() => {
-                try {
-                    stubcheckDevDeps(["some-package"]);
-                } catch (error) {
-                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
-                    throw error;
-                }
-            }, "SyntaxError: Unexpected token v");
+                stubcheckDevDeps(["some-package"]);
+            }, /Unexpected token v/u);
         });
     });
 
@@ -148,13 +143,8 @@ describe("npmUtils", () => {
             });
 
             assert.throws(() => {
-                try {
-                    stubbedcheckDeps(["some-package"]);
-                } catch (error) {
-                    assert.strictEqual(error.messageTemplate, "failed-to-read-json");
-                    throw error;
-                }
-            }, "SyntaxError: Unexpected token v");
+                stubbedcheckDeps(["some-package"]);
+            }, /Unexpected token v/u);
         });
     });
 
