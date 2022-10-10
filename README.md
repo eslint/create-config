@@ -1,4 +1,5 @@
 # @eslint/create-config
+
 Utility to create ESLint config files
 
 ## <a name="usage"></a>Usage
@@ -15,4 +16,21 @@ npm init @eslint/config
 ```bash
 # use npx
 npx @eslint/create-config
+```
+
+If you want to use the specified shared configs:
+
+```bash
+# use `eslint-config-eslint` shared config
+npm init @eslint/config --config eslint
+# or (`eslint-config` prefix is optional)
+npm init @eslint/config --config eslint-config-eslint
+```
+
+The `--config` flag also supports passing in arrays:
+
+```bash
+npm init @eslint/config --config eslint,standard
+# or
+npm init @eslint/config --config eslint --config standard
 ```
