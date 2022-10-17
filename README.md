@@ -21,16 +21,16 @@ npx @eslint/create-config
 If you want to use the specified shared configs:
 
 ```bash
-# use `eslint-config-eslint` shared config
-npm init @eslint/config --config eslint
+# use `eslint-config-semistandard` shared config
+npm init @eslint/config --config semistandard
 # or (`eslint-config` prefix is optional)
-npm init @eslint/config --config eslint-config-eslint
+npm init @eslint/config --config eslint-config-semistandard
 ```
 
 The `--config` flag also supports passing in arrays:
 
 ```bash
-npm init @eslint/config --config eslint,standard
+npm init @eslint/config --config semistandard,standard
 # or
-npm init @eslint/config --config eslint --config standard
+npm init @eslint/config --config semistandard --config standard
 ```
