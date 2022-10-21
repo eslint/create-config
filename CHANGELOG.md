@@ -1,3 +1,8 @@
+v0.4.0 - October 21, 2022
+
+* [`a0fa620`](https://github.com/eslint/create-config/commit/a0fa6204abdd07525bf0e6bade0f5caf916c60bd) feat: support `--config` (#38) (Percy Ma)
+* [`368a1a3`](https://github.com/eslint/create-config/commit/368a1a39d4cd8db3baeb507a8123f4b0983a7b40) chore: Remove unused code (#36) (Brandon Mills)
+
 v0.3.1 - August 13, 2022
 
 * [`bf2a259`](https://github.com/eslint/create-config/commit/bf2a259097157d29748c7c3912b4961824ca1acd) fix: remove airbnb/google in style guides when using ts (#33) (唯然)
