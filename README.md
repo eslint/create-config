@@ -22,15 +22,20 @@ If you want to use the specified shared configs:
 
 ```bash
 # use `eslint-config-semistandard` shared config
+# npm 6.x
 npm init @eslint/config --config semistandard
+
+# ⚠️ npm 7+, extra double-dash is needed:
+npm init @eslint/config -- --config semistandard
+
 # or (`eslint-config` prefix is optional)
-npm init @eslint/config --config eslint-config-semistandard
+npm init @eslint/config -- --config eslint-config-semistandard
 ```
 
 The `--config` flag also supports passing in arrays:
 
 ```bash
-npm init @eslint/config --config semistandard,standard
+npm init @eslint/config -- --config semistandard,standard
 # or
-npm init @eslint/config --config semistandard --config standard
+npm init @eslint/config -- --config semistandard --config standard
 ```
