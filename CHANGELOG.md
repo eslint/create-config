@@ -1,3 +1,7 @@
+v0.4.1 - October 31, 2022
+
+* [`d42d866`](https://github.com/eslint/create-config/commit/d42d8668ec562286d4c8178b630ef2e04b179035) docs: update `--config` usage for npm v7+ (#42) (唯然)
+
 v0.4.0 - October 21, 2022
 
 * [`a0fa620`](https://github.com/eslint/create-config/commit/a0fa6204abdd07525bf0e6bade0f5caf916c60bd) feat: support `--config` (#38) (Percy Ma)
