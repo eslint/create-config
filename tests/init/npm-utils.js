@@ -90,7 +90,7 @@ describe("npmUtils", () => {
 
             assert.throws(() => {
                 stubcheckDevDeps(["some-package"]);
-            }, /Unexpected token v/u);
+            }, /JSON/u);
         });
     });
 
@@ -144,7 +144,7 @@ describe("npmUtils", () => {
 
             assert.throws(() => {
                 stubbedcheckDeps(["some-package"]);
-            }, /Unexpected token v/u);
+            }, /JSON/u);
         });
     });
 
