@@ -190,7 +190,7 @@ describe("configInitializer", () => {
 
                 assert.strictEqual(config.parserOptions.ecmaVersion, "latest");
                 assert.deepStrictEqual(config.plugins, ["vue"]);
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-essential"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-recommended"]);
             });
 
             it("should enable typescript parser and plugin", () => {
@@ -207,7 +207,7 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-essential", "plugin:@typescript-eslint/recommended"]);
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-recommended", "plugin:@typescript-eslint/recommended"]);
                 assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
             });
 
@@ -379,7 +379,7 @@ describe("configInitializer", () => {
             it("should support the standard style guide with Vue.js", () => {
                 const config = {
                     plugins: ["vue"],
-                    extends: ["plugin:vue/vue3-essential", "standard"]
+                    extends: ["plugin:vue/vue3-recommended", "standard"]
                 };
                 const modules = init.getModulesList(config);
 
