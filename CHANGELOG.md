@@ -1,3 +1,17 @@
+v0.4.2 - December 30, 2022
+
+* [`561970e`](https://github.com/eslint/create-config/commit/561970ef90d631749dbc067706ae06f50852df49) docs: sync `--config` instructions in README with eslint Getting Started (#45) (Milos Djermanovic)
+* [`66cc96c`](https://github.com/eslint/create-config/commit/66cc96c0d597bc7d736d65447d0c26c6537aedd7) ci: add Node v19 (#44) (Milos Djermanovic)
+
+v0.4.1 - October 31, 2022
+
+* [`d42d866`](https://github.com/eslint/create-config/commit/d42d8668ec562286d4c8178b630ef2e04b179035) docs: update `--config` usage for npm v7+ (#42) (唯然)
+
+v0.4.0 - October 21, 2022
+
+* [`a0fa620`](https://github.com/eslint/create-config/commit/a0fa6204abdd07525bf0e6bade0f5caf916c60bd) feat: support `--config` (#38) (Percy Ma)
+* [`368a1a3`](https://github.com/eslint/create-config/commit/368a1a39d4cd8db3baeb507a8123f4b0983a7b40) chore: Remove unused code (#36) (Brandon Mills)
+
 v0.3.1 - August 13, 2022
 
 * [`bf2a259`](https://github.com/eslint/create-config/commit/bf2a259097157d29748c7c3912b4961824ca1acd) fix: remove airbnb/google in style guides when using ts (#33) (唯然)

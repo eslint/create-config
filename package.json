@@ -1,6 +1,6 @@
 {
     "name": "@eslint/create-config",
-    "version": "0.3.1",
+    "version": "0.4.2",
     "description": "Utility to create ESLint config files.",
     "keywords": [
         "ast",
@@ -50,6 +50,7 @@
         "enquirer": "^2.3.5",
         "js-yaml": "^4.1.0",
         "json-stable-stringify-without-jsonify": "^1.0.1",
+        "mri": "^1.2.0",
         "semver": "^7.2.1"
     },
     "devDependencies": {
