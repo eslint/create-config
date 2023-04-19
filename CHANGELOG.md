@@ -1,3 +1,22 @@
+# Changelog
+
+## [0.4.3](https://github.com/eslint/create-config/compare/v0.4.2...v0.4.3) (2023-04-09)
+
+
+### Documentation
+
+* remove extra custom anchor ([#52](https://github.com/eslint/create-config/issues/52)) ([c486ddf](https://github.com/eslint/create-config/commit/c486ddf6a118510a2ac50c1ce59b4ea1db15fe4b))
+* sync `--config` examples with ESLint Getting Started docs ([#55](https://github.com/eslint/create-config/issues/55)) ([4e48315](https://github.com/eslint/create-config/commit/4e483153bd7ed438de856d2091ed36a44a126313))
+
+
+### Chores
+
+* add triage action ([#50](https://github.com/eslint/create-config/issues/50)) ([81d7730](https://github.com/eslint/create-config/commit/81d773025762d3a0352580ff257a14e6fe4dd45e))
+* Also post releases to Mastodon ([#56](https://github.com/eslint/create-config/issues/56)) ([9fc2de4](https://github.com/eslint/create-config/commit/9fc2de4eb76dd04218b5a4c72a6006563c74f589))
+* include all commits in the changelog ([#57](https://github.com/eslint/create-config/issues/57)) ([6f6308a](https://github.com/eslint/create-config/commit/6f6308a19b3530f180170fa19c2438e15c245e97))
+* set up release-please ([#54](https://github.com/eslint/create-config/issues/54)) ([5216efa](https://github.com/eslint/create-config/commit/5216efaa1cfe83f54b8cb28dde9d5d2ffb5d8ef6))
+* use LTS node version in lint job ([#53](https://github.com/eslint/create-config/issues/53)) ([a0d54a1](https://github.com/eslint/create-config/commit/a0d54a1ba57d88e22113e7364a44ecef139bfebd))
+
 v0.4.2 - December 30, 2022
 
 * [`561970e`](https://github.com/eslint/create-config/commit/561970ef90d631749dbc067706ae06f50852df49) docs: sync `--config` instructions in README with eslint Getting Started (#45) (Milos Djermanovic)
@@ -44,4 +63,3 @@ v0.1.0 - December 15, 2021
 * [`bd6eb01`](https://github.com/eslint/create-config/commit/bd6eb01e5a4b4902c981e80dbfa15ce0040d97bf) ci: use node v16 (#3) (Nitin Kumar)
 * [`d054ce7`](https://github.com/eslint/create-config/commit/d054ce78be788e78046faa8af9cd080721e04232) feat: move eslint --init (#1) (唯然)
 * [`f90b605`](https://github.com/eslint/create-config/commit/f90b605402e25327546a3ae3b197fdc8cfc7f7b4) Initial commit (Nicholas C. Zakas)
-
