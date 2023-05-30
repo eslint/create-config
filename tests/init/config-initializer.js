@@ -207,8 +207,9 @@ describe("configInitializer", () => {
                 answers.typescript = true;
                 const config = init.processAnswers(answers);
 
-                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:vue/vue3-essential", "plugin:@typescript-eslint/recommended"]);
-                assert.deepStrictEqual(config.plugins, ["vue", "@typescript-eslint"]);
+                assert.include(config.parserOptions, { parser: "@typescript-eslint/parser" });
+                assert.deepStrictEqual(config.extends, ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:vue/vue3-essential"]);
+                assert.deepStrictEqual(config.plugins, ["@typescript-eslint", "vue"]);
             });
 
             it("should extend eslint:recommended", () => {
