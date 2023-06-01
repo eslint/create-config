@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.4.4](https://github.com/eslint/create-config/compare/v0.4.3...v0.4.4) (2023-06-01)
+
+
+### Bug Fixes
+
+* generated vue-ts config ([#64](https://github.com/eslint/create-config/issues/64)) ([0be55af](https://github.com/eslint/create-config/commit/0be55af5f18733d00172348c75ef7bd8e0f2a502))
+
+
+### Chores
+
+* run tests on Node.js v20 ([#60](https://github.com/eslint/create-config/issues/60)) ([72ffdcd](https://github.com/eslint/create-config/commit/72ffdcd7f5b902e95a65feac73224691f4626ae5))
+* Update tweet message ([#61](https://github.com/eslint/create-config/issues/61)) ([e956b80](https://github.com/eslint/create-config/commit/e956b800898f56fdf60983ada4bd08434414578c))
+
 ## [0.4.3](https://github.com/eslint/create-config/compare/v0.4.2...v0.4.3) (2023-04-09)
 
 
