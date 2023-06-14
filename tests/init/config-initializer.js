@@ -230,6 +230,18 @@ describe("configInitializer", () => {
 
                 assert.isTrue(config.env.commonjs);
             });
+
+            it("should set commonjs config for `.eslintrc.cjs` in esm projects", () => {
+                answers.moduleType = "esm";
+                answers.format = "JavaScript";
+                const config = init.processAnswers(answers);
+
+                assert.isArray(config.overrides, "should have overrides config");
+                assert.strictEqual(config.overrides.length, 1);
+                assert.deepStrictEqual(config.overrides[0].parserOptions, { sourceType: "script" });
+                assert.deepStrictEqual(config.overrides[0].env, { node: true });
+            });
+
         });
 
         describe("guide", () => {
