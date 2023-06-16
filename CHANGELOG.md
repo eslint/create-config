@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.5](https://github.com/eslint/create-config/compare/v0.4.4...v0.4.5) (2023-06-16)
+
+
+### Bug Fixes
+
+* add cjs override for esm projects (fixes [#59](https://github.com/eslint/create-config/issues/59)) ([#63](https://github.com/eslint/create-config/issues/63)) ([2568629](https://github.com/eslint/create-config/commit/2568629207e3372c6836476e18f6e709e16b13e4))
+
+
+### Chores
+
+* trigger release-please ([#65](https://github.com/eslint/create-config/issues/65)) ([6c0e7a1](https://github.com/eslint/create-config/commit/6c0e7a186bc18415562e0d3f107ca4d4acec3af0))
+
 ## [0.4.4](https://github.com/eslint/create-config/compare/v0.4.3...v0.4.4) (2023-06-01)
 
 
