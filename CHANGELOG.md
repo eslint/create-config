@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.6](https://github.com/eslint/create-config/compare/v0.4.5...v0.4.6) (2023-07-24)
+
+
+### Chores
+
+* generate provenance statements when release ([#67](https://github.com/eslint/create-config/issues/67)) ([99488cf](https://github.com/eslint/create-config/commit/99488cf62cc50ca8649f0151d8ee5193aa24c6cc))
+
 ## [0.4.5](https://github.com/eslint/create-config/compare/v0.4.4...v0.4.5) (2023-06-16)
 
 
