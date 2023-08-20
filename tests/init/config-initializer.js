@@ -277,6 +277,23 @@ describe("configInitializer", () => {
                 assert.include(modules, "eslint-config-standard@latest");
             });
 
+            it("should support the standard-with-typescript style guide", () => {
+                answers = {
+                    env: [],
+                    purpose: "style",
+                    source: "guide",
+                    moduleType: "esm",
+                    typescript: true,
+                    styleguide: "standard-with-typescript"
+                };
+                const config = init.processAnswers(answers);
+
+                assert.include(config, { extends: "standard-with-typescript" });
+                assert.include(config.parserOptions, {
+                    project: true, tsconfigRootDir: "__dirname"
+                });
+            });
+
             it("should support the xo style guide", () => {
                 const config = { extends: "xo" };
                 const modules = init.getModulesList(config);
