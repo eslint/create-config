@@ -10,16 +10,6 @@ export default [
     },
     ...eslintConfigESLint,
     {
-        settings: {
-            jsdoc: {
-                preferredTypes: {
-                    Object: "object",
-                    "object<>": "Object"
-                }
-            }
-        }
-    },
-    {
         files: ["tests/**"],
         languageOptions: {
             globals: {
