@@ -66,7 +66,7 @@ describe("ConfigFile", () => {
 
             it(`should write a file through fs when a ${fileType} path is passed`, async () => {
                 const fakeFS = {
-                    writeFileSync: () => {}
+                    writeFileSync() {}
                 };
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
@@ -84,7 +84,7 @@ describe("ConfigFile", () => {
 
             it("should include a newline character at EOF", async () => {
                 const fakeFS = {
-                    writeFileSync: () => {}
+                    writeFileSync() {}
                 };
 
                 sinon.mock(fakeFS).expects("writeFileSync").withExactArgs(
@@ -103,7 +103,7 @@ describe("ConfigFile", () => {
 
         it("should run 'eslint --fix' to make sure js config files match linting rules", async () => {
             const fakeFS = {
-                writeFileSync: () => {}
+                writeFileSync() {}
             };
 
             const singleQuoteConfig = {

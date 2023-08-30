@@ -66,7 +66,7 @@ describe("configInitializer", () => {
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
     before(() => {
-        const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle
+        const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle -- Conventional
 
         fixtureDir = path.join(__filename, "../../../tmp/eslint/fixtures/config-initializer");
         localInstalledEslintDir = path.join(fixtureDir, "./node_modules/eslint");
