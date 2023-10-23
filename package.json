@@ -58,7 +58,7 @@
         "eslint": "^8.48.0",
         "eslint-config-eslint": "^9.0.0",
         "eslint-release": "^3.2.0",
-        "esmock": "^2.2.3",
+        "esmock": "~2.3.8",
         "espree": "^9.0.0",
         "globals": "^13.21.0",
         "lint-staged": "^12.1.2",
