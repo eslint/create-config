@@ -30,7 +30,7 @@
     },
     "scripts": {
         "lint": "eslint . --report-unused-disable-directives",
-        "postinstall": "node tests/patch-esmock.js",
+        "prepare": "node tests/patch-esmock.js",
         "release:generate:latest": "eslint-generate-release",
         "release:generate:alpha": "eslint-generate-prerelease alpha",
         "release:generate:beta": "eslint-generate-prerelease beta",

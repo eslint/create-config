@@ -11,6 +11,11 @@ import { promises as fs } from "fs";
 // 111 is the ABI version number of Node.js 19: https://nodejs.org/en/download/releases
 if (process.versions.modules < 111) {
     (async () => {
+        try {
+            await fs.access("node_modules/esmock_legacy");
+        } catch {
+            return;
+        }
         await fs.rmdir("node_modules/esmock", { recursive: true });
         await fs.rename("node_modules/esmock_legacy", "node_modules/esmock");
     })();
