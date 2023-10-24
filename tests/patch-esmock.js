@@ -5,8 +5,10 @@
 
 import { promises as fs } from "fs";
 
-// esmock < 2.4 supports only Node.js < 19. esmock >= 2.4 supports only Node.js >= 18.6.
+// * esmock < 2.4 works only on Node.js < 19.
+// * esmock >= 2.4 works only on Node.js >= 18.6.
 // If we are running Node.js < 19, replace the esmock dependency with the legacy release.
+// 111 is the ABI version number of Node.js 19: https://nodejs.org/en/download/releases
 if (process.versions.modules < 111) {
     (async () => {
         await fs.rmdir("node_modules/esmock", { recursive: true });
