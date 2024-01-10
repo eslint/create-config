@@ -1,0 +1,17 @@
+{
+  "configContent": "import styleGuide from "undefined";
+import globals from "globals";
+
+
+export default [].concat(
+  { languageOptions: {globals: globals.node, }},
+  styleGuide,
+);",
+  "configFilename": "eslint.config.mjs",
+  "devDependencies": [
+    "eslint",
+    undefined,
+    "@eslint/js",
+    "globals",
+  ],
+}

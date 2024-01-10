@@ -1,14 +1,12 @@
 /**
- * @fileoverview Tests for rule fixer.
- * @author Ian VanSchooten
+ * @fileoverview Tests for npm-utils.
+ * @author Ian VanSchooten, 唯然<weiran.zsd@outlook.com>
  */
-
 
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
 
-import chai from "chai";
 import spawn from "cross-spawn";
 import sinon from "sinon";
 import {
@@ -16,11 +14,10 @@ import {
     fetchPeerDependencies,
     checkDeps,
     checkDevDeps
-} from "../../lib/init/npm-utils.js";
+} from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import esmock from "esmock";
-
-const { assert } = chai;
+import { assert, describe, afterEach, it } from "vitest";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -34,7 +31,7 @@ const { assert } = chai;
 async function requireNpmUtilsWithInMemoryFileSystem(files) {
     const fs = defineInMemoryFs({ files });
 
-    return await esmock("../../lib/init/npm-utils.js", { fs });
+    return await esmock("../../lib/utils/npm-utils.js", { fs });
 }
 
 //------------------------------------------------------------------------------
@@ -47,11 +44,7 @@ describe("npmUtils", () => {
     });
 
     describe("checkDevDeps()", () => {
-        let installStatus;
-
-        before(() => {
-            installStatus = checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
-        });
+        let installStatus = checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
 
         it("should not find a direct dependency of the project", () => {
             assert.isFalse(installStatus.debug);
@@ -95,11 +88,7 @@ describe("npmUtils", () => {
     });
 
     describe("checkDeps()", () => {
-        let installStatus;
-
-        before(() => {
-            installStatus = checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
-        });
+        let installStatus = checkDeps(["debug", "mocha", "notarealpackage", "jshint"]);
 
         it("should find a direct dependency of the project", () => {
             assert.isTrue(installStatus.debug);
@@ -200,8 +189,8 @@ describe("npmUtils", () => {
             const logErrorStub = sinon.spy();
             const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            const { installSyncSaveDev: stubinstallSyncSaveDev } = await esmock("../../lib/init/npm-utils.js", {
-                "../../lib/shared/logging.js": {
+            const { installSyncSaveDev: stubinstallSyncSaveDev } = await esmock("../../lib/utils/npm-utils.js", {
+                "../../lib/utils/logging.js": {
                     error: logErrorStub
                 }
             });

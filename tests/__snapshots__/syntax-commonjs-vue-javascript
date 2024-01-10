@@ -1,0 +1,19 @@
+{
+  "configContent": "import globals from "globals";
+
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended});
+
+export default [].concat(
+  { languageOptions: {sourceType: "commonjs", globals: {...globals.browser, ...globals.node}, }},
+  compat.extends("plugin:vue/vue3-essential").map(config => ({files: ["**/*.vue"], ...config})),
+);",
+  "configFilename": "eslint.config.js",
+  "devDependencies": [
+    "eslint",
+    "globals",
+    "eslint-plugin-vue",
+  ],
+}

@@ -1,0 +1,20 @@
+{
+  "configContent": "import styleGuide from "undefined";
+import globals from "globals";
+import tseslint from "typescript-eslint";
+
+
+export default [].concat(
+  { languageOptions: {globals: globals.browser, }},
+  styleGuide,
+  tseslint.configs.recommended,
+);",
+  "configFilename": "eslint.config.mjs",
+  "devDependencies": [
+    "eslint",
+    undefined,
+    "@eslint/js",
+    "globals",
+    "typescript-eslint",
+  ],
+}
