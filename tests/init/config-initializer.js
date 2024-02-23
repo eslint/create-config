@@ -8,11 +8,11 @@
 // Requirements
 //------------------------------------------------------------------------------
 
+import fsp from "node:fs/promises";
 import chai from "chai";
 import fs from "fs";
 import path from "path";
 import sinon from "sinon";
-import sh from "shelljs";
 import esmock from "esmock";
 import { fileURLToPath } from "url";
 import * as npmUtils from "../../lib/init/npm-utils.js";
@@ -65,15 +65,15 @@ describe("configInitializer", () => {
 
 
     // copy into clean area so as not to get "infected" by this project's .eslintrc files
-    before(() => {
+    before(async () => {
         const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle -- Conventional
 
         fixtureDir = path.join(__filename, "../../../tmp/eslint/fixtures/config-initializer");
         localInstalledEslintDir = path.join(fixtureDir, "./node_modules/eslint");
-        sh.mkdir("-p", localInstalledEslintDir);
-        sh.cp("-r", "./tests/fixtures/config-initializer/.", fixtureDir);
-        sh.cp("-r", "./tests/fixtures/eslint/.", localInstalledEslintDir);
-        fixtureDir = fs.realpathSync(fixtureDir);
+        await fsp.mkdir(localInstalledEslintDir, { recursive: true });
+        await fsp.cp("./tests/fixtures/config-initializer/.", fixtureDir, { recursive: true });
+        await fsp.cp("./tests/fixtures/eslint/.", localInstalledEslintDir, { recursive: true });
+        fixtureDir = await fsp.realpath(fixtureDir);
     });
 
     beforeEach(async () => {
@@ -115,8 +115,8 @@ describe("configInitializer", () => {
         npmFetchPeerDependenciesStub.resetHistory();
     });
 
-    after(() => {
-        sh.rm("-r", fixtureDir);
+    after(async () => {
+        await fsp.rm(path.join(fixtureDir, "../../.."), { recursive: true });
     });
 
     describe("processAnswers()", () => {
