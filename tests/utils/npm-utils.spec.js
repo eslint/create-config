@@ -44,14 +44,14 @@ describe("npmUtils", () => {
     });
 
     describe("checkDevDeps()", () => {
-        let installStatus = checkDevDeps(["debug", "mocha", "notarealpackage", "jshint"]);
+        let installStatus = checkDevDeps(["debug", "eslint", "notarealpackage", "jshint"]);
 
         it("should not find a direct dependency of the project", () => {
             assert.isFalse(installStatus.debug);
         });
 
         it("should find a dev dependency of the project", () => {
-            assert.isTrue(installStatus.mocha);
+            assert.isTrue(installStatus.eslint);
         });
 
         it("should not find non-dependencies", () => {
