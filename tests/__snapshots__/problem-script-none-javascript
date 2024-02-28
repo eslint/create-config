@@ -5,7 +5,7 @@ import globals from "globals";
 
 export default [].concat(
   { languageOptions: {globals: {...globals.browser, ...globals.node}, }},
-  pluginJs.configs.recommended,
+    pluginJs.configs.recommended,
 );",
   "configFilename": "eslint.config.js",
   "devDependencies": [

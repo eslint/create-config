@@ -5,7 +5,7 @@ import globals from "globals";
 
 export default [].concat(
   { languageOptions: {globals: globals.node, }},
-  styleGuide,
+    styleGuide,
 );",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [

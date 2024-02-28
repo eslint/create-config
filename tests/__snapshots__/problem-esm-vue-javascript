@@ -13,7 +13,7 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 
 export default [].concat(
   { languageOptions: {globals: {...globals.browser, ...globals.node}, }},
-  pluginJs.configs.recommended,
+    pluginJs.configs.recommended,
   compat.extends("plugin:vue/vue3-essential").map(config => ({files: ["**/*.vue"], ...config})),
 );",
   "configFilename": "eslint.config.js",
