@@ -1,6 +1,5 @@
 {
-  "configContent": "import pluginJs from "@eslint/js";
-import globals from "globals";
+  "configContent": "import globals from "globals";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -20,7 +19,6 @@ export default [].concat(
   "devDependencies": [
     "eslint",
     "eslint-config-xo",
-    "@eslint/js",
     "eslint@>=8.56.0",
     "globals",
     "@eslint/eslintrc",

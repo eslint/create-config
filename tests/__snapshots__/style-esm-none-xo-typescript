@@ -1,6 +1,5 @@
 {
-  "configContent": "import pluginJs from "@eslint/js";
-import globals from "globals";
+  "configContent": "import globals from "globals";
 import tseslint from "typescript-eslint";
 
 import path from "path";
@@ -22,7 +21,6 @@ export default [].concat(
   "devDependencies": [
     "eslint",
     "eslint-config-xo-typescript",
-    "@eslint/js",
     "@typescript-eslint/eslint-plugin@>=7.0.2",
     "@typescript-eslint/parser@>=7.0.2",
     "eslint@>=8.56.0",
