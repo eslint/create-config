@@ -29,7 +29,7 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "eslint . --report-unused-disable-directives",
+        "lint": "eslint .",
         "release:generate:latest": "eslint-generate-release",
         "release:generate:alpha": "eslint-generate-prerelease alpha",
         "release:generate:beta": "eslint-generate-prerelease beta",

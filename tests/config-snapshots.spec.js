@@ -67,7 +67,7 @@ describe("generate config for cjs projects", () => {
             framework: "none",
             language: "javascript",
             env: ["node"],
-            styleguide: "eslint-config-xo"
+            styleguide: { packageName: "eslint-config-xo", type: "eslintrc" }
         }
     },
     {
@@ -78,7 +78,7 @@ describe("generate config for cjs projects", () => {
             framework: "none",
             language: "typescript",
             env: ["browser"],
-            styleguide: "eslint-config-xo-typescript"
+            styleguide: { packageName: "eslint-config-xo-typescript", type: "eslintrc" }
         }
     }];
 
