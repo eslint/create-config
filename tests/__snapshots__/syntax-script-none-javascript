@@ -3,7 +3,7 @@
 
 
 export default [].concat(
-  { languageOptions: {globals: {...globals.browser, ...globals.node}, }},
+  { languageOptions: {sourceType: "script", globals: {...globals.browser, ...globals.node}, }},
   );",
   "configFilename": "eslint.config.js",
   "devDependencies": [

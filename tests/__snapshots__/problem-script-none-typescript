@@ -5,7 +5,7 @@ import tseslint from "typescript-eslint";
 
 
 export default [].concat(
-  { languageOptions: {globals: {...globals.browser, ...globals.node}, }},
+  { languageOptions: {sourceType: "script", globals: {...globals.browser, ...globals.node}, }},
     pluginJs.configs.recommended,
   tseslint.configs.recommended,
 );",
