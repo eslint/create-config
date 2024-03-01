@@ -4,11 +4,11 @@ import tseslint from "typescript-eslint";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 
 
-export default [].concat(
+export default [
   {languageOptions:{sourceType: "script", globals: {...globals.browser, ...globals.node}, }},
-  tseslint.configs.recommended,
+  ...tseslint.configs.recommended,
   pluginReactConfig,
-);",
+];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

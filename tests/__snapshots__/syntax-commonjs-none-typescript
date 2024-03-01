@@ -3,10 +3,10 @@
 import tseslint from "typescript-eslint";
 
 
-export default [].concat(
+export default [
   {languageOptions:{sourceType: "commonjs", globals: {...globals.browser, ...globals.node}, }},
-  tseslint.configs.recommended,
-);",
+  ...tseslint.configs.recommended,
+];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

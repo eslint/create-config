@@ -4,11 +4,11 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 
-export default [].concat(
+export default [
   {languageOptions:{sourceType: "script", globals: {...globals.browser, ...globals.node}, }},
   pluginJs.configs.recommended,
-  tseslint.configs.recommended,
-);",
+  ...tseslint.configs.recommended,
+];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

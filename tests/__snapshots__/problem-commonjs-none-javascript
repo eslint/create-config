@@ -3,10 +3,10 @@
 import globals from "globals";
 
 
-export default [].concat(
+export default [
   {languageOptions:{sourceType: "commonjs", globals: {...globals.browser, ...globals.node}, }},
   pluginJs.configs.recommended,
-);",
+];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

@@ -3,10 +3,10 @@
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 
 
-export default [].concat(
+export default [
   {languageOptions:{sourceType: "commonjs", globals: {...globals.browser, ...globals.node}, }},
   pluginReactConfig,
-);",
+];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
