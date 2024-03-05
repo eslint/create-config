@@ -6,13 +6,21 @@
  */
 
 import { ConfigGenerator } from "../lib/config-generator.js";
+import { checkPackageJson } from "../lib/utils/npm-utils.js";
 import process from "process";
-const argv = process.argv;
 
+const cwd = process.cwd();
+const packageJsonExists = checkPackageJson(cwd);
+
+if (!packageJsonExists) {
+    throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
+}
+
+const argv = process.argv;
 const sharedConfigIndex = process.argv.indexOf("--config");
 
 if (sharedConfigIndex === -1) {
-    const generator = new ConfigGenerator();
+    const generator = new ConfigGenerator({ cwd });
 
     await generator.prompt();
     generator.calc();
@@ -23,7 +31,7 @@ if (sharedConfigIndex === -1) {
     const packageName = argv[sharedConfigIndex + 1];
     const type = argv.includes("--eslintrc") ? "eslintrc" : "flat";
     const answers = { purpose: "style", moduleType: "module", styleguide: { packageName, type } };
-    const generator = new ConfigGenerator({ answers });
+    const generator = new ConfigGenerator({ cwd, answers });
 
     generator.calc();
     await generator.output();
