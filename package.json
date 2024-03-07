@@ -41,7 +41,6 @@
     },
     "dependencies": {
         "cross-spawn": "^7.0.2",
-        "debug": "^4.0.1",
         "enquirer": "^2.3.5"
     },
     "devDependencies": {
