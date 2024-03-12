@@ -6,15 +6,17 @@
  */
 
 import { ConfigGenerator } from "../lib/config-generator.js";
-import { checkPackageJson } from "../lib/utils/npm-utils.js";
+import { findPackageJson } from "../lib/utils/npm-utils.js";
 import process from "process";
+import path from "path";
 
-const cwd = process.cwd();
-const packageJsonExists = checkPackageJson(cwd);
+const packageJsonPath = findPackageJson();
 
-if (!packageJsonExists) {
+if (packageJsonPath === null) {
     throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
 }
+
+const cwd = path.join(packageJsonPath, "..");
 
 const argv = process.argv;
 const sharedConfigIndex = process.argv.indexOf("--config");
