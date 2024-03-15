@@ -55,6 +55,16 @@ describe("generate config for esm projects", () => {
             expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
         });
     });
+
+    test("sub dir", () => {
+        const sub = join(__filename, "../fixtures/esm-project/sub");
+        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problem", module: "esm", framework: "none", language: "javascript", env: ["node"] } });
+
+        generator.calc();
+
+        expect(generator.result.configFilename).toBe("eslint.config.js");
+    });
+
 });
 
 describe("generate config for cjs projects", () => {
