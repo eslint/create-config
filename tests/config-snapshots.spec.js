@@ -17,7 +17,7 @@ describe("generate config for esm projects", () => {
     const esmProjectDir = join(__filename, "../fixtures/esm-project");
     const choices = {
         purpose: ["syntax", "problem"],
-        module: ["esm", "commonjs", "script"],
+        moduleType: ["esm", "commonjs", "script"],
         framework: ["react", "vue", "none"],
         language: ["javascript", "typescript"],
         env: ["browser", "node"]
@@ -27,14 +27,14 @@ describe("generate config for esm projects", () => {
 
     // generate all possible combinations
     for (let i = 0; i < choices.purpose.length; i++) {
-        for (let j = 0; j < choices.module.length; j++) {
+        for (let j = 0; j < choices.moduleType.length; j++) {
             for (let k = 0; k < choices.framework.length; k++) {
                 for (let m = 0; m < choices.language.length; m++) {
                     inputs.push({
-                        name: `${choices.purpose[i]}-${choices.module[j]}-${choices.framework[k]}-${choices.language[m]}`,
+                        name: `${choices.purpose[i]}-${choices.moduleType[j]}-${choices.framework[k]}-${choices.language[m]}`,
                         answers: {
                             purpose: choices.purpose[i],
-                            module: choices.module[j],
+                            moduleType: choices.moduleType[j],
                             framework: choices.framework[k],
                             language: choices.language[m],
                             env: ["browser", "node"]
@@ -58,7 +58,7 @@ describe("generate config for esm projects", () => {
 
     test("sub dir", () => {
         const sub = join(__filename, "../fixtures/esm-project/sub");
-        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problem", module: "esm", framework: "none", language: "javascript", env: ["node"] } });
+        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problem", moduleType: "esm", framework: "none", language: "javascript", env: ["node"] } });
 
         generator.calc();
 
@@ -73,7 +73,7 @@ describe("generate config for cjs projects", () => {
         name: "style-esm-none-xo-javascript",
         answers: {
             purpose: "style",
-            module: "esm",
+            moduleType: "esm",
             framework: "none",
             language: "javascript",
             env: ["node"],
@@ -84,7 +84,7 @@ describe("generate config for cjs projects", () => {
         name: "style-esm-none-xo-typescript",
         answers: {
             purpose: "style",
-            module: "esm",
+            moduleType: "esm",
             framework: "none",
             language: "typescript",
             env: ["browser"],
