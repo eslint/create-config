@@ -4,7 +4,8 @@ import globals from "globals";
 
 
 export default [
-  {languageOptions:{sourceType: "script", globals: {...globals.browser, ...globals.node}, }},
+  {languageOptions:{globals: {...globals.browser, ...globals.node}, }},
+  {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
   pluginJs.configs.recommended,
 ];",
   "configFilename": "eslint.config.js",

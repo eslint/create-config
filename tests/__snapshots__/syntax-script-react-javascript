@@ -4,7 +4,8 @@ import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 
 
 export default [
-  {languageOptions:{sourceType: "script", globals: {...globals.browser, ...globals.node}, }},
+  {languageOptions:{globals: {...globals.browser, ...globals.node}, }},
+  {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
   pluginReactConfig,
 ];",
   "configFilename": "eslint.config.js",
