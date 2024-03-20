@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-und
 describe("generate config for esm projects", () => {
     const esmProjectDir = join(__filename, "../fixtures/esm-project");
     const choices = {
-        purpose: ["syntax", "problem"],
+        purpose: ["syntax", "problems"],
         moduleType: ["esm", "commonjs", "script"],
         framework: ["react", "vue", "none"],
         language: ["javascript", "typescript"],
@@ -58,7 +58,7 @@ describe("generate config for esm projects", () => {
 
     test("sub dir", () => {
         const sub = join(__filename, "../fixtures/esm-project/sub");
-        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problem", moduleType: "esm", framework: "none", language: "javascript", env: ["node"] } });
+        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", language: "javascript", env: ["node"] } });
 
         generator.calc();
 
