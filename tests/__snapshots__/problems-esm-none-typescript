@@ -5,8 +5,8 @@ import tseslint from "typescript-eslint";
 
 
 export default [
-  {languageOptions:{globals: {...globals.browser, ...globals.node}, }},
   pluginJs.configs.recommended,
+  {languageOptions: globals: {...globals.browser, ...globals.node}},
   ...tseslint.configs.recommended,
 ];",
   "configFilename": "eslint.config.js",

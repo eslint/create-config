@@ -3,8 +3,8 @@
 
 
 export default [
-  {languageOptions:{globals: {...globals.browser, ...globals.node}, }},
   {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
+  {languageOptions: globals: {...globals.browser, ...globals.node}},
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
