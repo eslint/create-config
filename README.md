@@ -22,12 +22,7 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 
 ```bash
 # use `eslint-config-standard` shared config
-
-# npm 7+
 npm init @eslint/config -- --config eslint-config-standard
-
-# ⚠️ npm 6.x no extra double-dash:
-npm init @eslint/config --config eslint-config-standard
 ```
 
 To use an eslintrc-style shared config:

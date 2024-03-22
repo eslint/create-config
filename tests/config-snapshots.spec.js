@@ -52,6 +52,7 @@ describe("generate config for esm projects", () => {
             generator.calc();
 
             expect(generator.result.configFilename).toBe("eslint.config.js");
+            expect(generator.packageJsonPath).toBe(join(esmProjectDir, "./package.json"));
             expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
         });
     });
@@ -63,6 +64,7 @@ describe("generate config for esm projects", () => {
         generator.calc();
 
         expect(generator.result.configFilename).toBe("eslint.config.js");
+        expect(generator.packageJsonPath).toBe(join(esmProjectDir, "./package.json"));
     });
 
 });
@@ -99,6 +101,7 @@ describe("generate config for cjs projects", () => {
             generator.calc();
 
             expect(generator.result.configFilename).toBe("eslint.config.mjs");
+            expect(generator.packageJsonPath).toBe(join(cjsProjectDir, "./package.json"));
             expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
         });
     });
