@@ -25,7 +25,7 @@ If you want to use a specific shareable config that is hosted on npm, you can us
 npm init @eslint/config -- --config eslint-config-standard
 ```
 
-To use an eslintrc-style(deprecated) shared config:
+To use an eslintrc-style (legacy) shared config:
 
 ```bash
 npm init @eslint/config -- --eslintrc --config eslint-config-standard
