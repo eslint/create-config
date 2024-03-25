@@ -6,7 +6,7 @@ import globals from "globals";
 export default [
   {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
   pluginJs.configs.recommended,
-  {languageOptions: globals: {...globals.browser, ...globals.node}},
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [

@@ -6,7 +6,7 @@ import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
 
 export default [
   pluginJs.configs.recommended,
-  {languageOptions: globals: {...globals.browser, ...globals.node}},
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   pluginReactConfig,
 ];",
   "configFilename": "eslint.config.js",

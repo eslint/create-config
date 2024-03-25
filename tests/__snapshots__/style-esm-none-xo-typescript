@@ -14,7 +14,7 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 
 export default [
   ...compat.extends("xo-typescript"),
-  {languageOptions: globals: globals.browser},
+  {languageOptions: { globals: globals.browser }},
   ...tseslint.configs.recommended,
 ];",
   "configFilename": "eslint.config.mjs",

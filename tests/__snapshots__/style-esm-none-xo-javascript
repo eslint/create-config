@@ -13,7 +13,7 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 
 export default [
   ...compat.extends("xo"),
-  {languageOptions: globals: globals.node},
+  {languageOptions: { globals: globals.node }},
 ];",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
