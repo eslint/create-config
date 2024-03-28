@@ -1,19 +1,19 @@
 {
   "configContent": "import pluginJs from "@eslint/js";
-import globals from "globals";
 import tseslint from "typescript-eslint";
+import globals from "globals";
 
 
 export default [
   pluginJs.configs.recommended,
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   ...tseslint.configs.recommended,
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
     "@eslint/js",
-    "globals",
     "typescript-eslint",
+    "globals",
   ],
 }

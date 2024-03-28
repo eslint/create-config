@@ -1,20 +1,20 @@
 {
   "configContent": "import pluginJs from "@eslint/js";
-import globals from "globals";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import globals from "globals";
 
 
 export default [
-  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
   pluginJs.configs.recommended,
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   pluginReactConfig,
+  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
+  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
     "@eslint/js",
-    "globals",
     "eslint-plugin-react",
+    "globals",
   ],
 }
