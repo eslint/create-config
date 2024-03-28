@@ -1,5 +1,0 @@
-{
-    "name": "eslint",
-    "version": "3.18.0",
-    "main": "./lib/api.js"
-}

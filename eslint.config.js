@@ -1,5 +1,4 @@
 import eslintConfigESLint from "eslint-config-eslint";
-import globals from "globals";
 
 export default [
     {
@@ -8,13 +7,5 @@ export default [
             "tests/fixtures/"
         ]
     },
-    ...eslintConfigESLint,
-    {
-        files: ["tests/**"],
-        languageOptions: {
-            globals: {
-                ...globals.mocha
-            }
-        }
-    }
+    ...eslintConfigESLint
 ];

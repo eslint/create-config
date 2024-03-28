@@ -21,22 +21,12 @@ npx @eslint/create-config
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
 ```bash
-# use `eslint-config-semistandard` shared config
-
-# npm 7+
-npm init @eslint/config -- --config semistandard
-
-# or (`eslint-config` prefix is optional)
-npm init @eslint/config -- --config eslint-config-semistandard
-
-# ⚠️ npm 6.x no extra double-dash:
-npm init @eslint/config --config semistandard
+# use `eslint-config-standard` shared config
+npm init @eslint/config -- --config eslint-config-standard
 ```
 
-The `--config` flag also supports passing in arrays:
+To use an eslintrc-style (legacy) shared config:
 
 ```bash
-npm init @eslint/config -- --config semistandard,standard
-# or
-npm init @eslint/config -- --config semistandard --config standard
+npm init @eslint/config -- --eslintrc --config eslint-config-standard
 ```
