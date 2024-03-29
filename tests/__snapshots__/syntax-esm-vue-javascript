@@ -1,16 +1,16 @@
 {
-  "configContent": "import pluginVue from "eslint-plugin-vue";
-import globals from "globals";
+  "configContent": "import globals from "globals";
+import pluginVue from "eslint-plugin-vue";
 
 
 export default [
-  pluginVue.configs["flat/essential"],
   {languageOptions: { globals: {...globals.browser, ...globals.node} }},
+  pluginVue.configs["flat/essential"],
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
-    "eslint-plugin-vue",
     "globals",
+    "eslint-plugin-vue",
   ],
 }
