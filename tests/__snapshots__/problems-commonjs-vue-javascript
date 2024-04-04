@@ -8,7 +8,7 @@ export default [
   {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
   {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   pluginJs.configs.recommended,
-  pluginVue.configs["flat/essential"],
+  ...pluginVue.configs["flat/essential"],
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
