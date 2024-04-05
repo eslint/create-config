@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.0.0](https://github.com/eslint/create-config/compare/v0.4.6...v1.0.0) (2024-04-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* support flat config ([#81](https://github.com/eslint/create-config/issues/81))
+* Require Node.js ^18.18.0 || ^20.9.0 || >=21.1.0 ([#80](https://github.com/eslint/create-config/issues/80))
+
+### Features
+
+* add bun package manager ([#78](https://github.com/eslint/create-config/issues/78)) ([903f929](https://github.com/eslint/create-config/commit/903f92984ea6fc84c52638849c6d70ef629ef1d6))
+* Require Node.js ^18.18.0 || ^20.9.0 || &gt;=21.1.0 ([#80](https://github.com/eslint/create-config/issues/80)) ([f893814](https://github.com/eslint/create-config/commit/f89381432c95d9b782b31c6685ddcff3d1f181a2))
+* support flat config ([#81](https://github.com/eslint/create-config/issues/81)) ([54ac1f2](https://github.com/eslint/create-config/commit/54ac1f2bb213e60c9b387c01cc674cb03b1aafed))
+
+
+### Bug Fixes
+
+* add `log.warn` ([#85](https://github.com/eslint/create-config/issues/85)) ([3749cd6](https://github.com/eslint/create-config/commit/3749cd62b780473e767f07a2fa1680d88a9298ad))
+* Remove Google style guide ([#82](https://github.com/eslint/create-config/issues/82)) ([9c4214b](https://github.com/eslint/create-config/commit/9c4214bc879cc892fd8ba4f1259c7d0686b0d7c2)), closes [#75](https://github.com/eslint/create-config/issues/75)
+
+
+### Chores
+
+* run tests in Node.js 21 ([#76](https://github.com/eslint/create-config/issues/76)) ([bd20976](https://github.com/eslint/create-config/commit/bd209765bb01fe30c5281443aecc312dcb9141de))
+* run tests on all supported versions of Node.js ([#77](https://github.com/eslint/create-config/issues/77)) ([f7da13a](https://github.com/eslint/create-config/commit/f7da13a07978d0674fee4371002053d7b24ef489))
+* standardize npm script names ([#69](https://github.com/eslint/create-config/issues/69)) ([38d293a](https://github.com/eslint/create-config/commit/38d293af65e467829d286911442a124a10d9b926))
+* switch to eslint flat config ([#73](https://github.com/eslint/create-config/issues/73)) ([4bde28a](https://github.com/eslint/create-config/commit/4bde28a7011591cfaa6d86c852f4fb41b6e5be08))
+
 ## [0.4.6](https://github.com/eslint/create-config/compare/v0.4.5...v0.4.6) (2023-07-24)
 
 
