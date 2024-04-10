@@ -1,6 +1,5 @@
 {
   "configContent": "import globals from "globals";
-import tseslint from "typescript-eslint";
 
 import path from "path";
 import { fileURLToPath } from "url";
@@ -15,7 +14,6 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 export default [
   {languageOptions: { globals: globals.browser }},
   ...compat.extends("xo-typescript"),
-  ...tseslint.configs.recommended,
 ];",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
@@ -26,7 +24,6 @@ export default [
     "@typescript-eslint/parser@>=7.0.2",
     "eslint@>=8.56.0",
     "typescript@>=5.0.0",
-    "typescript-eslint",
     "@eslint/eslintrc",
     "@eslint/js",
   ],
