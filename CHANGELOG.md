@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/eslint/create-config/compare/v1.0.0...v1.0.1) (2024-04-10)
+
+
+### Bug Fixes
+
+* use eslint-config-airbnb-base by default ([#92](https://github.com/eslint/create-config/issues/92)) ([627306a](https://github.com/eslint/create-config/commit/627306a3bb09a6b5e2b52a856d6caa41cb629a3e)), closes [#87](https://github.com/eslint/create-config/issues/87)
+
+
+### Chores
+
+* run `npm install` before npm publish ([#88](https://github.com/eslint/create-config/issues/88)) ([136df22](https://github.com/eslint/create-config/commit/136df22d16be0ffda1aa64ed9dc8d040e32f19e5))
+
 ## [1.0.0](https://github.com/eslint/create-config/compare/v0.4.6...v1.0.0) (2024-04-05)
 
 
