@@ -92,6 +92,28 @@ describe("generate config for cjs projects", () => {
             env: ["browser"],
             styleguide: { packageName: "eslint-config-xo-typescript", type: "eslintrc" }
         }
+    },
+    {
+        name: "style-esm-react-airbnb",
+        answers: {
+            purpose: "style",
+            moduleType: "esm",
+            framework: "react",
+            language: "javascript",
+            env: ["browser"],
+            styleguide: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
+        }
+    },
+    {
+        name: "style-esm-none-airbnb",
+        answers: {
+            purpose: "style",
+            moduleType: "esm",
+            framework: "none",
+            language: "javascript",
+            env: ["browser"],
+            styleguide: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
+        }
     }];
 
     inputs.forEach(item => {
