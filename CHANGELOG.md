@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/eslint/create-config/compare/v1.0.1...v1.0.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* not install multi tseslint versions ([#94](https://github.com/eslint/create-config/issues/94)) ([ba1a02c](https://github.com/eslint/create-config/commit/ba1a02c420273f2510dca20ae15c73c55ef1977a))
+
 ## [1.0.1](https://github.com/eslint/create-config/compare/v1.0.0...v1.0.1) (2024-04-10)
 
 
