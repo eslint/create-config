@@ -3,19 +3,34 @@
  * @author Wataru Nishimura<wataru.chame.gon@gmail.com>
  */
 
-import { describe, test, expect } from "vitest";
+import { describe, it, expect, assert, afterEach } from "vitest";
 import { fileURLToPath } from "node:url";
 import { join } from "path";
-import { findPnpmWorkspaceYaml } from "../lib/utils/npm-utils.js";
+import { findPnpmWorkspaceYaml, installSyncSaveDev } from "../lib/utils/npm-utils.js";
+import sinon from "sinon";
+import spawn from "cross-spawn";
 
 const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle -- commonjs convention
 
 describe("pnpm workspace install packages at root", () => {
     const pnpmWithWorkspaceDir = join(__filename, "../fixtures/pnpm-workspace-project");
 
-    test("find pnpm-workspace.yaml", () => {
+    afterEach(() => {
+        sinon.verifyAndRestore();
+    });
+
+    it("find pnpm-workspace.yaml", () => {
         const pnpmWorkspaceYaml = findPnpmWorkspaceYaml(pnpmWithWorkspaceDir);
 
         expect(pnpmWorkspaceYaml).toBeTruthy();
+    });
+
+    it("should invoke pnpm to install a single desired package", () => {
+        const stub = sinon.stub(spawn, "sync").returns({ stdout: 0 });
+
+        installSyncSaveDev("desired-package", "pnpm");
+        assert(stub.calledOnce);
+        assert.strictEqual(stub.firstCall.args[0], "pnpm");
+        assert.deepStrictEqual(stub.firstCall.args[1], ["add", "-D", "desired-package"]);
     });
 });
