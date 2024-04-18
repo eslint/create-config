@@ -13,17 +13,14 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 
 export default [
   {languageOptions: { globals: globals.browser }},
-  ...compat.extends("xo-typescript"),
+  ...compat.extends("xo"),
 ];",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint",
     "globals",
-    "eslint-config-xo-typescript",
-    "@typescript-eslint/eslint-plugin@>=7.0.2",
-    "@typescript-eslint/parser@>=7.0.2",
+    "eslint-config-xo",
     "eslint@>=8.56.0",
-    "typescript@>=5.0.0",
     "@eslint/eslintrc",
     "@eslint/js",
   ],

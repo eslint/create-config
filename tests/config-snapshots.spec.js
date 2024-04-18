@@ -88,9 +88,9 @@ describe("generate config for cjs projects", () => {
             purpose: "style",
             moduleType: "esm",
             framework: "none",
-            language: "typescript",
+            language: "javascript",
             env: ["browser"],
-            styleguide: { packageName: "eslint-config-xo-typescript", type: "eslintrc" }
+            styleguide: { packageName: "eslint-config-xo", type: "eslintrc" }
         }
     },
     {
