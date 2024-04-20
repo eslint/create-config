@@ -25,12 +25,13 @@ describe("pnpm workspace install packages at root", () => {
         expect(pnpmWorkspaceYaml).toBeTruthy();
     });
 
-    it("should invoke pnpm to install a single desired package", () => {
+    it("should invoke pnpm with workspace option to install a single desired packages", async () => {
         const stub = sinon.stub(spawn, "sync").returns({ stdout: 0 });
 
-        installSyncSaveDev("desired-package", "pnpm");
+        installSyncSaveDev("desired-package", pnpmWithWorkspaceDir, "pnpm");
         assert(stub.calledOnce);
         assert.strictEqual(stub.firstCall.args[0], "pnpm");
-        assert.deepStrictEqual(stub.firstCall.args[1], ["add", "-D", "desired-package"]);
+        assert.deepStrictEqual(stub.firstCall.args[1], ["add", "-D", "-w", "desired-package"]);
+        stub.restore();
     });
 });
