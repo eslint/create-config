@@ -10,19 +10,19 @@ You can use npm/npx(shipped with Node.js).
 
 ```bash
 # use npm
-npm init @eslint/config
+npm init @eslint/config@latest
 ```
 
 ```bash
 # use npx
-npx @eslint/create-config
+npx @eslint/create-config@latest
 ```
 
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
 ```bash
 # use `eslint-config-standard` shared config
-npm init @eslint/config -- --config eslint-config-standard
+npm init @eslint/config@latest -- --config eslint-config-standard
 ```
 
 To use an eslintrc-style (legacy) shared config:
