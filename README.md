@@ -28,5 +28,5 @@ npm init @eslint/config@latest -- --config eslint-config-standard
 To use an eslintrc-style (legacy) shared config:
 
 ```bash
-npm init @eslint/config -- --eslintrc --config eslint-config-standard
+npm init @eslint/config@latest -- --eslintrc --config eslint-config-standard
 ```
