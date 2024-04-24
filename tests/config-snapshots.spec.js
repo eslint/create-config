@@ -74,13 +74,13 @@ describe("generate config for cjs projects", () => {
     const inputs = [{
         name: "config--eslint-config-xo",
         answers: {
-            styleguide: { packageName: "eslint-config-xo", type: "eslintrc" }
+            config: { packageName: "eslint-config-xo", type: "eslintrc" }
         }
     },
     {
         name: "config-eslint-config-airbnb-base",
         answers: {
-            styleguide: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
+            config: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
         }
     }];
 
