@@ -72,15 +72,25 @@ describe("generate config for esm projects", () => {
 describe("generate config for cjs projects", () => {
     const cjsProjectDir = join(__filename, "../fixtures/cjs-project");
     const inputs = [{
-        name: "config--eslint-config-xo",
+        name: "config@eslint-config-xo",
         answers: {
             config: { packageName: "eslint-config-xo", type: "eslintrc" }
         }
     },
     {
-        name: "config-eslint-config-airbnb-base",
+        name: "config@eslint-config-airbnb-base",
         answers: {
             config: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
+        }
+    }, {
+        name: "config@eslint-config-airbnb",
+        answers: {
+            config: { packageName: "eslint-config-airbnb", type: "eslintrc" }
+        }
+    }, {
+        name: "config@eslint-config-standard",
+        answers: {
+            config: { packageName: "eslint-config-standard", type: "eslintrc" }
         }
     }];
 
