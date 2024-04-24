@@ -72,46 +72,14 @@ describe("generate config for esm projects", () => {
 describe("generate config for cjs projects", () => {
     const cjsProjectDir = join(__filename, "../fixtures/cjs-project");
     const inputs = [{
-        name: "style-esm-none-xo-javascript",
+        name: "config--eslint-config-xo",
         answers: {
-            purpose: "style",
-            moduleType: "esm",
-            framework: "none",
-            language: "javascript",
-            env: ["node"],
             styleguide: { packageName: "eslint-config-xo", type: "eslintrc" }
         }
     },
     {
-        name: "style-esm-none-xo-typescript",
+        name: "config-eslint-config-airbnb-base",
         answers: {
-            purpose: "style",
-            moduleType: "esm",
-            framework: "none",
-            language: "typescript",
-            env: ["browser"],
-            styleguide: { packageName: "eslint-config-xo-typescript", type: "eslintrc" }
-        }
-    },
-    {
-        name: "style-esm-react-airbnb",
-        answers: {
-            purpose: "style",
-            moduleType: "esm",
-            framework: "react",
-            language: "javascript",
-            env: ["browser"],
-            styleguide: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
-        }
-    },
-    {
-        name: "style-esm-none-airbnb",
-        answers: {
-            purpose: "style",
-            moduleType: "esm",
-            framework: "none",
-            language: "javascript",
-            env: ["browser"],
             styleguide: { packageName: "eslint-config-airbnb-base", type: "eslintrc" }
         }
     }];
