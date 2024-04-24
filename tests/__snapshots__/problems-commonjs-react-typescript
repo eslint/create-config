@@ -14,10 +14,10 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint",
     "globals",
     "@eslint/js",
     "typescript-eslint",
     "eslint-plugin-react",
+    "eslint",
   ],
 }

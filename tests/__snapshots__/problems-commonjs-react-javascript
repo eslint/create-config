@@ -12,9 +12,9 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint",
     "globals",
     "@eslint/js",
     "eslint-plugin-react",
+    "eslint",
   ],
 }
