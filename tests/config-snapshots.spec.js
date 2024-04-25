@@ -92,6 +92,16 @@ describe("generate config for cjs projects", () => {
         answers: {
             config: { packageName: "eslint-config-standard", type: "eslintrc" }
         }
+    }, {
+        name: "config@eslint-config-standard-flat",
+        answers: {
+            config: { packageName: "eslint-config-standard", type: "flat" }
+        }
+    }, {
+        name: "config@eslint-config-standard-flat2",
+        answers: {
+            config: "eslint-config-standard"
+        }
     }];
 
     inputs.forEach(item => {

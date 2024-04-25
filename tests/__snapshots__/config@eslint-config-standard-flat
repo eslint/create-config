@@ -1,0 +1,16 @@
+{
+  "configContent": "import config from "eslint-config-standard";
+
+
+export default [
+  ...[].concat(config),
+];",
+  "configFilename": "eslint.config.mjs",
+  "devDependencies": [
+    "eslint-config-standard",
+    "eslint@^8.0.1",
+    "eslint-plugin-import@^2.25.2",
+    "eslint-plugin-n@^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise@^6.0.0",
+  ],
+}
