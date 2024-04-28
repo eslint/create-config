@@ -9,8 +9,8 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint",
     "globals",
     "eslint-plugin-react",
+    "eslint",
   ],
 }

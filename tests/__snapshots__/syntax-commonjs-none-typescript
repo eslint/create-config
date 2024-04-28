@@ -10,8 +10,8 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint",
     "globals",
     "typescript-eslint",
+    "eslint",
   ],
 }

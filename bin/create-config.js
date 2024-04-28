@@ -31,7 +31,7 @@ if (sharedConfigIndex === -1) {
     // passed "--config"
     const packageName = argv[sharedConfigIndex + 1];
     const type = argv.includes("--eslintrc") ? "eslintrc" : "flat";
-    const answers = { purpose: "style", moduleType: "module", styleguide: { packageName, type } };
+    const answers = { config: { packageName, type } };
     const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
     generator.calc();
