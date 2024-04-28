@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.0](https://github.com/eslint/create-config/compare/v1.0.3...v1.1.0) (2024-04-28)
+
+
+### Features
+
+* remove style guides ([#108](https://github.com/eslint/create-config/issues/108)) ([de1d085](https://github.com/eslint/create-config/commit/de1d085e0c7f465492a352f577e14535cd745399))
+
+
+### Chores
+
+* run tests in Node.js 22 ([#109](https://github.com/eslint/create-config/issues/109)) ([b2320d8](https://github.com/eslint/create-config/commit/b2320d8ac16e5d9d545e132fe7d0ec662f7c8420))
+
 ## [1.0.3](https://github.com/eslint/create-config/compare/v1.0.2...v1.0.3) (2024-04-22)
 
 
