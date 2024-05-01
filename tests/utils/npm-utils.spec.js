@@ -157,7 +157,7 @@ describe("npmUtils", () => {
         it("should invoke npm to install a single desired package", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            installSyncSaveDev("desired-package", "npm");
+            installSyncSaveDev("desired-package", process.cwd(), "npm");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["install", "-D", "desired-package"]);
@@ -167,18 +167,27 @@ describe("npmUtils", () => {
         it("should invoke yarn to install a single desired package", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            installSyncSaveDev("desired-package", "yarn");
+            installSyncSaveDev("desired-package", process.cwd(), "yarn");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "yarn");
             assert.deepStrictEqual(stub.firstCall.args[1], ["add", "-D", "desired-package"]);
             stub.restore();
         });
 
+        it("should invoke pnpm to install a single desired package", () => {
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+
+            installSyncSaveDev("desired-package", process.cwd(), "pnpm");
+            assert(stub.calledOnce);
+            assert.strictEqual(stub.firstCall.args[0], "pnpm");
+            assert.deepStrictEqual(stub.firstCall.args[1], ["add", "-D", "desired-package"]);
+        });
+
 
         it("should accept an array of packages to install", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            installSyncSaveDev(["first-package", "second-package"], "npm");
+            installSyncSaveDev(["first-package", "second-package"], process.cwd(), "npm");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["install", "-D", "first-package", "second-package"]);
