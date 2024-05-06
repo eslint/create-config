@@ -15,8 +15,8 @@ export default [
 ];",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
-    "eslint-config-xo",
     "eslint@>=8.56.0",
+    "eslint-config-xo",
     "@eslint/eslintrc",
     "@eslint/js",
   ],

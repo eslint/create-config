@@ -2,19 +2,21 @@
   "configContent": "import globals from "globals";
 import tseslint from "typescript-eslint";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import { fixupConfigRules } from "@eslint/compat";
 
 
 export default [
   {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
   {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   ...tseslint.configs.recommended,
-  pluginReactConfig,
+  ...fixupConfigRules(pluginReactConfig),
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
+    "eslint@^9.2.0",
     "globals",
     "typescript-eslint",
     "eslint-plugin-react",
-    "eslint",
+    "@eslint/compat",
   ],
 }

@@ -3,6 +3,7 @@
 import pluginJs from "@eslint/js";
 import tseslint from "typescript-eslint";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import { fixupConfigRules } from "@eslint/compat";
 
 
 export default [
@@ -10,14 +11,15 @@ export default [
   {languageOptions: { globals: {...globals.browser, ...globals.node} }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
-  pluginReactConfig,
+  ...fixupConfigRules(pluginReactConfig),
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
+    "eslint@^9.2.0",
     "globals",
     "@eslint/js",
     "typescript-eslint",
     "eslint-plugin-react",
-    "eslint",
+    "@eslint/compat",
   ],
 }

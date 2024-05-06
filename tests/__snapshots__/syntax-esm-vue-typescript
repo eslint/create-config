@@ -11,9 +11,9 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
+    "eslint@^9.2.0",
     "globals",
     "typescript-eslint",
     "eslint-plugin-vue",
-    "eslint",
   ],
 }
