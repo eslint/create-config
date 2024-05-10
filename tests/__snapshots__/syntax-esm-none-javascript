@@ -10,4 +10,7 @@ export default [
     "eslint@^9.2.0",
     "globals",
   ],
+  "installFlags": [
+    "-D",
+  ],
 }

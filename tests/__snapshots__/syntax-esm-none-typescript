@@ -13,4 +13,7 @@ export default [
     "globals",
     "typescript-eslint",
   ],
+  "installFlags": [
+    "-D",
+  ],
 }

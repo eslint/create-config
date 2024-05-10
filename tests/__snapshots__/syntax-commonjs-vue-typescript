@@ -17,4 +17,7 @@ export default [
     "typescript-eslint",
     "eslint-plugin-vue",
   ],
+  "installFlags": [
+    "-D",
+  ],
 }

@@ -16,4 +16,8 @@ export default [
     "eslint-plugin-react",
     "@eslint/compat",
   ],
+  "installFlags": [
+    "-D",
+    "--force",
+  ],
 }

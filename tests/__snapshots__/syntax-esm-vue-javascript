@@ -13,4 +13,7 @@ export default [
     "globals",
     "eslint-plugin-vue",
   ],
+  "installFlags": [
+    "-D",
+  ],
 }

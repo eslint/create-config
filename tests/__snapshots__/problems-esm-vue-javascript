@@ -16,4 +16,7 @@ export default [
     "@eslint/js",
     "eslint-plugin-vue",
   ],
+  "installFlags": [
+    "-D",
+  ],
 }

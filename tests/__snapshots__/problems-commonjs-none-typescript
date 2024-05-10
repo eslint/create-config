@@ -17,4 +17,7 @@ export default [
     "@eslint/js",
     "typescript-eslint",
   ],
+  "installFlags": [
+    "-D",
+  ],
 }
