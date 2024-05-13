@@ -18,12 +18,17 @@ describe("generate config for esm projects", () => {
     const choices = {
         purpose: ["syntax", "problems"],
         moduleType: ["esm", "commonjs", "script"],
-        framework: ["react", "vue", "none"],
+        framework: ["vue", "none"],
         language: ["javascript", "typescript"],
         env: ["browser", "node"]
     };
 
-    const inputs = [];
+    const inputs = [
+        { name: "syntax-esm-react-eslint8.x-javascript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "8.x", language: "javascript", env: ["browser"] } },
+        { name: "syntax-esm-react-eslint8.x-typescript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "8.x", language: "typescript", env: ["browser"] } },
+        { name: "syntax-esm-react-eslint9.x-javascript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "9.x", language: "javascript", env: ["browser"] } },
+        { name: "syntax-esm-react-eslint9.x-typescript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "9.x", language: "typescript", env: ["browser"] } }
+    ];
 
     // generate all possible combinations
     for (let i = 0; i < choices.purpose.length; i++) {
