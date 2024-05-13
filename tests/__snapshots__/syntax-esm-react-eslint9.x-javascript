@@ -1,17 +1,22 @@
 {
   "configContent": "import globals from "globals";
 import pluginReactConfig from "eslint-plugin-react/configs/recommended.js";
+import { fixupConfigRules } from "@eslint/compat";
 
 
 export default [
-  {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
-  pluginReactConfig,
+  {languageOptions: { globals: globals.browser }},
+  ...fixupConfigRules(pluginReactConfig),
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
+    "eslint@9.x",
     "globals",
     "eslint-plugin-react",
-    "eslint",
+    "@eslint/compat",
+  ],
+  "installFlags": [
+    "-D",
+    "--force",
   ],
 }

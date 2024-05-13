@@ -12,9 +12,12 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
+    "eslint@9.x",
     "globals",
     "typescript-eslint",
     "eslint-plugin-vue",
-    "eslint",
+  ],
+  "installFlags": [
+    "-D",
   ],
 }

@@ -8,7 +8,10 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
+    "eslint@9.x",
     "globals",
-    "eslint",
+  ],
+  "installFlags": [
+    "-D",
   ],
 }
