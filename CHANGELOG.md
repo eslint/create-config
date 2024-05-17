@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/eslint/create-config/compare/v1.1.0...v1.1.1) (2024-05-17)
+
+
+### Bug Fixes
+
+* use @eslint/compat to fix eslint v9 + react plugin ([#113](https://github.com/eslint/create-config/issues/113)) ([61a385e](https://github.com/eslint/create-config/commit/61a385ebf2bc2d57074614160210530c7dfb04b9))
+
 ## [1.1.0](https://github.com/eslint/create-config/compare/v1.0.3...v1.1.0) (2024-04-28)
 
 
