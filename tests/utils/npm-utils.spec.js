@@ -18,6 +18,7 @@ import {
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it } from "vitest";
+import fs from "fs";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -30,7 +31,6 @@ import { assert, describe, afterEach, it } from "vitest";
  */
 async function useInMemoryFileSystem(files) {
     const inMemoryFs = defineInMemoryFs({ files });
-    const { default: fs } = await import("fs");
 
     sinon.replace(fs, "readFileSync", inMemoryFs.readFileSync);
     sinon.replace(fs, "existsSync", inMemoryFs.existsSync);
