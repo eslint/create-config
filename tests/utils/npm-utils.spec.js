@@ -13,10 +13,10 @@ import {
     installSyncSaveDev,
     fetchPeerDependencies,
     checkDeps,
-    checkDevDeps
+    checkDevDeps,
+    checkPackageJson
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
-import esmock from "esmock";
 import { assert, describe, afterEach, it } from "vitest";
 
 //------------------------------------------------------------------------------
@@ -24,14 +24,17 @@ import { assert, describe, afterEach, it } from "vitest";
 //------------------------------------------------------------------------------
 
 /**
- * Import `npm-utils` with the in-memory file system.
+ * Replace native fs methods with the in-memory file system methods used by `npm-utils`.
  * @param {Object} files The file definitions.
- * @returns {Object} `npm-utils`.
+ * @returns {void}
  */
-async function requireNpmUtilsWithInMemoryFileSystem(files) {
-    const fs = defineInMemoryFs({ files });
+async function useInMemoryFileSystem(files) {
+    const inMemoryFs = defineInMemoryFs({ files });
+    const { default: fs } = await import("fs");
 
-    return await esmock("../../lib/utils/npm-utils.js", { fs });
+    sinon.replace(fs, "readFileSync", inMemoryFs.readFileSync);
+    sinon.replace(fs, "existsSync", inMemoryFs.existsSync);
+    sinon.replace(fs, "statSync", inMemoryFs.statSync);
 }
 
 //------------------------------------------------------------------------------
@@ -68,21 +71,21 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing devDependencies key", async () => {
-            const { checkDevDeps: stubcheckDevDeps } = await requireNpmUtilsWithInMemoryFileSystem({
+            await useInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, dependencies: {} })
             });
 
             // Should not throw.
-            stubcheckDevDeps(["some-package"]);
+            checkDevDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", async () => {
-            const { checkDevDeps: stubcheckDevDeps } = await requireNpmUtilsWithInMemoryFileSystem({
+            await useInMemoryFileSystem({
                 "package.json": '{ "not: "valid json" }'
             });
 
             assert.throws(() => {
-                stubcheckDevDeps(["some-package"]);
+                checkDevDeps(["some-package"]);
             }, /JSON/u);
         });
     });
@@ -118,38 +121,38 @@ describe("npmUtils", () => {
         });
 
         it("should handle missing dependencies key", async () => {
-            const { checkDeps: stubbedcheckDeps } = await requireNpmUtilsWithInMemoryFileSystem({
+            await useInMemoryFileSystem({
                 "package.json": JSON.stringify({ private: true, devDependencies: {} })
             });
 
             // Should not throw.
-            stubbedcheckDeps(["some-package"]);
+            checkDeps(["some-package"]);
         });
 
         it("should throw with message when parsing invalid package.json", async () => {
-            const { checkDeps: stubbedcheckDeps } = await requireNpmUtilsWithInMemoryFileSystem({
+            await useInMemoryFileSystem({
                 "package.json": '{ "not: "valid json" }'
             });
 
             assert.throws(() => {
-                stubbedcheckDeps(["some-package"]);
+                checkDeps(["some-package"]);
             }, /JSON/u);
         });
     });
 
     describe("checkPackageJson()", () => {
         it("should return true if package.json exists", async () => {
-            const { checkPackageJson: stubbedcheckPackageJson } = await requireNpmUtilsWithInMemoryFileSystem({
+            await useInMemoryFileSystem({
                 "package.json": '{ "file": "contents" }'
             });
 
-            assert.strictEqual(stubbedcheckPackageJson(), true);
+            assert.strictEqual(checkPackageJson(), true);
         });
 
         it("should return false if package.json does not exist", async () => {
-            const { checkPackageJson: stubbedcheckPackageJson } = await requireNpmUtilsWithInMemoryFileSystem({});
+            await useInMemoryFileSystem({});
 
-            assert.strictEqual(stubbedcheckPackageJson(), false);
+            assert.strictEqual(checkPackageJson(), false);
         });
     });
 
@@ -188,14 +191,11 @@ describe("npmUtils", () => {
         it("should log an error message if npm throws ENOENT error", async () => {
             const logErrorStub = sinon.spy();
             const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const log = await import("../../lib/utils/logging.js");
 
-            const { installSyncSaveDev: stubinstallSyncSaveDev } = await esmock("../../lib/utils/npm-utils.js", {
-                "../../lib/utils/logging.js": {
-                    error: logErrorStub
-                }
-            });
+            sinon.replaceGetter(log, "error", () => logErrorStub);
 
-            stubinstallSyncSaveDev("some-package");
+            installSyncSaveDev("some-package");
 
             assert(logErrorStub.calledOnce);
 
