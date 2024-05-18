@@ -13,7 +13,7 @@ export default [
   "devDependencies": [
     "eslint@8.x",
     "globals",
-    "typescript-eslint",
+    "typescript-eslint@rc-v8",
     "eslint-plugin-react",
   ],
   "installFlags": [

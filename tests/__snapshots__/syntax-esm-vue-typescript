@@ -13,7 +13,7 @@ export default [
   "devDependencies": [
     "eslint@9.x",
     "globals",
-    "typescript-eslint",
+    "typescript-eslint@rc-v8",
     "eslint-plugin-vue",
   ],
   "installFlags": [

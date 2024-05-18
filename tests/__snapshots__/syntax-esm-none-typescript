@@ -11,7 +11,7 @@ export default [
   "devDependencies": [
     "eslint@9.x",
     "globals",
-    "typescript-eslint",
+    "typescript-eslint@rc-v8",
   ],
   "installFlags": [
     "-D",

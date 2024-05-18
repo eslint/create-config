@@ -14,7 +14,7 @@ export default [
     "eslint@9.x",
     "globals",
     "@eslint/js",
-    "typescript-eslint",
+    "typescript-eslint@rc-v8",
   ],
   "installFlags": [
     "-D",

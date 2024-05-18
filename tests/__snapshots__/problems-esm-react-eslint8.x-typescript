@@ -16,7 +16,7 @@ export default [
     "eslint@8.x",
     "globals",
     "@eslint/js",
-    "typescript-eslint",
+    "typescript-eslint@rc-v8",
     "eslint-plugin-react",
   ],
   "installFlags": [
