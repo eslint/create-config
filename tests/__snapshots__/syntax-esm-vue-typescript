@@ -18,5 +18,6 @@ export default [
   ],
   "installFlags": [
     "-D",
+    "--force",
   ],
 }
