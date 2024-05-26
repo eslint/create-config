@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/eslint/create-config/compare/v1.1.1...v1.1.2) (2024-05-26)
+
+
+### Bug Fixes
+
+* use `--force` to install eslint v9 + tseslint ([#118](https://github.com/eslint/create-config/issues/118)) ([27a207e](https://github.com/eslint/create-config/commit/27a207ec209500da88a95f8c50dece16ae0f072b))
+
 ## [1.1.1](https://github.com/eslint/create-config/compare/v1.1.0...v1.1.1) (2024-05-17)
 
 
