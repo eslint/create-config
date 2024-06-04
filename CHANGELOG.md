@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/eslint/create-config/compare/v1.1.2...v1.1.3) (2024-06-04)
+
+
+### Bug Fixes
+
+* do not use `--force` when choosing yarn/eslint v8 ([#123](https://github.com/eslint/create-config/issues/123)) ([b377ad7](https://github.com/eslint/create-config/commit/b377ad7828cf39840c5a70d5a018d0368dbb43ec))
+
 ## [1.1.2](https://github.com/eslint/create-config/compare/v1.1.1...v1.1.2) (2024-05-26)
 
 
