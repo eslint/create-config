@@ -18,7 +18,7 @@ import {
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it } from "vitest";
-import fs from "fs";
+import fs from "node:fs";
 
 //------------------------------------------------------------------------------
 // Helpers

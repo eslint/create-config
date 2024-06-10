@@ -7,7 +7,7 @@
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
-import process from "process";
+import process from "node:process";
 
 
 const cwd = process.cwd();
