@@ -8,7 +8,7 @@
 // Requirements
 //-----------------------------------------------------------------------------
 
-import path from "path";
+import path from "node:path";
 import memfs from "memfs";
 
 const { Volume, createFsFromVolume } = memfs;

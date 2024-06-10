@@ -9,7 +9,7 @@
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { expect, describe, test } from "vitest";
 import { fileURLToPath } from "node:url";
-import { join } from "path";
+import { join } from "node:path";
 
 const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle -- commonjs convention
 
