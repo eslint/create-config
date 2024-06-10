@@ -10,6 +10,7 @@ export default [
   {languageOptions: { globals: globals.browser }},
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
+  { files: ["**/*.jsx"], languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
   ...fixupConfigRules(pluginReactConfig),
 ];",
   "configFilename": "eslint.config.js",
