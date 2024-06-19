@@ -7,8 +7,13 @@
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
+import { info } from "../lib/utils/logging.js";
 import process from "node:process";
+import fs from "node:fs/promises";
 
+const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
+
+info(`${pkg.name}: v${pkg.version}\n`);
 
 const cwd = process.cwd();
 const packageJsonPath = findPackageJson(cwd);
