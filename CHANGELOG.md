@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.5](https://github.com/eslint/create-config/compare/v1.1.4...v1.1.5) (2024-06-19)
+
+
+### Bug Fixes
+
+* add files globs to be linted ([#130](https://github.com/eslint/create-config/issues/130)) ([19d7d6f](https://github.com/eslint/create-config/commit/19d7d6f111db4f78d0fc454662342ea1e810afe9))
+* add warning message for ESLint v9 with npm `--force` flag ([#132](https://github.com/eslint/create-config/issues/132)) ([f8178a8](https://github.com/eslint/create-config/commit/f8178a85e0e2147e2097ab03a87290e53f066a98))
+
 ## [1.1.4](https://github.com/eslint/create-config/compare/v1.1.3...v1.1.4) (2024-06-10)
 
 
