@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6](https://github.com/eslint/create-config/compare/v1.1.5...v1.1.6) (2024-07-12)
+
+
+### Bug Fixes
+
+* Add custom ts parser for vue projects ([#136](https://github.com/eslint/create-config/issues/136)) ([0098452](https://github.com/eslint/create-config/commit/00984525e17e926dec9184e9bf2502326894f089))
+
 ## [1.1.5](https://github.com/eslint/create-config/compare/v1.1.4...v1.1.5) (2024-06-19)
 
 
