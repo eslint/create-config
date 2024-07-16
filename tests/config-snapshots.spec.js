@@ -18,21 +18,12 @@ describe("generate config for esm projects", () => {
     const choices = {
         purpose: ["syntax", "problems"],
         moduleType: ["esm", "commonjs", "script"],
-        framework: ["vue", "none"],
+        framework: ["react", "vue", "none"],
         language: ["javascript", "typescript"],
         env: ["browser", "node"]
     };
 
-    const inputs = [
-        { name: "syntax-esm-react-eslint8.x-javascript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "8.x", language: "javascript", env: ["browser"] } },
-        { name: "syntax-esm-react-eslint8.x-typescript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "8.x", language: "typescript", env: ["browser"] } },
-        { name: "syntax-esm-react-eslint9.x-javascript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "9.x", language: "javascript", env: ["browser"] } },
-        { name: "syntax-esm-react-eslint9.x-typescript", answers: { purpose: "syntax", moduleType: "esm", framework: "react", eslintVersion: "9.x", language: "typescript", env: ["browser"] } },
-        { name: "problems-esm-react-eslint8.x-javascript", answers: { purpose: "problems", moduleType: "esm", framework: "react", eslintVersion: "8.x", language: "javascript", env: ["browser"] } },
-        { name: "problems-esm-react-eslint8.x-typescript", answers: { purpose: "problems", moduleType: "esm", framework: "react", eslintVersion: "8.x", language: "typescript", env: ["browser"] } },
-        { name: "problems-esm-react-eslint9.x-javascript", answers: { purpose: "problems", moduleType: "esm", framework: "react", eslintVersion: "9.x", language: "javascript", env: ["browser"] } },
-        { name: "problems-esm-react-eslint9.x-typescript", answers: { purpose: "problems", moduleType: "esm", framework: "react", eslintVersion: "9.x", language: "typescript", env: ["browser"] } }
-    ];
+    const inputs = [];
 
     // generate all possible combinations
     for (let i = 0; i < choices.purpose.length; i++) {
