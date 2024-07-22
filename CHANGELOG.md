@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/eslint/create-config/compare/v1.1.6...v1.2.0) (2024-07-22)
+
+
+### Features
+
+* `eslint-plugin-react` supports ESLint v9 ([#139](https://github.com/eslint/create-config/issues/139)) ([359cf50](https://github.com/eslint/create-config/commit/359cf50eabc0790f3514ffcc1af27c16e297ac0e))
+
 ## [1.1.6](https://github.com/eslint/create-config/compare/v1.1.5...v1.1.6) (2024-07-12)
 
 
