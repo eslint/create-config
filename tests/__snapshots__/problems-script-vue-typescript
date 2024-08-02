@@ -16,7 +16,7 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint@9.x",
+    "eslint",
     "globals",
     "@eslint/js",
     "typescript-eslint",
@@ -24,6 +24,5 @@ export default [
   ],
   "installFlags": [
     "-D",
-    "--force",
   ],
 }

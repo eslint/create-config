@@ -11,12 +11,11 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint@9.x",
+    "eslint",
     "globals",
     "typescript-eslint",
   ],
   "installFlags": [
     "-D",
-    "--force",
   ],
 }
