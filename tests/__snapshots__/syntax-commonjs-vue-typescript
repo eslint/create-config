@@ -14,13 +14,12 @@ export default [
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
-    "eslint@9.x",
+    "eslint",
     "globals",
     "typescript-eslint",
     "eslint-plugin-vue",
   ],
   "installFlags": [
     "-D",
-    "--force",
   ],
 }
