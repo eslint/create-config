@@ -1,24 +1,14 @@
 {
-  "configContent": "
-import path from "path";
-import { fileURLToPath } from "url";
-import { FlatCompat } from "@eslint/eslintrc";
-import pluginJs from "@eslint/js";
+  "configContent": "import config from "eslint-config-xo";
 
-// mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended});
 
 export default [
-  ...compat.extends("xo"),
+  ...[].concat(config),
 ];",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
-    "eslint@>=8.56.0",
+    "eslint@>=9.8.0",
     "eslint-config-xo",
-    "@eslint/eslintrc",
-    "@eslint/js",
   ],
   "installFlags": [
     "-D",
