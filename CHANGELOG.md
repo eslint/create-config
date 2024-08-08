@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/eslint/create-config/compare/v1.2.0...v1.3.0) (2024-08-04)
+
+
+### Features
+
+* typescript-eslint v8 has supported eslint v9 ([#141](https://github.com/eslint/create-config/issues/141)) ([f8d9c30](https://github.com/eslint/create-config/commit/f8d9c30af6b8e88a627730745127c48692c98ef6))
+
 ## [1.2.0](https://github.com/eslint/create-config/compare/v1.1.6...v1.2.0) (2024-07-22)
 
 
