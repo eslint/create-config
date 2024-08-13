@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/eslint/create-config/compare/v1.3.0...v1.3.1) (2024-08-13)
+
+
+### Bug Fixes
+
+* re-trigger release-please ([#145](https://github.com/eslint/create-config/issues/145)) ([6fbb932](https://github.com/eslint/create-config/commit/6fbb9326280847b7ad58fa0049ce086398dede39))
+
 ## [1.3.0](https://github.com/eslint/create-config/compare/v1.2.0...v1.3.0) (2024-08-04)
 
 
