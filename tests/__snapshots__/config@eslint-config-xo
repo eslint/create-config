@@ -2,6 +2,7 @@
   "configContent": "import config from "eslint-config-xo";
 
 
+/** @type {import('eslint').Linter.Config[]} */
 export default [
   ...[].concat(config),
 ];",
