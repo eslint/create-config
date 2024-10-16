@@ -19,7 +19,7 @@ describe("generate config for esm projects", () => {
         purpose: ["syntax", "problems"],
         moduleType: ["esm", "commonjs", "script"],
         framework: ["react", "vue", "none"],
-        language: ["javascript", "typescript"],
+        useTs: [false, true],
         env: ["browser", "node"]
     };
 
@@ -29,14 +29,14 @@ describe("generate config for esm projects", () => {
     for (let i = 0; i < choices.purpose.length; i++) {
         for (let j = 0; j < choices.moduleType.length; j++) {
             for (let k = 0; k < choices.framework.length; k++) {
-                for (let m = 0; m < choices.language.length; m++) {
+                for (let m = 0; m < choices.useTs.length; m++) {
                     inputs.push({
-                        name: `${choices.purpose[i]}-${choices.moduleType[j]}-${choices.framework[k]}-${choices.language[m]}`,
+                        name: `${choices.purpose[i]}-${choices.moduleType[j]}-${choices.framework[k]}-${choices.useTs[m] ? "typescript" : "javascript"}`,
                         answers: {
                             purpose: choices.purpose[i],
                             moduleType: choices.moduleType[j],
                             framework: choices.framework[k],
-                            language: choices.language[m],
+                            useTs: choices.useTs[m],
                             env: ["browser", "node"]
                         }
                     });
@@ -59,7 +59,7 @@ describe("generate config for esm projects", () => {
 
     test("sub dir", () => {
         const sub = join(__filename, "../fixtures/esm-project/sub");
-        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", language: "javascript", env: ["node"] } });
+        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } });
 
         generator.calc();
 
