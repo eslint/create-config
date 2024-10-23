@@ -33,6 +33,7 @@ describe("generate config for esm projects", () => {
                     inputs.push({
                         name: `${choices.purpose[i]}-${choices.moduleType[j]}-${choices.framework[k]}-${choices.useTs[m] ? "typescript" : "javascript"}`,
                         answers: {
+                            languages: ["javascript"],
                             purpose: choices.purpose[i],
                             moduleType: choices.moduleType[j],
                             framework: choices.framework[k],
@@ -59,7 +60,7 @@ describe("generate config for esm projects", () => {
 
     test("sub dir", () => {
         const sub = join(__filename, "../fixtures/esm-project/sub");
-        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } });
+        const generator = new ConfigGenerator({ cwd: sub, answers: { languages: ["javascript"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } });
 
         generator.calc();
 
