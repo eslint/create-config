@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/eslint/create-config/compare/v1.3.1...v1.4.0) (2024-10-25)
+
+
+### Features
+
+* add types for the configuration's default export ([#147](https://github.com/eslint/create-config/issues/147)) ([2eaacd0](https://github.com/eslint/create-config/commit/2eaacd0b52912e43d6926db87a261fa1dddcf586))
+
 ## [1.3.1](https://github.com/eslint/create-config/compare/v1.3.0...v1.3.1) (2024-08-13)
 
 
