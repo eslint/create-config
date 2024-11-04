@@ -1,0 +1,17 @@
+{
+  "configContent": "import markdown from "@eslint/markdown";
+
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  ...markdown.configs.recommended,
+];",
+  "configFilename": "eslint.config.js",
+  "devDependencies": [
+    "eslint",
+    "@eslint/markdown",
+  ],
+  "installFlags": [
+    "-D",
+  ],
+}

@@ -23,7 +23,14 @@ describe("generate config for esm projects", () => {
         env: ["browser", "node"]
     };
 
-    const inputs = [];
+    const inputs = [
+        { name: "esm-json", answers: { languages: ["json"] } },
+        { name: "esm-json5", answers: { languages: ["json5"] } },
+        { name: "esm-jsonc", answers: { languages: ["jsonc"] } },
+        { name: "esm-markdown-commonmark", answers: { languages: ["md"], mdType: "commonmark" } },
+        { name: "esm-markdown-gfm", answers: { languages: ["md"], mdType: "gfm" } },
+        { name: "esm-javascript-json", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } }
+    ];
 
     // generate all possible combinations
     for (let i = 0; i < choices.purpose.length; i++) {
