@@ -1,0 +1,17 @@
+{
+  "configContent": "import json from "@eslint/json";
+
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  {files: ["**/*.jsonc"], language: "json/jsonc"},
+];",
+  "configFilename": "eslint.config.js",
+  "devDependencies": [
+    "eslint",
+    "@eslint/json",
+  ],
+  "installFlags": [
+    "-D",
+  ],
+}

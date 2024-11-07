@@ -24,12 +24,17 @@ describe("generate config for esm projects", () => {
     };
 
     const inputs = [
-        { name: "esm-json", answers: { languages: ["json"] } },
-        { name: "esm-json5", answers: { languages: ["json5"] } },
-        { name: "esm-jsonc", answers: { languages: ["jsonc"] } },
-        { name: "esm-markdown-commonmark", answers: { languages: ["md"], mdType: "commonmark" } },
-        { name: "esm-markdown-gfm", answers: { languages: ["md"], mdType: "gfm" } },
-        { name: "esm-javascript-json", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } }
+        { name: "esm-json-syntax", answers: { languages: ["json"], purpose: "syntax" } },
+        { name: "esm-json-problems", answers: { languages: ["json"], purpose: "problems" } },
+        { name: "esm-json5-syntax", answers: { languages: ["json5"], purpose: "syntax" } },
+        { name: "esm-json5-problems", answers: { languages: ["json5"], purpose: "problems" } },
+        { name: "esm-jsonc-syntax", answers: { languages: ["jsonc"], purpose: "syntax" } },
+        { name: "esm-jsonc-problems", answers: { languages: ["jsonc"], purpose: "problems" } },
+        { name: "esm-markdown-commonmark-syntax", answers: { languages: ["md"], mdType: "commonmark", purpose: "syntax" } },
+        { name: "esm-markdown-commonmark-problems", answers: { languages: ["md"], mdType: "commonmark", purpose: "problems" } },
+        { name: "esm-markdown-gfm-syntax", answers: { languages: ["md"], mdType: "gfm", purpose: "syntax" } },
+        { name: "esm-markdown-gfm-problems", answers: { languages: ["md"], mdType: "gfm", purpose: "problems" } },
+        { name: "esm-javascript-json-problems", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } }
     ];
 
     // generate all possible combinations
