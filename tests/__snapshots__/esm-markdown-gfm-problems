@@ -4,6 +4,7 @@
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  {ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"]},
   ...markdown.configs.recommended,
   {files: ["**/*.md"], language: "markdown/gfm"},
 ];",
