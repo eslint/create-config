@@ -5,7 +5,7 @@
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"]},
-  {files: ["**/*.json5"], language: "json/json5"},
+  {files: ["**/*.json5"], plugins: {json}, language: "json/json5"},
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [

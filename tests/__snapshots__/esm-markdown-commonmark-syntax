@@ -5,7 +5,7 @@
 /** @type {import('eslint').Linter.Config[]} */
 export default [
   {ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"]},
-  {files: ["**/*.md"], language: "markdown/commonmark"},
+  {files: ["**/*.md"], plugins: {markdown}, language: "markdown/commonmark"},
 ];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
