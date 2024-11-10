@@ -12,7 +12,6 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: plug
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
-  {ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"]},
   ...compat.extends("standard"),
 ];",
   "configFilename": "eslint.config.mjs",
