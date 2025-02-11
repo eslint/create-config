@@ -45,6 +45,19 @@ describe("generate config for esm projects", () => {
         }
     }
 
+    // add a combination that should produce an empty config
+    inputs.push({
+        name: "empty",
+        answers: {
+            purpose: "syntax",
+            moduleType: "esm",
+            framework: "none",
+            language: "javascript"
+
+            // no env
+        }
+    });
+
     inputs.forEach(item => {
         test(`${item.name}`, () => {
             const generator = new ConfigGenerator({ cwd: esmProjectDir, answers: item.answers });

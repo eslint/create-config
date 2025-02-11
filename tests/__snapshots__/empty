@@ -1,0 +1,15 @@
+{
+  "configContent": "
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  {}
+];",
+  "configFilename": "eslint.config.js",
+  "devDependencies": [
+    "eslint",
+  ],
+  "installFlags": [
+    "-D",
+  ],
+}
