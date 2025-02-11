@@ -52,9 +52,8 @@ describe("generate config for esm projects", () => {
             purpose: "syntax",
             moduleType: "esm",
             framework: "none",
-            language: "javascript"
-
-            // no env
+            language: "javascript",
+            env: []
         }
     });
 
