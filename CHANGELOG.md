@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/eslint/create-config/compare/v1.4.0...v1.5.0) (2025-02-12)
+
+
+### Features
+
+* avoid empty config warning ([#153](https://github.com/eslint/create-config/issues/153)) ([2a75349](https://github.com/eslint/create-config/commit/2a75349e35d5c4e83168ad83cbc401c1d6c0eaf1))
+
 ## [1.4.0](https://github.com/eslint/create-config/compare/v1.3.1...v1.4.0) (2024-10-25)
 
 
