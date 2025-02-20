@@ -1,0 +1,23 @@
+{
+  "configContent": "import globals from "globals";
+import pluginJs from "@eslint/js";
+import json from "@eslint/json";
+
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  {languageOptions: { globals: globals.node }},
+  pluginJs.configs.recommended,
+  {files: ["**/*.json"], language: "json/json", ...json.configs.recommended},
+];",
+  "configFilename": "eslint.config.js",
+  "devDependencies": [
+    "eslint",
+    "globals",
+    "@eslint/js",
+    "@eslint/json",
+  ],
+  "installFlags": [
+    "-D",
+  ],
+}
