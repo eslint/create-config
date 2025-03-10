@@ -1,14 +1,15 @@
 {
-  "configContent": "import globals from "globals";
-import pluginJs from "@eslint/js";
+  "configContent": "import { defineConfig } from "eslint/config";
+import globals from "globals";
+import js from "@eslint/js";
 
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
-  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
-  pluginJs.configs.recommended,
-];",
+export default defineConfig([
+  { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
+  { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
