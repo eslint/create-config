@@ -4,7 +4,6 @@ import globals from "globals";
 import tseslint from "typescript-eslint";
 
 
-/** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,ts}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },

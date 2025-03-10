@@ -5,7 +5,6 @@ import js from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
 
 
-/** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,vue}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },

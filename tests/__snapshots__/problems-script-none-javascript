@@ -4,7 +4,6 @@ import globals from "globals";
 import js from "@eslint/js";
 
 
-/** @type {import('eslint').Linter.Config[]} */
 export default defineConfig([
   { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
   { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
