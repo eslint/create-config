@@ -5,9 +5,10 @@ import js from "@eslint/js";
 
 
 export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
-  { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [

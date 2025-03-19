@@ -4,8 +4,9 @@ import globals from "globals";
 
 
 export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
-  { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [

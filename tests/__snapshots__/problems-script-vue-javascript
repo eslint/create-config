@@ -8,8 +8,8 @@ import pluginVue from "eslint-plugin-vue";
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,vue}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
-  { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["**/*.{js,mjs,cjs,vue}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs,vue}"], plugins: { js }, extends: ["js/recommended"] },
   pluginVue.configs["flat/essential"],
 ]);",
   "configFilename": "eslint.config.js",

@@ -7,8 +7,8 @@ import tseslint from "typescript-eslint";
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,ts}"] },
-  { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  { files: ["**/*.js"], plugins: { js }, extends: ["js/recommended"] },
+  { files: ["**/*.{js,mjs,cjs,ts}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs,ts}"], plugins: { js }, extends: ["js/recommended"] },
   tseslint.configs.recommended,
 ]);",
   "configFilename": "eslint.config.js",

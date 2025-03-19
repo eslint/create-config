@@ -7,7 +7,7 @@ import pluginReact from "eslint-plugin-react";
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,jsx}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
-  { files: ["**/*.js"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs,jsx}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   pluginReact.configs.flat.recommended,
 ]);",
   "configFilename": "eslint.config.js",

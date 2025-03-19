@@ -4,6 +4,7 @@ import config from "eslint-config-standard";
 
 
 export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs}"] },
   config,
 ]);",
   "configFilename": "eslint.config.mjs",
