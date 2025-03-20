@@ -1,17 +1,17 @@
 {
-  "configContent": "import globals from "globals";
-import pluginJs from "@eslint/js";
+  "configContent": "import { defineConfig } from "eslint/config";
+import globals from "globals";
+import js from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
 
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {files: ["**/*.{js,mjs,cjs,jsx}"]},
-  {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
-  pluginJs.configs.recommended,
+export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs,jsx}"] },
+  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
+  { files: ["**/*.{js,mjs,cjs,jsx}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs,jsx}"], plugins: { js }, extends: ["js/recommended"] },
   pluginReact.configs.flat.recommended,
-];",
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

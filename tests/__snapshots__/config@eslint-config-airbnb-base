@@ -1,19 +1,20 @@
 {
-  "configContent": "
-import path from "path";
-import { fileURLToPath } from "url";
+  "configContent": "import { defineConfig } from "eslint/config";
+
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { FlatCompat } from "@eslint/eslintrc";
-import pluginJs from "@eslint/js";
+import js from "@eslint/js";
 
 // mimic CommonJS variables -- not needed if using CommonJS
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: pluginJs.configs.recommended});
+const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: js.configs.recommended});
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  ...compat.extends("airbnb-base"),
-];",
+export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs}"] },
+  compat.extends("airbnb-base"),
+]);",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint@^7.32.0 || ^8.2.0",

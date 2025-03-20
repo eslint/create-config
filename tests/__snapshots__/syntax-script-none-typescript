@@ -1,15 +1,15 @@
 {
-  "configContent": "import globals from "globals";
+  "configContent": "import { defineConfig } from "eslint/config";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {files: ["**/*.{js,mjs,cjs,ts}"]},
-  {files: ["**/*.js"], languageOptions: {sourceType: "script"}},
-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},
-  ...tseslint.configs.recommended,
-];",
+export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs,ts}"] },
+  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
+  { files: ["**/*.{js,mjs,cjs,ts}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  tseslint.configs.recommended,
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

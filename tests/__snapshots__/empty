@@ -1,10 +1,10 @@
 {
-  "configContent": "
+  "configContent": "import { defineConfig } from "eslint/config";
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
-  {}
-];",
+
+export default defineConfig([
+  { files: ["**/*.{js,mjs,cjs}"] },
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
