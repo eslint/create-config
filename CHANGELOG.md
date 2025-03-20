@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/eslint/create-config/compare/v1.5.0...v1.6.0) (2025-03-20)
+
+
+### Features
+
+* Output defineConfig in file ([#156](https://github.com/eslint/create-config/issues/156)) ([f607c76](https://github.com/eslint/create-config/commit/f607c7622073d910f92a7edfa295a81da0f3ffdc))
+
 ## [1.5.0](https://github.com/eslint/create-config/compare/v1.4.0...v1.5.0) (2025-02-12)
 
 
