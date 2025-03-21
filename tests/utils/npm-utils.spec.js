@@ -14,11 +14,13 @@ import {
     fetchPeerDependencies,
     checkDeps,
     checkDevDeps,
-    checkPackageJson
+    checkPackageJson,
+    parsePackageName
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it } from "vitest";
 import fs from "node:fs";
+import https from "node:https";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -177,6 +179,15 @@ describe("npmUtils", () => {
             stub.restore();
         });
 
+        it("should invoke bun to install a single desired package", () => {
+            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+
+            installSyncSaveDev("desired-package", "bun");
+            assert(stub.calledOnce);
+            assert.strictEqual(stub.firstCall.args[0], "bun");
+            assert.deepStrictEqual(stub.firstCall.args[1], ["install", "-D", "desired-package"]);
+            stub.restore();
+        });
 
         it("should accept an array of packages to install", () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
@@ -203,21 +214,78 @@ describe("npmUtils", () => {
         });
     });
 
+    describe("parsePackageName()", () => {
+        it("should parse package name with version", () => {
+            const result = parsePackageName("eslint@9.0.0");
+
+            assert.deepStrictEqual(result, { name: "eslint", version: "9.0.0" });
+        });
+
+        it("should parse package name without version", () => {
+            const result = parsePackageName("eslint");
+
+            assert.deepStrictEqual(result, { name: "eslint", version: "latest" });
+        });
+
+        it("should handle scoped packages with version", () => {
+            const result = parsePackageName("@typescript-eslint/eslint-plugin@5.0.0");
+
+            assert.deepStrictEqual(result, { name: "@typescript-eslint/eslint-plugin", version: "5.0.0" });
+        });
+
+        it("should handle scoped packages without version", () => {
+            const result = parsePackageName("@typescript-eslint/eslint-plugin");
+
+            assert.deepStrictEqual(result, { name: "@typescript-eslint/eslint-plugin", version: "latest" });
+        });
+    });
+
     describe("fetchPeerDependencies()", () => {
-        it("should execute 'npm show --json <packageName> peerDependencies' command", () => {
+        it("should execute 'npm show --json <packageName> peerDependencies' command", async () => {
             const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
 
-            fetchPeerDependencies("desired-package");
+            await fetchPeerDependencies("desired-package");
             assert(stub.calledOnce);
             assert.strictEqual(stub.firstCall.args[0], "npm");
             assert.deepStrictEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
             stub.restore();
         });
 
-        it("should return null if npm throws ENOENT error", () => {
+        it("should fetch peer dependencies from npm registry when npm is not available", async () => {
+            const npmStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const httpsStub = sinon.stub(https, "get");
+
+            const mockResponse = {
+                on: sinon.stub(),
+                statusCode: 200
+            };
+
+            mockResponse.on.withArgs("data").callsArgWith(1, JSON.stringify({
+                "dist-tags": { latest: "9.0.0" },
+                versions: {
+                    "9.0.0": {
+                        peerDependencies: { eslint: "9.0.0" }
+                    }
+                }
+            }));
+            mockResponse.on.withArgs("end").callsArg(1);
+            httpsStub.callsArgWith(1, mockResponse).returns({
+                on: sinon.stub()
+            });
+
+            const result = await fetchPeerDependencies("desired-package");
+
+            assert(httpsStub.calledOnce);
+            assert.deepStrictEqual(result, ["eslint@9.0.0"]);
+
+            npmStub.restore();
+            httpsStub.restore();
+        });
+
+        it("should return null if an error is thrown", async () => {
             const stub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            const peerDependencies = fetchPeerDependencies("desired-package");
+            const peerDependencies = await fetchPeerDependencies("desired-package");
 
             assert.isNull(peerDependencies);
 
