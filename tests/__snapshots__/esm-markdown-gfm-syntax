@@ -1,19 +1,16 @@
 {
   "configContent": "import { defineConfig } from "eslint/config";
-import globals from "globals";
-import tseslint from "typescript-eslint";
+import markdown from "@eslint/markdown";
 
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs}"] },
-  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  tseslint.configs.recommended,
+  {files: ["**/*.md"], plugins: {markdown}, language: "markdown/gfm"},
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
-    "globals",
-    "typescript-eslint",
+    "@eslint/markdown",
   ],
   "installFlags": [
     "-D",

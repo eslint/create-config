@@ -2,22 +2,21 @@
   "configContent": "import { defineConfig } from "eslint/config";
 import globals from "globals";
 import js from "@eslint/js";
-import tseslint from "typescript-eslint";
+import json from "@eslint/json";
 
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs}"] },
-  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
-  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: globals.node } },
   { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
-  tseslint.configs.recommended,
+  {files: ["**/*.json"], language: "json/json", ...json.configs.recommended},
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
     "globals",
     "@eslint/js",
-    "typescript-eslint",
+    "@eslint/json",
   ],
   "installFlags": [
     "-D",
