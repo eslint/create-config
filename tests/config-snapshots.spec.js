@@ -34,7 +34,9 @@ describe("generate config for esm projects", () => {
         { name: "esm-markdown-commonmark-problems", answers: { languages: ["md"], mdType: "commonmark", purpose: "problems" } },
         { name: "esm-markdown-gfm-syntax", answers: { languages: ["md"], mdType: "gfm", purpose: "syntax" } },
         { name: "esm-markdown-gfm-problems", answers: { languages: ["md"], mdType: "gfm", purpose: "problems" } },
-        { name: "esm-javascript-json-problems", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } }
+        { name: "esm-javascript-json-problems", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } },
+        { name: "esm-css-syntax", answers: { languages: ["css"], purpose: "syntax" } },
+        { name: "esm-css-problems", answers: { languages: ["css"], purpose: "problems" } }
     ];
 
     // generate all possible combinations
