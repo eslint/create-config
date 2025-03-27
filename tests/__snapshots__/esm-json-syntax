@@ -4,8 +4,7 @@ import json from "@eslint/json";
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"] },
-  {files: ["**/*.json"], plugins: {json}, language: "json/json"},
+  { files: ["**/*.json"], plugins: { json }, language: "json/json" },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [

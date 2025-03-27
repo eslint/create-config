@@ -1,20 +1,19 @@
 {
   "configContent": "import { defineConfig } from "eslint/config";
-import globals from "globals";
 import js from "@eslint/js";
+import globals from "globals";
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"] },
+  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
   { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
-    "globals",
     "@eslint/js",
+    "globals",
   ],
   "installFlags": [
     "-D",
