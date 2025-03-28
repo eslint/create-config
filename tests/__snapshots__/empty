@@ -1,9 +1,9 @@
 {
   "configContent": "
 
-export default [
+export default defineConfig([
   { files: ["**/*.{js,mjs,cjs}"] },
-];",
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

@@ -3,12 +3,12 @@
 import pluginReact from "eslint-plugin-react";
 
 
-export default [
+export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,jsx}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
   { files: ["**/*.{js,mjs,cjs,jsx}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   pluginReact.configs.flat.recommended,
-];",
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

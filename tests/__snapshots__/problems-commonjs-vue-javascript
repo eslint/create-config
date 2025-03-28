@@ -4,13 +4,13 @@ import js from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
 
 
-export default [
+export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,vue}"] },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
   { files: ["**/*.{js,mjs,cjs,vue}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   { files: ["**/*.{js,mjs,cjs,vue}"], plugins: { js }, extends: ["js/recommended"] },
   pluginVue.configs["flat/essential"],
-];",
+]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",

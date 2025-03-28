@@ -1,12 +1,11 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
-import config from "eslint-config-xo";
+  "configContent": "import config from "eslint-config-xo";
 
 
-export default defineConfig([
+export default [
   { files: ["**/*.{js,mjs,cjs}"] },
   config,
-]);",
+];",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint@>=9.8.0",
