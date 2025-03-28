@@ -1,18 +1,15 @@
 {
   "configContent": "import { defineConfig } from "eslint/config";
-import js from "@eslint/js";
 import json from "@eslint/json";
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
   { ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"] },
   { files: ["**/*.jsonc"], language: "json/jsonc", extends: ["json/recommended"] },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
-    "@eslint/js",
     "@eslint/json",
   ],
   "installFlags": [

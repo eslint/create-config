@@ -1,18 +1,15 @@
 {
   "configContent": "import { defineConfig } from "eslint/config";
-import js from "@eslint/js";
 import markdown from "@eslint/markdown";
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
   { ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"] },
   extends: ["markdown/recommended"],
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
-    "@eslint/js",
     "@eslint/markdown",
   ],
   "installFlags": [
