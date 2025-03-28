@@ -5,7 +5,7 @@ import css from "@eslint/css";
 
 export default defineConfig([
   { ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"] },
-  { files: ["**/*.css"], language: "css/css", extends: ["css/recommended"] },
+  { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
