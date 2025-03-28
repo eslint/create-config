@@ -19,24 +19,38 @@ describe("generate config for esm projects", () => {
         purpose: ["syntax", "problems"],
         moduleType: ["esm", "commonjs", "script"],
         framework: ["react", "vue", "none"],
-        language: ["javascript", "typescript"],
+        useTs: [false, true],
         env: ["browser", "node"]
     };
 
-    const inputs = [];
+    const inputs = [
+        { name: "esm-json-syntax", answers: { languages: ["json"], purpose: "syntax" } },
+        { name: "esm-json-problems", answers: { languages: ["json"], purpose: "problems" } },
+        { name: "esm-json5-syntax", answers: { languages: ["json5"], purpose: "syntax" } },
+        { name: "esm-json5-problems", answers: { languages: ["json5"], purpose: "problems" } },
+        { name: "esm-jsonc-syntax", answers: { languages: ["jsonc"], purpose: "syntax" } },
+        { name: "esm-jsonc-problems", answers: { languages: ["jsonc"], purpose: "problems" } },
+        { name: "esm-markdown-commonmark-syntax", answers: { languages: ["md"], mdType: "commonmark", purpose: "syntax" } },
+        { name: "esm-markdown-commonmark-problems", answers: { languages: ["md"], mdType: "commonmark", purpose: "problems" } },
+        { name: "esm-markdown-gfm-syntax", answers: { languages: ["md"], mdType: "gfm", purpose: "syntax" } },
+        { name: "esm-markdown-gfm-problems", answers: { languages: ["md"], mdType: "gfm", purpose: "problems" } },
+        { name: "esm-javascript-json-problems", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } },
+        { name: "esm-css-syntax", answers: { languages: ["css"], purpose: "syntax" } },
+        { name: "esm-css-problems", answers: { languages: ["css"], purpose: "problems" } }
+    ];
 
     // generate all possible combinations
     for (let i = 0; i < choices.purpose.length; i++) {
         for (let j = 0; j < choices.moduleType.length; j++) {
             for (let k = 0; k < choices.framework.length; k++) {
-                for (let m = 0; m < choices.language.length; m++) {
+                for (let m = 0; m < choices.useTs.length; m++) {
                     inputs.push({
-                        name: `${choices.purpose[i]}-${choices.moduleType[j]}-${choices.framework[k]}-${choices.language[m]}`,
+                        name: `${choices.purpose[i]}-${choices.moduleType[j]}-${choices.framework[k]}-${choices.useTs[m] ? "typescript" : "javascript"}`,
                         answers: {
                             purpose: choices.purpose[i],
                             moduleType: choices.moduleType[j],
                             framework: choices.framework[k],
-                            language: choices.language[m],
+                            useTs: choices.useTs[m],
                             env: ["browser", "node"]
                         }
                     });
@@ -71,7 +85,7 @@ describe("generate config for esm projects", () => {
 
     test("sub dir", () => {
         const sub = join(__filename, "../fixtures/esm-project/sub");
-        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", language: "javascript", env: ["node"] } });
+        const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } });
 
         generator.calc();
 
