@@ -5,8 +5,7 @@ import markdown from "@eslint/markdown";
 
 export default defineConfig([
   { ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"] },
-  { files: ["**/*.md"], plugins: { markdown }, language: "markdown/commonmark", extends: ["markdown/recommended"] },
-  { files: ["**/*.md"], language: "markdown/gfm" },
+  { files: ["**/*.md"], plugins: { markdown }, language: "markdown/gfm", extends: ["markdown/recommended"] },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
