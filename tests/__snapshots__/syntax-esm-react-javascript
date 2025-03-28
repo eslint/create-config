@@ -1,6 +1,5 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
-import globals from "globals";
+  "configContent": "import globals from "globals";
 import pluginReact from "eslint-plugin-react";
 
 
