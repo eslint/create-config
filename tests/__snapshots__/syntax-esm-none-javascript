@@ -1,12 +1,11 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
-import globals from "globals";
+  "configContent": "import globals from "globals";
 
 
-export default defineConfig([
+export default [
   { files: ["**/*.{js,mjs,cjs}"] },
   { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-]);",
+];",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
