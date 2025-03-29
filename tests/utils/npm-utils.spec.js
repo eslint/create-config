@@ -20,7 +20,6 @@ import {
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it } from "vitest";
 import fs from "node:fs";
-import https from "node:https";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -253,33 +252,30 @@ describe("npmUtils", () => {
 
         it("should fetch peer dependencies from npm registry when npm is not available", async () => {
             const npmStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
-            const httpsStub = sinon.stub(https, "get");
+            const fetchStub = sinon.stub(globalThis, "fetch");
 
             const mockResponse = {
-                on: sinon.stub(),
-                statusCode: 200
+                json: sinon.stub().resolves({
+                    "dist-tags": { latest: "9.0.0" },
+                    versions: {
+                        "9.0.0": {
+                            peerDependencies: { eslint: "9.0.0" }
+                        }
+                    }
+                }),
+                ok: true,
+                status: 200
             };
 
-            mockResponse.on.withArgs("data").callsArgWith(1, JSON.stringify({
-                "dist-tags": { latest: "9.0.0" },
-                versions: {
-                    "9.0.0": {
-                        peerDependencies: { eslint: "9.0.0" }
-                    }
-                }
-            }));
-            mockResponse.on.withArgs("end").callsArg(1);
-            httpsStub.callsArgWith(1, mockResponse).returns({
-                on: sinon.stub()
-            });
+            fetchStub.resolves(mockResponse);
 
             const result = await fetchPeerDependencies("desired-package");
 
-            assert(httpsStub.calledOnce);
+            assert(fetchStub.calledOnceWith("https://registry.npmjs.org/desired-package"));
             assert.deepStrictEqual(result, ["eslint@9.0.0"]);
 
             npmStub.restore();
-            httpsStub.restore();
+            fetchStub.restore();
         });
 
         it("should return null if an error is thrown", async () => {
