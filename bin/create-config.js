@@ -29,7 +29,7 @@ if (sharedConfigIndex === -1) {
     const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
     await generator.prompt();
-    generator.calc();
+    await generator.calc();
     await generator.output();
 } else {
 
@@ -39,6 +39,6 @@ if (sharedConfigIndex === -1) {
     const answers = { config: { packageName, type } };
     const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
-    generator.calc();
+    await generator.calc();
     await generator.output();
 }
