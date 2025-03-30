@@ -20,6 +20,7 @@ import {
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it } from "vitest";
 import fs from "node:fs";
+import process from "node:process";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -250,7 +251,9 @@ describe("npmUtils", () => {
             stub.restore();
         });
 
-        it("should fetch peer dependencies from npm registry when npm is not available", async () => {
+        // Skip on Node.js v21 due to a bug where fetch cannot be stubbed
+        // See: https://github.com/sinonjs/sinon/issues/2590
+        it.skipIf(process.version.startsWith("v21"))("should fetch peer dependencies from npm registry when npm is not available", async () => {
             const npmStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
             const fetchStub = sinon.stub(globalThis, "fetch");
 
