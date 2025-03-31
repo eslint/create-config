@@ -2,6 +2,7 @@
   "configContent": "import globals from "globals";
 import js from "@eslint/js";
 import pluginVue from "eslint-plugin-vue";
+import { defineConfig } from "eslint/config";
 
 
 export default defineConfig([
