@@ -1,15 +1,16 @@
 {
   "configContent": "import { defineConfig } from "eslint/config";
-import globals from "globals";
+import css from "@eslint/css";
 
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
+  { ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"] },
+  { files: ["**/*.css"], plugins: { css }, language: "css/css", extends: ["css/recommended"] },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
-    "globals",
+    "@eslint/css",
   ],
   "installFlags": [
     "-D",
