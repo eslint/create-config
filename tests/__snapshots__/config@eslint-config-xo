@@ -3,10 +3,8 @@
 import { defineConfig } from "eslint/config";
 
 
-export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"] },
-  config,
-]);",
+export default defineConfig(  config,
+);",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint@>=9.8.0",

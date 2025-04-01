@@ -4,12 +4,10 @@ import tseslint from "typescript-eslint";
 import { defineConfig } from "eslint/config";
 
 
-export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs,ts}"] },
-  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
+export default defineConfig(  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
   { files: ["**/*.{js,mjs,cjs,ts}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   tseslint.configs.recommended,
-]);",
+);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
