@@ -1,16 +1,16 @@
 {
   "configContent": "import { defineConfig } from "eslint/config";
 import globals from "globals";
-import tseslint from "typescript-eslint";
+import tsEslint from "typescript-eslint";
 import pluginVue from "eslint-plugin-vue";
 
 
 export default defineConfig([
   { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
   { files: ["**/*.{js,mjs,cjs,ts,vue}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  tseslint.configs.recommended,
+  tsEslint.configs.recommended,
   pluginVue.configs["flat/essential"],
-  { files: ["**/*.vue"], languageOptions: { parserOptions: { parser: tseslint.parser } } },
+  { files: ["**/*.vue"], languageOptions: { parserOptions: { parser: tsEslint.parser } } },
 ]);",
   "configFilename": "eslint.config.js",
   "devDependencies": [
