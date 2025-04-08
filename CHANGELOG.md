@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/eslint/create-config/compare/v1.6.0...v1.7.0) (2025-03-31)
+
+
+### Features
+
+* support languages json/markdown/css ([#159](https://github.com/eslint/create-config/issues/159)) ([886f39e](https://github.com/eslint/create-config/commit/886f39e0fd841fd2f15530b141a7b47c025e6c71))
+
 ## [1.6.0](https://github.com/eslint/create-config/compare/v1.5.0...v1.6.0) (2025-03-20)
 
 
