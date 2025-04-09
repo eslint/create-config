@@ -72,10 +72,10 @@ describe("generate config for esm projects", () => {
     });
 
     inputs.forEach(item => {
-        test(`${item.name}`, () => {
+        test(`${item.name}`, async () => {
             const generator = new ConfigGenerator({ cwd: esmProjectDir, answers: item.answers });
 
-            generator.calc();
+            await generator.calc();
 
             expect(generator.result.configFilename).toBe("eslint.config.js");
             expect(generator.packageJsonPath).toBe(join(esmProjectDir, "./package.json"));
@@ -83,11 +83,11 @@ describe("generate config for esm projects", () => {
         });
     });
 
-    test("sub dir", () => {
+    test("sub dir", async () => {
         const sub = join(__filename, "../fixtures/esm-project/sub");
         const generator = new ConfigGenerator({ cwd: sub, answers: { purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } });
 
-        generator.calc();
+        await generator.calc();
 
         expect(generator.result.configFilename).toBe("eslint.config.js");
         expect(generator.packageJsonPath).toBe(join(esmProjectDir, "./package.json"));
@@ -131,10 +131,10 @@ describe("generate config for cjs projects", () => {
     }];
 
     inputs.forEach(item => {
-        test(`${item.name}`, () => {
+        test(`${item.name}`, async () => {
             const generator = new ConfigGenerator({ cwd: cjsProjectDir, answers: item.answers });
 
-            generator.calc();
+            await generator.calc();
 
             expect(generator.result.configFilename).toBe("eslint.config.mjs");
             expect(generator.packageJsonPath).toBe(join(cjsProjectDir, "./package.json"));
