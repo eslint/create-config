@@ -1,5 +1,5 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
+  "configContent": "import { defineConfig } from "@eslint/config-helpers";
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -22,6 +22,7 @@ export default defineConfig([
     "eslint-plugin-import@^2.25.3",
     "eslint-plugin-jsx-a11y@^6.5.1",
     "eslint-plugin-react-hooks@^4.3.0",
+    "@eslint/config-helpers",
     "@eslint/eslintrc",
     "@eslint/js",
   ],

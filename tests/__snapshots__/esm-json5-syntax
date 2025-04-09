@@ -1,6 +1,6 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
-import json from "@eslint/json";
+  "configContent": "import json from "@eslint/json";
+import { defineConfig } from "eslint/config";
 
 
 export default defineConfig([

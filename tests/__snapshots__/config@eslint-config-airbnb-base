@@ -1,5 +1,5 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
+  "configContent": "import { defineConfig } from "@eslint/config-helpers";
 
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,6 +19,7 @@ export default defineConfig([
     "eslint@^7.32.0 || ^8.2.0",
     "eslint-config-airbnb-base",
     "eslint-plugin-import@^2.25.2",
+    "@eslint/config-helpers",
     "@eslint/eslintrc",
     "@eslint/js",
   ],

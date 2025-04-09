@@ -1,6 +1,6 @@
 {
-  "configContent": "import { defineConfig } from "eslint/config";
-import markdown from "@eslint/markdown";
+  "configContent": "import markdown from "@eslint/markdown";
+import { defineConfig } from "eslint/config";
 
 
 export default defineConfig([
