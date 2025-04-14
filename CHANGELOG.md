@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.8.0](https://github.com/eslint/create-config/compare/v1.7.0...v1.8.0) (2025-04-09)
+
+
+### Features
+
+* add fallback to npm registry API in fetchPeerDependencies ([#155](https://github.com/eslint/create-config/issues/155)) ([d08a7a4](https://github.com/eslint/create-config/commit/d08a7a4dc22fdb6e21af3bd38a319baf4161d74f))
+
+
+### Bug Fixes
+
+* correct `defineConfig` usage in generated config ([#161](https://github.com/eslint/create-config/issues/161)) ([dfef597](https://github.com/eslint/create-config/commit/dfef5970e29b44395c05b1cffc7b1af5ad86f3af))
+
 ## [1.7.0](https://github.com/eslint/create-config/compare/v1.6.0...v1.7.0) (2025-03-31)
 
 
