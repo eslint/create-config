@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/eslint/create-config/compare/v1.8.0...v1.8.1) (2025-04-14)
+
+
+### Bug Fixes
+
+* use correct import path for semver ([#165](https://github.com/eslint/create-config/issues/165)) ([ef6fa23](https://github.com/eslint/create-config/commit/ef6fa23d3673a5cdb01fcb06ac5bc15af5dfecb3))
+
 ## [1.8.0](https://github.com/eslint/create-config/compare/v1.7.0...v1.8.0) (2025-04-09)
 
 
