@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.2](https://github.com/eslint/create-config/compare/v1.8.1...v1.8.2) (2025-05-07)
+
+
+### Bug Fixes
+
+* semver calculations for `defineConfig` import ([#168](https://github.com/eslint/create-config/issues/168)) ([7b7f831](https://github.com/eslint/create-config/commit/7b7f831e876e9f97ded754295ecb43449065cd25))
+
 ## [1.8.1](https://github.com/eslint/create-config/compare/v1.8.0...v1.8.1) (2025-04-14)
 
 
