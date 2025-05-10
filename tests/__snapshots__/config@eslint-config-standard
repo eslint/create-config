@@ -13,7 +13,8 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: js.c
 
 export default defineConfig([
   compat.extends("standard"),
-]);",
+]);
+",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint@^8.0.1",

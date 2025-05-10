@@ -5,7 +5,8 @@ import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-]);",
+]);
+",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
