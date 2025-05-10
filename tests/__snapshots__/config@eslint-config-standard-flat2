@@ -5,7 +5,8 @@ import { defineConfig } from "@eslint/config-helpers";
 
 export default defineConfig([
   config,
-]);",
+]);
+",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint@^8.0.1",

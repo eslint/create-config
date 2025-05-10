@@ -13,7 +13,8 @@ const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: js.c
 
 export default defineConfig([
   compat.extends("airbnb-base"),
-]);",
+]);
+",
   "configFilename": "eslint.config.mjs",
   "devDependencies": [
     "eslint@^7.32.0 || ^8.2.0",

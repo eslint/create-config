@@ -8,7 +8,8 @@ export default defineConfig([
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
   { files: ["**/*.{js,mjs,cjs,vue}"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   pluginVue.configs["flat/essential"],
-]);",
+]);
+",
   "configFilename": "eslint.config.js",
   "devDependencies": [
     "eslint",
