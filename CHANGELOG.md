@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.3](https://github.com/eslint/create-config/compare/v1.8.2...v1.8.3) (2025-05-14)
+
+
+### Bug Fixes
+
+* ensure posix-compliant newline at end of generated configs ([#170](https://github.com/eslint/create-config/issues/170)) ([8f18045](https://github.com/eslint/create-config/commit/8f18045ff4da1880a89507aafb5bc20e67436b13))
+
 ## [1.8.2](https://github.com/eslint/create-config/compare/v1.8.1...v1.8.2) (2025-05-07)
 
 
