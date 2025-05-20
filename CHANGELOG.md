@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/eslint/create-config/compare/v1.8.3...v1.9.0) (2025-05-20)
+
+
+### Features
+
+* add support for `.mts` and `.cts` extensions ([#173](https://github.com/eslint/create-config/issues/173)) ([81ca6e1](https://github.com/eslint/create-config/commit/81ca6e1f45ef4607f119140733310ffef7382cf2))
+
 ## [1.8.3](https://github.com/eslint/create-config/compare/v1.8.2...v1.8.3) (2025-05-14)
 
 
