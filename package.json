@@ -1,6 +1,6 @@
 {
     "name": "@eslint/create-config",
-    "version": "1.8.3",
+    "version": "1.9.0",
     "description": "Utility to create ESLint config files.",
     "keywords": [
         "ast",
