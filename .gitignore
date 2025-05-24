@@ -17,4 +17,7 @@ coverage
 node_modules/
 
 .vscode
+*.code-workspace
+.idea
+.cursor
 /tmp
