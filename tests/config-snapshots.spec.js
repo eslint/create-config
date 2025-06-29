@@ -36,7 +36,10 @@ describe("generate config for esm projects", () => {
         { name: "esm-markdown-gfm-problems", answers: { languages: ["md"], mdType: "gfm", purpose: "problems" } },
         { name: "esm-javascript-json-problems", answers: { languages: ["javascript", "json"], purpose: "problems", moduleType: "esm", framework: "none", useTs: false, env: ["node"] } },
         { name: "esm-css-syntax", answers: { languages: ["css"], purpose: "syntax" } },
-        { name: "esm-css-problems", answers: { languages: ["css"], purpose: "problems" } }
+        { name: "esm-css-problems", answers: { languages: ["css"], purpose: "problems" } },
+        { name: "esm-configfile-js", answers: { languages: ["javascript"], purpose: "problems", moduleType: "esm", framework: "none", useTs: true, configFileLanguage: "js", env: ["node"] } },
+        { name: "esm-configfile-ts", answers: { languages: ["javascript"], purpose: "problems", moduleType: "esm", framework: "none", useTs: true, configFileLanguage: "ts", addJiti: false, env: ["node"] } },
+        { name: "esm-configfile-ts-jiti", answers: { languages: ["javascript"], purpose: "problems", moduleType: "esm", framework: "none", useTs: true, configFileLanguage: "ts", addJiti: true, env: ["node"] } }
     ];
 
     // generate all possible combinations
@@ -77,7 +80,9 @@ describe("generate config for esm projects", () => {
 
             await generator.calc();
 
-            expect(generator.result.configFilename).toBe("eslint.config.js");
+            const expectedExtension = item.answers.configFileLanguage === "ts" ? "ts" : "js";
+
+            expect(generator.result.configFilename).toBe(`eslint.config.${expectedExtension}`);
             expect(generator.packageJsonPath).toBe(join(esmProjectDir, "./package.json"));
             expect(generator.result.configContent.endsWith("\n")).toBe(true);
             expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
@@ -129,7 +134,10 @@ describe("generate config for cjs projects", () => {
         answers: {
             config: "eslint-config-standard"
         }
-    }];
+    },
+    { name: "cjs-configfile-js", answers: { languages: ["javascript"], purpose: "problems", moduleType: "commonjs", framework: "none", useTs: true, configFileLanguage: "js", env: ["node"] } },
+    { name: "cjs-configfile-ts", answers: { languages: ["javascript"], purpose: "problems", moduleType: "commonjs", framework: "none", useTs: true, configFileLanguage: "ts", addJiti: false, env: ["node"] } },
+    { name: "cjs-configfile-ts-jiti", answers: { languages: ["javascript"], purpose: "problems", moduleType: "commonjs", framework: "none", useTs: true, configFileLanguage: "ts", addJiti: true, env: ["node"] } }];
 
     inputs.forEach(item => {
         test(`${item.name}`, async () => {
@@ -137,7 +145,9 @@ describe("generate config for cjs projects", () => {
 
             await generator.calc();
 
-            expect(generator.result.configFilename).toBe("eslint.config.mjs");
+            const expectedExtension = item.answers.configFileLanguage === "ts" ? "mts" : "mjs";
+
+            expect(generator.result.configFilename).toBe(`eslint.config.${expectedExtension}`);
             expect(generator.packageJsonPath).toBe(join(cjsProjectDir, "./package.json"));
             expect(generator.result.configContent.endsWith("\n")).toBe(true);
             expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
