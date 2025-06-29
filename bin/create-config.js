@@ -15,8 +15,6 @@ import pkg from '../package.json' with {type:'json'};
 
 info((colors.blueBright(`\n${pkg.name}: v${pkg.version}\n`)));
 
-Object.defineProperty(process, 'version', {value:'v11.0.4'})
-
 // Warn if your Node.js version is NOT compatible
 const myNodeVersion = process.version.substring(1);
 const compatibleVersionRange = pkg.engines.node;
