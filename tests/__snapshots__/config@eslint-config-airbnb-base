@@ -1,14 +1,12 @@
 {
   "configContent": "import { defineConfig } from "@eslint/config-helpers";
 
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 
 // mimic CommonJS variables -- not needed if using CommonJS
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = import.meta.filename;
+const __dirname = import.meta.dirname;
 const compat = new FlatCompat({baseDirectory: __dirname, recommendedConfig: js.configs.recommended});
 
 export default defineConfig([
