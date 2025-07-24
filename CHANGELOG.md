@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.10.0](https://github.com/eslint/create-config/compare/v1.9.0...v1.10.0) (2025-07-21)
+
+
+### Features
+
+* add TypeScript config file support ([#181](https://github.com/eslint/create-config/issues/181)) ([04935f1](https://github.com/eslint/create-config/commit/04935f1b001bea3867a5d6b03aabb281256da53f))
+
+
+### Bug Fixes
+
+* remove double blank lines when not use eslintrc style ([#185](https://github.com/eslint/create-config/issues/185)) ([c2de1f7](https://github.com/eslint/create-config/commit/c2de1f71d95bc66902e07c35a0f0ab644382ab0e))
+
 ## [1.9.0](https://github.com/eslint/create-config/compare/v1.8.3...v1.9.0) (2025-05-20)
 
 
