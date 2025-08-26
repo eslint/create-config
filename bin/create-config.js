@@ -22,15 +22,33 @@ if (packageJsonPath === null) {
     throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
 }
 
+process.on("uncaughtException", err => {
+    if (err instanceof Error && err.message === "readline was closed") {
+        /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
+        process.exit(1);
+    } else {
+        throw err;
+    }
+});
+
 const argv = process.argv;
 const sharedConfigIndex = process.argv.indexOf("--config");
 
 if (sharedConfigIndex === -1) {
     const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
-    await generator.prompt();
-    await generator.calc();
-    await generator.output();
+    (async () => {
+
+        // TODO: this is right?
+        try {
+            await generator.prompt();
+            await generator.calc();
+            await generator.output();
+        } catch {
+            /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
+            process.exit(1);
+        }
+    })();
 } else {
 
     // passed "--config"
@@ -39,6 +57,13 @@ if (sharedConfigIndex === -1) {
     const answers = { config: { packageName, type } };
     const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
-    await generator.calc();
-    await generator.output();
+    (async () => {
+        try {
+            await generator.calc();
+            await generator.output();
+        } catch {
+            /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
+            process.exit(1);
+        }
+    })();
 }
