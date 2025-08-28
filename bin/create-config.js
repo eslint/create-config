@@ -7,9 +7,10 @@
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
-import { info } from "../lib/utils/logging.js";
+import { info, error } from "../lib/utils/logging.js";
 import process from "node:process";
 import fs from "node:fs/promises";
+import color from "ansi-colors";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
@@ -22,12 +23,22 @@ if (packageJsonPath === null) {
     throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
 }
 
+/**
+ * Used for handle exit & error and show exit message.
+ * @param {string} message Message to show.
+ * @returns {void}
+ */
+function gracefullyExit(message) {
+    error(color.magenta(color.symbols.cross), color.bold(message));
+    /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
+    process.exit(1);
+}
+
 process.on("uncaughtException", err => {
-    if (err instanceof Error && err.message === "readline was closed") {
-        /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
-        process.exit(1);
+    if (err instanceof Error && err.toString() === "Error [ERR_USE_AFTER_CLOSE]: readline was closed") {
+        gracefullyExit("Operation Cancelled.");
     } else {
-        throw err;
+        gracefullyExit(err.message || err);
     }
 });
 
@@ -44,9 +55,8 @@ if (sharedConfigIndex === -1) {
             await generator.prompt();
             await generator.calc();
             await generator.output();
-        } catch {
-            /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
-            process.exit(1);
+        } catch (err) {
+            gracefullyExit(err.message || err);
         }
     })();
 } else {
@@ -61,9 +71,8 @@ if (sharedConfigIndex === -1) {
         try {
             await generator.calc();
             await generator.output();
-        } catch {
-            /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
-            process.exit(1);
+        } catch (err) {
+            gracefullyExit(err.message || err);
         }
     })();
 }
