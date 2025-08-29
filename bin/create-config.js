@@ -50,8 +50,6 @@ if (sharedConfigIndex === -1) {
     const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
     (async () => {
-
-        // TODO: this is right?
         try {
             await generator.prompt();
             await generator.calc();
