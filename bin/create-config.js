@@ -10,7 +10,6 @@ import { findPackageJson } from "../lib/utils/npm-utils.js";
 import { info, error } from "../lib/utils/logging.js";
 import process from "node:process";
 import fs from "node:fs/promises";
-import color from "ansi-colors";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
@@ -29,14 +28,16 @@ if (packageJsonPath === null) {
  * @returns {void}
  */
 function gracefullyExit(message) {
-    error(color.magenta(color.symbols.cross), color.bold(message));
+    if (message) {
+        error(message);
+    }
     /* eslint-disable-next-line n/no-process-exit -- exit gracefully */
     process.exit(1);
 }
 
 process.on("uncaughtException", err => {
     if (err instanceof Error && err.toString() === "Error [ERR_USE_AFTER_CLOSE]: readline was closed") {
-        gracefullyExit("Operation Cancelled.");
+        gracefullyExit();
     } else {
         gracefullyExit(err.message || err);
     }
