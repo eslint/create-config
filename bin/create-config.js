@@ -15,6 +15,15 @@ const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.
 
 info(`${pkg.name}: v${pkg.version}\n`);
 
+process.on("uncaughtException", error => {
+    if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
+        // eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
+        process.exit(1);
+    } else {
+        throw error;
+    }
+});
+
 const cwd = process.cwd();
 const packageJsonPath = findPackageJson(cwd);
 
