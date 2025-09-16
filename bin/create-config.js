@@ -17,6 +17,7 @@ info(`${pkg.name}: v${pkg.version}\n`);
 
 process.on("uncaughtException", error => {
     if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
+        info("Operation canceled");
         // eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
         process.exit(1);
     } else {
