@@ -21,3 +21,6 @@ node_modules/
 .idea
 .cursor
 /tmp
+
+# Automatically generated files by GitHub Actions workflow
+tools/update-readme.js

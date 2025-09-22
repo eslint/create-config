@@ -29,7 +29,8 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "eslint .",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
         "test": "vitest run --coverage",
         "test:snapshots": "vitest run snapshots",
         "test:snapshots:update": "vitest -u run snapshots"
