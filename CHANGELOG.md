@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/eslint/create-config/compare/v1.10.0...v1.10.1) (2025-09-24)
+
+
+### Bug Fixes
+
+* exit gracefully on `Ctrl+C` ([#194](https://github.com/eslint/create-config/issues/194)) ([2127040](https://github.com/eslint/create-config/commit/21270401886e0bc267e09c09f75e158f530348c0))
+
 ## [1.10.0](https://github.com/eslint/create-config/compare/v1.9.0...v1.10.0) (2025-07-21)
 
 
