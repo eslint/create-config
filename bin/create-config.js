@@ -7,21 +7,21 @@
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
-import { log, error } from "../lib/utils/logging.js";
+import * as log from "../lib/utils/logging.js";
 import process from "node:process";
 import fs from "node:fs/promises";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-log(`${pkg.name}: v${pkg.version}\n`);
+log.log(`${pkg.name}: v${pkg.version}\n`);
 
-process.on("uncaughtException", err => {
-    if (err instanceof Error && err.code === "ERR_USE_AFTER_CLOSE") {
-        error("Operation canceled");
+process.on("uncaughtException", error => {
+    if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
+        log.error("Operation canceled");
         // eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
         process.exit(1);
     } else {
-        throw err;
+        throw error;
     }
 });
 
