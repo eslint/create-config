@@ -241,20 +241,10 @@ describe("npmUtils", () => {
     });
 
     describe("fetchPeerDependencies()", () => {
-        it("should execute 'npm show --json <packageName> peerDependencies' command", async () => {
-            const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
-
-            await fetchPeerDependencies("desired-package");
-            assert(stub.calledOnce);
-            assert.strictEqual(stub.firstCall.args[0], "npm");
-            assert.deepStrictEqual(stub.firstCall.args[1], ["show", "--json", "desired-package", "peerDependencies"]);
-            stub.restore();
-        });
 
         // Skip on Node.js v21 due to a bug where fetch cannot be stubbed
         // See: https://github.com/sinonjs/sinon/issues/2590
-        it.skipIf(process.version.startsWith("v21"))("should fetch peer dependencies from npm registry when npm is not available", async () => {
-            const npmStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+        it.skipIf(process.version.startsWith("v21"))("should fetch peer dependencies from npm registry", async () => {
             const fetchStub = sinon.stub(globalThis, "fetch");
 
             const mockResponse = {
@@ -277,12 +267,19 @@ describe("npmUtils", () => {
             assert(fetchStub.calledOnceWith("https://registry.npmjs.org/desired-package"));
             assert.deepStrictEqual(result, ["eslint@9.0.0"]);
 
-            npmStub.restore();
             fetchStub.restore();
         });
 
         it("should throw if an error is thrown", async () => {
-            const stub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
+            const stub = sinon.stub(globalThis, "fetch");
+
+            const mockResponse = {
+                json: sinon.stub().resolves({ error: "Not found" }),
+                ok: false,
+                status: 404
+            };
+
+            stub.resolves(mockResponse);
 
             expect(async () => await fetchPeerDependencies("desired-package")).rejects.toThrowError();
 
