@@ -18,7 +18,7 @@ import {
     parsePackageName
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
-import { assert, describe, afterEach, it } from "vitest";
+import { assert, describe, afterEach, it, expect } from "vitest";
 import fs from "node:fs";
 import process from "node:process";
 
@@ -281,12 +281,10 @@ describe("npmUtils", () => {
             fetchStub.restore();
         });
 
-        it("should return null if an error is thrown", async () => {
+        it("should throw if an error is thrown", async () => {
             const stub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
 
-            const peerDependencies = await fetchPeerDependencies("desired-package");
-
-            assert.isNull(peerDependencies);
+            expect(async () => await fetchPeerDependencies("desired-package")).rejects.toThrowError();
 
             stub.restore();
         });
