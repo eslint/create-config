@@ -270,6 +270,67 @@ describe("npmUtils", () => {
             fetchStub.restore();
         });
 
+        it("should handle package with version tag", async () => {
+            const stub = sinon.stub(globalThis, "fetch");
+
+            const mockResponse = {
+                json: sinon.stub().resolves({
+                    "dist-tags": { latest: "9.0.0" },
+                    versions: {
+                        "9.0.0": {
+                            peerDependencies: { eslint: "9.0.0" }
+                        },
+                        "8.0.0": {
+                            peerDependencies: { eslint: "8.0.0" }
+                        },
+                        "7.0.0": {
+                            peerDependencies: { eslint: "7.0.0" }
+                        }
+                    }
+                }),
+                ok: true,
+                status: 200
+            };
+
+            stub.resolves(mockResponse);
+
+            await expect(fetchPeerDependencies("desired-package@8")).resolves.toEqual(["eslint@8.0.0"]);
+
+            stub.restore();
+        });
+
+        it("should handle package with dist tag", async () => {
+            const stub = sinon.stub(globalThis, "fetch");
+
+            const mockResponse = {
+                json: sinon.stub().resolves({
+                    "dist-tags": {
+                        latest: "9.0.0",
+                        legacy: "7.0.0"
+                    },
+                    versions: {
+                        "9.0.0": {
+                            peerDependencies: { eslint: "9.0.0" }
+                        },
+                        "8.0.0": {
+                            peerDependencies: { eslint: "8.0.0" }
+                        },
+                        "7.0.0": {
+                            peerDependencies: { eslint: "7.0.0" }
+                        }
+                    }
+                }),
+                ok: true,
+                status: 200
+            };
+
+            stub.resolves(mockResponse);
+
+            await expect(fetchPeerDependencies("desired-package@legacy")).resolves.toEqual(["eslint@7.0.0"]);
+
+            stub.restore();
+        });
+
         it("should throw if an error is thrown", async () => {
             const stub = sinon.stub(globalThis, "fetch");
 
@@ -281,7 +342,7 @@ describe("npmUtils", () => {
 
             stub.resolves(mockResponse);
 
-            expect(async () => await fetchPeerDependencies("desired-package")).rejects.toThrowError();
+            await expect(() => fetchPeerDependencies("desired-package")).rejects.toThrowError();
 
             stub.restore();
         });
