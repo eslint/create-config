@@ -15,7 +15,7 @@ import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-const VERSION_TEXT = `${pkg.name}: v${pkg.version}`;
+const VERSION_TEXT = `v${pkg.version}`;
 const HELP_TEXT = `
 Usage: ${pkg.name} [options]
 
@@ -61,7 +61,7 @@ if (argv.version) {
 
 /* eslint-enable -- enable again */
 
-log.log(VERSION_TEXT);
+log.log(`${pkg.name}: ${VERSION_TEXT}`);
 
 process.on("uncaughtException", error => {
     if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
