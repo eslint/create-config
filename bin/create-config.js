@@ -10,10 +10,58 @@ import { findPackageJson } from "../lib/utils/npm-utils.js";
 import * as log from "../lib/utils/logging.js";
 import process from "node:process";
 import fs from "node:fs/promises";
+// eslint-disable-next-line n/no-unsupported-features/node-builtins -- Using built-in parseArgs
+import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-log.log(`${pkg.name}: v${pkg.version}\n`);
+const VERSION_TEXT = `${pkg.name}: v${pkg.version}`;
+const HELP_TEXT = `
+Usage: ${pkg.name} [options]
+
+Options:
+  --config [String]   Specify shareable config that is hosted on npm
+  --eslintrc          Use an eslintrc-style (legacy) shared config
+  -h, --help          Show help
+  -v, --version       Show version
+`.trim();
+
+const { values: argv } = parseArgs({
+    options: {
+        config: {
+            type: "string"
+        },
+        eslintrc: {
+            type: "boolean"
+        },
+        help: {
+            type: "boolean",
+            short: "h"
+        },
+        version: {
+            type: "boolean",
+            short: "v"
+        }
+    },
+    args: process.argv,
+    strict: false
+});
+
+/* eslint-disable n/no-process-exit, no-console -- show help & version menu */
+
+if (argv.help) {
+    console.log(HELP_TEXT);
+    process.exit(0);
+}
+
+if (argv.version) {
+    console.log(VERSION_TEXT);
+    process.exit(0);
+}
+
+/* eslint-enable -- enable again */
+
+log.log(VERSION_TEXT);
 
 process.on("uncaughtException", error => {
     if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
@@ -32,10 +80,7 @@ if (packageJsonPath === null) {
     throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
 }
 
-const argv = process.argv;
-const sharedConfigIndex = process.argv.indexOf("--config");
-
-if (sharedConfigIndex === -1) {
+if (!argv.config) {
     const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
     await generator.prompt();
@@ -44,8 +89,8 @@ if (sharedConfigIndex === -1) {
 } else {
 
     // passed "--config"
-    const packageName = argv[sharedConfigIndex + 1];
-    const type = argv.includes("--eslintrc") ? "eslintrc" : "flat";
+    const packageName = argv.config;
+    const type = argv.eslintrc ? "eslintrc" : "flat";
     const answers = { config: { packageName, type } };
     const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
