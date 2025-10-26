@@ -15,17 +15,6 @@ import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-const VERSION_TEXT = `v${pkg.version}`;
-const HELP_TEXT = `
-Usage: ${pkg.name} [options]
-
-Options:
-  --config [String]   Specify shareable config that is hosted on npm
-  --eslintrc          Use an eslintrc-style (legacy) shared config
-  -h, --help          Show help
-  -v, --version       Show version
-`.trim();
-
 const { values: argv } = parseArgs({
     options: {
         config: {
@@ -33,35 +22,13 @@ const { values: argv } = parseArgs({
         },
         eslintrc: {
             type: "boolean"
-        },
-        help: {
-            type: "boolean",
-            short: "h"
-        },
-        version: {
-            type: "boolean",
-            short: "v"
         }
     },
     args: process.argv,
     strict: false
 });
 
-/* eslint-disable n/no-process-exit, no-console -- show help & version menu */
-
-if (argv.help) {
-    console.log(HELP_TEXT);
-    process.exit(0);
-}
-
-if (argv.version) {
-    console.log(VERSION_TEXT);
-    process.exit(0);
-}
-
-/* eslint-enable -- enable again */
-
-log.log(`${pkg.name}: ${VERSION_TEXT}`);
+log.log(`${pkg.name}: v${pkg.version}`);
 
 process.on("uncaughtException", error => {
     if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
