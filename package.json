@@ -46,7 +46,7 @@
         "eslint": "^9.35.0",
         "eslint-config-eslint": "^13.0.0",
         "lint-staged": "^12.1.2",
-        "memfs": "^3.4.0",
+        "memfs": "^4.0.0",
         "sinon": "^21.0.0",
         "vitest": "^1.1.1",
         "yorkie": "^2.0.0"
