@@ -15,20 +15,29 @@ import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-const { values: options } = parseArgs({
-    options: {
-        config: {
-            type: "string"
-        },
-        eslintrc: {
-            type: "boolean"
-        }
-    },
-    args: process.argv,
-    strict: false
-});
-
 log.log(`${pkg.name}: v${pkg.version}`);
+
+let options;
+
+try {
+    const { values } = parseArgs({
+        options: {
+            config: {
+                type: "string"
+            },
+            eslintrc: {
+                type: "boolean"
+            }
+        },
+        args: process.argv.slice(2)
+    });
+
+    options = values;
+} catch (error) {
+    log.error(error.message);
+    // eslint-disable-next-line n/no-process-exit -- exit gracefully on invalid arguments
+    process.exit(1);
+}
 
 process.on("uncaughtException", error => {
     if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
