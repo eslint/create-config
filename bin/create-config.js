@@ -15,7 +15,7 @@ import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-const { values: argv } = parseArgs({
+const { values: options } = parseArgs({
     options: {
         config: {
             type: "string"
@@ -47,7 +47,7 @@ if (packageJsonPath === null) {
     throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
 }
 
-if (!argv.config) {
+if (!options.config) {
     const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
     await generator.prompt();
@@ -56,8 +56,8 @@ if (!argv.config) {
 } else {
 
     // passed "--config"
-    const packageName = argv.config;
-    const type = argv.eslintrc ? "eslintrc" : "flat";
+    const packageName = options.config;
+    const type = options.eslintrc ? "eslintrc" : "flat";
     const answers = { config: { packageName, type } };
     const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
