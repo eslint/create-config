@@ -85,7 +85,7 @@ describe("generate config for esm projects", () => {
             expect(generator.result.configFilename).toBe(`eslint.config.${expectedExtension}`);
             expect(generator.packageJsonPath).toBe(join(esmProjectDir, "./package.json"));
             expect(generator.result.configContent.endsWith("\n")).toBe(true);
-            expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
+            await expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
         });
     });
 
@@ -150,7 +150,7 @@ describe("generate config for cjs projects", () => {
             expect(generator.result.configFilename).toBe(`eslint.config.${expectedExtension}`);
             expect(generator.packageJsonPath).toBe(join(cjsProjectDir, "./package.json"));
             expect(generator.result.configContent.endsWith("\n")).toBe(true);
-            expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
+            await expect(generator.result).toMatchFileSnapshot(`./__snapshots__/${item.name}`);
         });
     });
 });
