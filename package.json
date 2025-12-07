@@ -1,6 +1,6 @@
 {
     "name": "@eslint/create-config",
-    "version": "1.10.0",
+    "version": "1.11.0",
     "description": "Utility to create ESLint config files.",
     "keywords": [
         "ast",
@@ -46,8 +46,8 @@
         "eslint": "^9.35.0",
         "eslint-config-eslint": "^13.0.0",
         "lint-staged": "^12.1.2",
-        "memfs": "^3.4.0",
-        "sinon": "^12.0.1",
+        "memfs": "^4.0.0",
+        "sinon": "^21.0.0",
         "vitest": "^1.1.1",
         "yorkie": "^2.0.0"
     },
