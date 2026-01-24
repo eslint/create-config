@@ -5,7 +5,7 @@ export default {
 
 	overrides: [
 		{
-			files: ["*.json"],
+			files: ["*.json", "*.jsonc", "*.json5"],
 			options: {
 				tabWidth: 2,
 				useTabs: false,
