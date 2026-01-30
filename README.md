@@ -4,7 +4,7 @@ Utility to create ESLint config files
 
 ## Usage
 
-Prerequisites: [Node.js](https://nodejs.org/) (`^18.18.0`, `^20.9.0`, or `>=21.1.0`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
+Prerequisites: [Node.js](https://nodejs.org/) (`^20.19.0 || ^22.13.0 || >=24`) built with SSL support. (If you are using an official Node.js distribution, SSL is always built in.)
 
 You can use npm/npx(shipped with Node.js).
 
