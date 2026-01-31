@@ -93,10 +93,10 @@ describe("npmUtils", () => {
     });
 
     describe("checkDeps()", () => {
-        let installStatus = checkDeps(["enquirer", "mocha", "notarealpackage", "jshint"]);
+        let installStatus = checkDeps(["semver", "mocha", "notarealpackage", "jshint"]);
 
         it("should find a direct dependency of the project", () => {
-            assert.isTrue(installStatus.enquirer);
+            assert.isTrue(installStatus.semver);
         });
 
         it("should not find a dev dependency of the project", () => {
