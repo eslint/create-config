@@ -45,14 +45,14 @@
         "@vitest/coverage-v8": "^4.0.6",
         "eslint": "^9.35.0",
         "eslint-config-eslint": "^13.0.0",
-        "lint-staged": "^12.1.2",
+        "lint-staged": "^16.0.0",
         "memfs": "^4.0.0",
         "sinon": "^21.0.0",
         "vitest": "^4.0.6",
         "yorkie": "^2.0.0"
     },
     "engines": {
-        "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
+        "node": "^20.19.0 || ^22.13.0 || >=24"
     },
     "lint-staged": {
         "*.js": "eslint --fix"
