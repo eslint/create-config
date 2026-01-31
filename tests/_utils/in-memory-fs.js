@@ -3,7 +3,6 @@
  * @author Toru Nagashima <https://github.com/mysticatea>
  */
 
-
 //-----------------------------------------------------------------------------
 // Requirements
 //-----------------------------------------------------------------------------
@@ -24,48 +23,42 @@ const { Volume, createFsFromVolume } = memfs;
  * @param {Object} [options.files] The initial files definition in the in-memory file system.
  * @returns {import("fs")} The stubbed `ConfigArrayFactory` class.
  */
-function defineInMemoryFs({
-    cwd = process.cwd,
-    files = {}
-} = {}) {
+function defineInMemoryFs({ cwd = process.cwd, files = {} } = {}) {
+	/**
+	 * The in-memory file system for this mock.
+	 * @type {import("fs")}
+	 */
+	const fs = createFsFromVolume(new Volume());
 
-    /**
-     * The in-memory file system for this mock.
-     * @type {import("fs")}
-     */
-    const fs = createFsFromVolume(new Volume());
+	fs.mkdirSync(cwd(), { recursive: true });
 
-    fs.mkdirSync(cwd(), { recursive: true });
+	/*
+	 * Write all files to the in-memory file system and compile all JavaScript
+	 * files then set to `stubs`.
+	 */
+	(function initFiles(directoryPath, definition) {
+		for (const [filename, content] of Object.entries(definition)) {
+			const filePath = path.resolve(directoryPath, filename);
+			const parentPath = path.dirname(filePath);
 
-    /*
-     * Write all files to the in-memory file system and compile all JavaScript
-     * files then set to `stubs`.
-     */
-    (function initFiles(directoryPath, definition) {
-        for (const [filename, content] of Object.entries(definition)) {
-            const filePath = path.resolve(directoryPath, filename);
-            const parentPath = path.dirname(filePath);
+			if (typeof content === "object") {
+				initFiles(filePath, content);
+			} else if (typeof content === "string") {
+				if (!fs.existsSync(parentPath)) {
+					fs.mkdirSync(parentPath, { recursive: true });
+				}
+				fs.writeFileSync(filePath, content);
+			} else {
+				throw new Error(`Invalid content: ${typeof content}`);
+			}
+		}
+	})(cwd(), files);
 
-            if (typeof content === "object") {
-                initFiles(filePath, content);
-            } else if (typeof content === "string") {
-                if (!fs.existsSync(parentPath)) {
-                    fs.mkdirSync(parentPath, { recursive: true });
-                }
-                fs.writeFileSync(filePath, content);
-            } else {
-                throw new Error(`Invalid content: ${typeof content}`);
-            }
-        }
-    }(cwd(), files));
-
-    return fs;
+	return fs;
 }
 
 //-----------------------------------------------------------------------------
 // Exports
 //-----------------------------------------------------------------------------
 
-export {
-    defineInMemoryFs
-};
+export { defineInMemoryFs };
