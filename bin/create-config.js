@@ -7,23 +7,13 @@
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
-import * as log from "../lib/utils/logging.js";
+import { intro, outro } from "@clack/prompts";
 import process from "node:process";
 import fs from "node:fs/promises";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
 
-log.log(`${pkg.name}: v${pkg.version}\n`);
-
-process.on("uncaughtException", error => {
-    if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
-        log.error("Operation canceled");
-        // eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
-        process.exit(1);
-    } else {
-        throw error;
-    }
-});
+intro(`${pkg.name}: v${pkg.version}`);
 
 const cwd = process.cwd();
 const packageJsonPath = findPackageJson(cwd);
@@ -52,3 +42,5 @@ if (sharedConfigIndex === -1) {
     await generator.calc();
     await generator.output();
 }
+
+outro("Thank you");

@@ -202,9 +202,9 @@ describe("npmUtils", () => {
         it("should log an error message if npm throws ENOENT error", async () => {
             const logErrorStub = sinon.spy();
             const npmUtilsStub = sinon.stub(spawn, "sync").returns({ error: { code: "ENOENT" } });
-            const log = await import("../../lib/utils/logging.js");
+            const { log } = await import("@clack/prompts");
 
-            sinon.replaceGetter(log, "error", () => logErrorStub);
+            sinon.stub(log, "error").get(() => logErrorStub);
 
             installSyncSaveDev("some-package");
 
