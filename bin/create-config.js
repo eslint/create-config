@@ -10,8 +10,32 @@ import { findPackageJson } from "../lib/utils/npm-utils.js";
 import { intro, outro } from "@clack/prompts";
 import process from "node:process";
 import fs from "node:fs/promises";
+import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
+
+let options;
+
+try {
+    const { values } = parseArgs({
+        options: {
+            config: {
+                type: "string"
+            },
+            eslintrc: {
+                type: "boolean"
+            }
+        },
+        args: process.argv.slice(2)
+    });
+
+    options = values;
+} catch (error) {
+    // eslint-disable-next-line no-console -- show an error
+    console.error("Error:", error.message);
+    // eslint-disable-next-line n/no-process-exit -- exit gracefully on invalid arguments
+    process.exit(1);
+}
 
 intro(`${pkg.name}: v${pkg.version}`);
 
@@ -22,10 +46,7 @@ if (packageJsonPath === null) {
     throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
 }
 
-const argv = process.argv;
-const sharedConfigIndex = process.argv.indexOf("--config");
-
-if (sharedConfigIndex === -1) {
+if (!options.config) {
     const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
     await generator.prompt();
@@ -34,8 +55,8 @@ if (sharedConfigIndex === -1) {
 } else {
 
     // passed "--config"
-    const packageName = argv[sharedConfigIndex + 1];
-    const type = argv.includes("--eslintrc") ? "eslintrc" : "flat";
+    const packageName = options.config;
+    const type = options.eslintrc ? "eslintrc" : "flat";
     const answers = { config: { packageName, type } };
     const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
