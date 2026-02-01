@@ -10,7 +10,6 @@ import { findPackageJson } from "../lib/utils/npm-utils.js";
 import * as log from "../lib/utils/logging.js";
 import process from "node:process";
 import fs from "node:fs/promises";
-// eslint-disable-next-line n/no-unsupported-features/node-builtins -- Using built-in parseArgs
 import { parseArgs } from "node:util";
 
 const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
