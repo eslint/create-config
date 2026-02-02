@@ -182,7 +182,7 @@ describe("generate config for esm projects", () => {
 				join(esmProjectDir, "./package.json"),
 			);
 			expect(generator.result.configContent.endsWith("\n")).toBe(true);
-			expect(generator.result).toMatchFileSnapshot(
+			await expect(generator.result).toMatchFileSnapshot(
 				`./__snapshots__/${item.name}`,
 			);
 		});
@@ -317,7 +317,7 @@ describe("generate config for cjs projects", () => {
 				join(cjsProjectDir, "./package.json"),
 			);
 			expect(generator.result.configContent.endsWith("\n")).toBe(true);
-			expect(generator.result).toMatchFileSnapshot(
+			await expect(generator.result).toMatchFileSnapshot(
 				`./__snapshots__/${item.name}`,
 			);
 		});
