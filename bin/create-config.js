@@ -12,63 +12,66 @@ import process from "node:process";
 import fs from "node:fs/promises";
 import { parseArgs } from "node:util";
 
-const pkg = JSON.parse(await fs.readFile(new URL("../package.json", import.meta.url), "utf8"));
+const pkg = JSON.parse(
+	await fs.readFile(new URL("../package.json", import.meta.url), "utf8"),
+);
 
 log.log(`${pkg.name}: v${pkg.version}`);
 
 let options;
 
 try {
-    const { values } = parseArgs({
-        options: {
-            config: {
-                type: "string"
-            },
-            eslintrc: {
-                type: "boolean"
-            }
-        },
-        args: process.argv.slice(2)
-    });
+	const { values } = parseArgs({
+		options: {
+			config: {
+				type: "string",
+			},
+			eslintrc: {
+				type: "boolean",
+			},
+		},
+		args: process.argv.slice(2),
+	});
 
-    options = values;
+	options = values;
 } catch (error) {
-    log.error(error.message);
-    // eslint-disable-next-line n/no-process-exit -- exit gracefully on invalid arguments
-    process.exit(1);
+	log.error(error.message);
+	// eslint-disable-next-line n/no-process-exit -- exit gracefully on invalid arguments
+	process.exit(1);
 }
 
 process.on("uncaughtException", error => {
-    if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
-        log.error("Operation canceled");
-        // eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
-        process.exit(1);
-    } else {
-        throw error;
-    }
+	if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
+		log.error("Operation canceled");
+		// eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
+		process.exit(1);
+	} else {
+		throw error;
+	}
 });
 
 const cwd = process.cwd();
 const packageJsonPath = findPackageJson(cwd);
 
 if (packageJsonPath === null) {
-    throw new Error("A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.");
+	throw new Error(
+		"A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.",
+	);
 }
 
 if (!options.config) {
-    const generator = new ConfigGenerator({ cwd, packageJsonPath });
+	const generator = new ConfigGenerator({ cwd, packageJsonPath });
 
-    await generator.prompt();
-    await generator.calc();
-    await generator.output();
+	await generator.prompt();
+	await generator.calc();
+	await generator.output();
 } else {
+	// passed "--config"
+	const packageName = options.config;
+	const type = options.eslintrc ? "eslintrc" : "flat";
+	const answers = { config: { packageName, type } };
+	const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
 
-    // passed "--config"
-    const packageName = options.config;
-    const type = options.eslintrc ? "eslintrc" : "flat";
-    const answers = { config: { packageName, type } };
-    const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
-
-    await generator.calc();
-    await generator.output();
+	await generator.calc();
+	await generator.output();
 }
