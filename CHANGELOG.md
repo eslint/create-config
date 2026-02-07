@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/eslint/create-config/compare/create-config-v1.11.0...create-config-v2.0.0) (2026-02-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Require Node.js ^20.19.0 || ^22.13.0 || >=24 ([#206](https://github.com/eslint/create-config/issues/206))
+
+### Features
+
+* Require Node.js ^20.19.0 || ^22.13.0 || &gt;=24 ([#206](https://github.com/eslint/create-config/issues/206)) ([9e624bd](https://github.com/eslint/create-config/commit/9e624bda761527027ba88d527e1f3f8c96eb899a))
+
+
+### Bug Fixes
+
+* correct JSDoc type definitions ([#233](https://github.com/eslint/create-config/issues/233)) ([93209ea](https://github.com/eslint/create-config/commit/93209ea3d6328b3004e5dc667e1cddc532076a7d))
+
 ## [1.11.0](https://github.com/eslint/create-config/compare/v1.10.0...v1.11.0) (2025-10-27)
 
 
