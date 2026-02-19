@@ -18,7 +18,7 @@ body:
       attributes:
           label: What do you think is the correct solution?
           description: |
-              Please explain how you'd like to change the ESLint docs to address the problem.
+              Please explain how you'd like to change the documentation for this project to address the problem.
       validations:
           required: true
     - type: checkboxes
