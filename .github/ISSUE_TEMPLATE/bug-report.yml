@@ -35,11 +35,10 @@ body:
           label: What actually happened?
       validations:
           required: true
-    - type: input
+    - type: textarea
       attributes:
-          label: Link to Minimal Reproducible Example
-          description: "Link to a [StackBlitz](https://stackblitz.com) or GitHub repo with a minimal reproduction of the problem. **A minimal reproduction is required** so that others can help debug your issue. If a report is vague (e.g. just a generic error message) and has no reproduction, it may be auto-closed."
-          placeholder: "https://stackblitz.com/abcd1234"
+          label: Provide CLI steps to reproduce the issue
+          description: "Please provide the exact commands you ran and the output you received. **A minimal reproduction is required** so that others can help debug your issue. If a report is vague (e.g. just a generic error message) and has no reproduction, it may be auto-closed."
       validations:
           required: true
     - type: checkboxes
