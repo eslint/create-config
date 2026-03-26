@@ -10,6 +10,7 @@ export default defineConfig([
   "devDependencies": [
     "eslint@>=10",
     "eslint-config-xo",
+    "typescript@>=5.9.0",
   ],
   "installFlags": [
     "-D",
