@@ -8,7 +8,6 @@
 //------------------------------------------------------------------------------
 
 import spawn from "cross-spawn";
-import sinon from "sinon";
 import {
 	installSyncSaveDev,
 	fetchPeerDependencies,
@@ -18,7 +17,7 @@ import {
 	parsePackageName,
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
-import { assert, describe, afterEach, it, expect } from "vitest";
+import { assert, describe, afterEach, it, expect, vi } from "vitest";
 import fs from "node:fs";
 import process from "node:process";
 
@@ -34,9 +33,9 @@ import process from "node:process";
 async function useInMemoryFileSystem(files) {
 	const inMemoryFs = defineInMemoryFs({ files });
 
-	sinon.replace(fs, "readFileSync", inMemoryFs.readFileSync);
-	sinon.replace(fs, "existsSync", inMemoryFs.existsSync);
-	sinon.replace(fs, "statSync", inMemoryFs.statSync);
+	vi.spyOn(fs, "readFileSync").mockImplementation(inMemoryFs.readFileSync);
+	vi.spyOn(fs, "existsSync").mockImplementation(inMemoryFs.existsSync);
+	vi.spyOn(fs, "statSync").mockImplementation(inMemoryFs.statSync);
 }
 
 //------------------------------------------------------------------------------
@@ -45,7 +44,7 @@ async function useInMemoryFileSystem(files) {
 
 describe("npmUtils", () => {
 	afterEach(() => {
-		sinon.verifyAndRestore();
+		vi.restoreAllMocks();
 	});
 
 	describe("checkDevDeps()", () => {
@@ -176,76 +175,84 @@ describe("npmUtils", () => {
 
 	describe("installSyncSaveDev()", () => {
 		it("should invoke npm to install a single desired package", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "npm");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "npm");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
+			assert.strictEqual(stub.mock.calls.length, 1);
+			assert.strictEqual(stub.mock.calls[0][0], "npm");
+			assert.deepStrictEqual(stub.mock.calls[0][1], [
 				"install",
 				"-D",
 				"desired-package",
 			]);
-			stub.restore();
+			stub.mockRestore();
 		});
 
 		it("should invoke yarn to install a single desired package", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "yarn");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "yarn");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
+			assert.strictEqual(stub.mock.calls.length, 1);
+			assert.strictEqual(stub.mock.calls[0][0], "yarn");
+			assert.deepStrictEqual(stub.mock.calls[0][1], [
 				"add",
 				"-D",
 				"desired-package",
 			]);
-			stub.restore();
+			stub.mockRestore();
 		});
 
 		it("should invoke bun to install a single desired package", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "bun");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "bun");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
+			assert.strictEqual(stub.mock.calls.length, 1);
+			assert.strictEqual(stub.mock.calls[0][0], "bun");
+			assert.deepStrictEqual(stub.mock.calls[0][1], [
 				"install",
 				"-D",
 				"desired-package",
 			]);
-			stub.restore();
+			stub.mockRestore();
 		});
 
 		it("should accept an array of packages to install", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev(["first-package", "second-package"], "npm");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "npm");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
+			assert.strictEqual(stub.mock.calls.length, 1);
+			assert.strictEqual(stub.mock.calls[0][0], "npm");
+			assert.deepStrictEqual(stub.mock.calls[0][1], [
 				"install",
 				"-D",
 				"first-package",
 				"second-package",
 			]);
-			stub.restore();
+			stub.mockRestore();
 		});
 
 		it("should log an error message if npm throws ENOENT error", async () => {
-			const logErrorStub = sinon.spy();
-			const npmUtilsStub = sinon
-				.stub(spawn, "sync")
-				.returns({ error: { code: "ENOENT" } });
+			const npmUtilsStub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ error: { code: "ENOENT" } });
 			const log = await import("../../lib/utils/logging.js");
-
-			sinon.replaceGetter(log, "error", () => logErrorStub);
+			const logErrorStub = vi
+				.spyOn(log, "error")
+				.mockImplementation(() => {});
 
 			installSyncSaveDev("some-package");
 
-			assert(logErrorStub.calledOnce);
+			assert.strictEqual(logErrorStub.mock.calls.length, 1);
 
-			npmUtilsStub.restore();
+			npmUtilsStub.mockRestore();
 		});
 	});
 
@@ -295,10 +302,8 @@ describe("npmUtils", () => {
 		it.skipIf(process.version.startsWith("v21"))(
 			"should fetch peer dependencies from npm registry",
 			async () => {
-				const fetchStub = sinon.stub(globalThis, "fetch");
-
 				const mockResponse = {
-					json: sinon.stub().resolves({
+					json: vi.fn().mockResolvedValue({
 						"dist-tags": { latest: "9.0.0" },
 						versions: {
 							"9.0.0": {
@@ -309,27 +314,25 @@ describe("npmUtils", () => {
 					ok: true,
 					status: 200,
 				};
-
-				fetchStub.resolves(mockResponse);
+				const fetchStub = vi
+					.spyOn(globalThis, "fetch")
+					.mockResolvedValue(mockResponse);
 
 				const result = await fetchPeerDependencies("desired-package");
 
-				assert(
-					fetchStub.calledOnceWith(
-						"https://registry.npmjs.org/desired-package",
-					),
-				);
+				assert.strictEqual(fetchStub.mock.calls.length, 1);
+				assert.deepStrictEqual(fetchStub.mock.calls[0], [
+					"https://registry.npmjs.org/desired-package",
+				]);
 				assert.deepStrictEqual(result, ["eslint@9.0.0"]);
 
-				fetchStub.restore();
+				fetchStub.mockRestore();
 			},
 		);
 
 		it("should handle package with version tag", async () => {
-			const stub = sinon.stub(globalThis, "fetch");
-
 			const mockResponse = {
-				json: sinon.stub().resolves({
+				json: vi.fn().mockResolvedValue({
 					"dist-tags": { latest: "9.0.0" },
 					versions: {
 						"9.0.0": {
@@ -346,21 +349,20 @@ describe("npmUtils", () => {
 				ok: true,
 				status: 200,
 			};
-
-			stub.resolves(mockResponse);
+			const stub = vi
+				.spyOn(globalThis, "fetch")
+				.mockResolvedValue(mockResponse);
 
 			await expect(
 				fetchPeerDependencies("desired-package@8"),
 			).resolves.toEqual(["eslint@8.0.0"]);
 
-			stub.restore();
+			stub.mockRestore();
 		});
 
 		it("should handle package with dist tag", async () => {
-			const stub = sinon.stub(globalThis, "fetch");
-
 			const mockResponse = {
-				json: sinon.stub().resolves({
+				json: vi.fn().mockResolvedValue({
 					"dist-tags": {
 						latest: "9.0.0",
 						legacy: "7.0.0",
@@ -380,32 +382,32 @@ describe("npmUtils", () => {
 				ok: true,
 				status: 200,
 			};
-
-			stub.resolves(mockResponse);
+			const stub = vi
+				.spyOn(globalThis, "fetch")
+				.mockResolvedValue(mockResponse);
 
 			await expect(
 				fetchPeerDependencies("desired-package@legacy"),
 			).resolves.toEqual(["eslint@7.0.0"]);
 
-			stub.restore();
+			stub.mockRestore();
 		});
 
 		it("should throw if an error is thrown", async () => {
-			const stub = sinon.stub(globalThis, "fetch");
-
 			const mockResponse = {
-				json: sinon.stub().resolves({ error: "Not found" }),
+				json: vi.fn().mockResolvedValue({ error: "Not found" }),
 				ok: false,
 				status: 404,
 			};
-
-			stub.resolves(mockResponse);
+			const stub = vi
+				.spyOn(globalThis, "fetch")
+				.mockResolvedValue(mockResponse);
 
 			await expect(() =>
 				fetchPeerDependencies("desired-package"),
 			).rejects.toThrowError();
 
-			stub.restore();
+			stub.mockRestore();
 		});
 	});
 });
