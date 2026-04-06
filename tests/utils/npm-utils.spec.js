@@ -187,7 +187,6 @@ describe("npmUtils", () => {
 				"-D",
 				"desired-package",
 			]);
-			stub.mockRestore();
 		});
 
 		it("should invoke yarn to install a single desired package", () => {
@@ -203,7 +202,6 @@ describe("npmUtils", () => {
 				"-D",
 				"desired-package",
 			]);
-			stub.mockRestore();
 		});
 
 		it("should invoke bun to install a single desired package", () => {
@@ -219,7 +217,6 @@ describe("npmUtils", () => {
 				"-D",
 				"desired-package",
 			]);
-			stub.mockRestore();
 		});
 
 		it("should accept an array of packages to install", () => {
@@ -236,13 +233,12 @@ describe("npmUtils", () => {
 				"first-package",
 				"second-package",
 			]);
-			stub.mockRestore();
 		});
 
 		it("should log an error message if npm throws ENOENT error", async () => {
-			const npmUtilsStub = vi
-				.spyOn(spawn, "sync")
-				.mockReturnValue({ error: { code: "ENOENT" } });
+			vi.spyOn(spawn, "sync").mockReturnValue({
+				error: { code: "ENOENT" },
+			});
 			const log = await import("../../lib/utils/logging.js");
 			const logErrorStub = vi
 				.spyOn(log, "error")
@@ -251,8 +247,6 @@ describe("npmUtils", () => {
 			installSyncSaveDev("some-package");
 
 			assert.strictEqual(logErrorStub.mock.calls.length, 1);
-
-			npmUtilsStub.mockRestore();
 		});
 	});
 
@@ -325,8 +319,6 @@ describe("npmUtils", () => {
 					"https://registry.npmjs.org/desired-package",
 				]);
 				assert.deepStrictEqual(result, ["eslint@9.0.0"]);
-
-				fetchStub.mockRestore();
 			},
 		);
 
@@ -349,15 +341,11 @@ describe("npmUtils", () => {
 				ok: true,
 				status: 200,
 			};
-			const stub = vi
-				.spyOn(globalThis, "fetch")
-				.mockResolvedValue(mockResponse);
+			vi.spyOn(globalThis, "fetch").mockResolvedValue(mockResponse);
 
 			await expect(
 				fetchPeerDependencies("desired-package@8"),
 			).resolves.toEqual(["eslint@8.0.0"]);
-
-			stub.mockRestore();
 		});
 
 		it("should handle package with dist tag", async () => {
@@ -382,15 +370,11 @@ describe("npmUtils", () => {
 				ok: true,
 				status: 200,
 			};
-			const stub = vi
-				.spyOn(globalThis, "fetch")
-				.mockResolvedValue(mockResponse);
+			vi.spyOn(globalThis, "fetch").mockResolvedValue(mockResponse);
 
 			await expect(
 				fetchPeerDependencies("desired-package@legacy"),
 			).resolves.toEqual(["eslint@7.0.0"]);
-
-			stub.mockRestore();
 		});
 
 		it("should throw if an error is thrown", async () => {
@@ -399,15 +383,11 @@ describe("npmUtils", () => {
 				ok: false,
 				status: 404,
 			};
-			const stub = vi
-				.spyOn(globalThis, "fetch")
-				.mockResolvedValue(mockResponse);
+			vi.spyOn(globalThis, "fetch").mockResolvedValue(mockResponse);
 
 			await expect(() =>
 				fetchPeerDependencies("desired-package"),
 			).rejects.toThrowError();
-
-			stub.mockRestore();
 		});
 	});
 });
