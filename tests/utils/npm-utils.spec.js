@@ -19,7 +19,6 @@ import {
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it, expect, vi } from "vitest";
 import fs from "node:fs";
-import process from "node:process";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -291,36 +290,31 @@ describe("npmUtils", () => {
 	});
 
 	describe("fetchPeerDependencies()", () => {
-		// Skip on Node.js v21 due to a bug where fetch cannot be stubbed
-		// See: https://github.com/sinonjs/sinon/issues/2590
-		it.skipIf(process.version.startsWith("v21"))(
-			"should fetch peer dependencies from npm registry",
-			async () => {
-				const mockResponse = {
-					json: vi.fn().mockResolvedValue({
-						"dist-tags": { latest: "9.0.0" },
-						versions: {
-							"9.0.0": {
-								peerDependencies: { eslint: "9.0.0" },
-							},
+		it("should fetch peer dependencies from npm registry", async () => {
+			const mockResponse = {
+				json: vi.fn().mockResolvedValue({
+					"dist-tags": { latest: "9.0.0" },
+					versions: {
+						"9.0.0": {
+							peerDependencies: { eslint: "9.0.0" },
 						},
-					}),
-					ok: true,
-					status: 200,
-				};
-				const fetchStub = vi
-					.spyOn(globalThis, "fetch")
-					.mockResolvedValue(mockResponse);
+					},
+				}),
+				ok: true,
+				status: 200,
+			};
+			const fetchStub = vi
+				.spyOn(globalThis, "fetch")
+				.mockResolvedValue(mockResponse);
 
-				const result = await fetchPeerDependencies("desired-package");
+			const result = await fetchPeerDependencies("desired-package");
 
-				assert.strictEqual(fetchStub.mock.calls.length, 1);
-				assert.deepStrictEqual(fetchStub.mock.calls[0], [
-					"https://registry.npmjs.org/desired-package",
-				]);
-				assert.deepStrictEqual(result, ["eslint@9.0.0"]);
-			},
-		);
+			assert.strictEqual(fetchStub.mock.calls.length, 1);
+			assert.deepStrictEqual(fetchStub.mock.calls[0], [
+				"https://registry.npmjs.org/desired-package",
+			]);
+			assert.deepStrictEqual(result, ["eslint@9.0.0"]);
+		});
 
 		it("should handle package with version tag", async () => {
 			const mockResponse = {
