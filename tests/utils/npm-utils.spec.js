@@ -29,7 +29,7 @@ import fs from "node:fs";
  * @param {Object} files The file definitions.
  * @returns {void}
  */
-async function useInMemoryFileSystem(files) {
+function useInMemoryFileSystem(files) {
 	const inMemoryFs = defineInMemoryFs({ files });
 
 	vi.spyOn(fs, "readFileSync").mockImplementation(inMemoryFs.readFileSync);
@@ -75,8 +75,8 @@ describe("npmUtils", () => {
 			assert.isFalse(installStatus.notarealpackage);
 		});
 
-		it("should handle missing devDependencies key", async () => {
-			await useInMemoryFileSystem({
+		it("should handle missing devDependencies key", () => {
+			useInMemoryFileSystem({
 				"package.json": JSON.stringify({
 					private: true,
 					dependencies: {},
@@ -87,8 +87,8 @@ describe("npmUtils", () => {
 			checkDevDeps(["some-package"]);
 		});
 
-		it("should throw with message when parsing invalid package.json", async () => {
-			await useInMemoryFileSystem({
+		it("should throw with message when parsing invalid package.json", () => {
+			useInMemoryFileSystem({
 				"package.json": '{ "not: "valid json" }',
 			});
 
@@ -133,8 +133,8 @@ describe("npmUtils", () => {
 			}, "Could not find a package.json file");
 		});
 
-		it("should handle missing dependencies key", async () => {
-			await useInMemoryFileSystem({
+		it("should handle missing dependencies key", () => {
+			useInMemoryFileSystem({
 				"package.json": JSON.stringify({
 					private: true,
 					devDependencies: {},
@@ -145,8 +145,8 @@ describe("npmUtils", () => {
 			checkDeps(["some-package"]);
 		});
 
-		it("should throw with message when parsing invalid package.json", async () => {
-			await useInMemoryFileSystem({
+		it("should throw with message when parsing invalid package.json", () => {
+			useInMemoryFileSystem({
 				"package.json": '{ "not: "valid json" }',
 			});
 
@@ -157,16 +157,16 @@ describe("npmUtils", () => {
 	});
 
 	describe("checkPackageJson()", () => {
-		it("should return true if package.json exists", async () => {
-			await useInMemoryFileSystem({
+		it("should return true if package.json exists", () => {
+			useInMemoryFileSystem({
 				"package.json": '{ "file": "contents" }',
 			});
 
 			assert.strictEqual(checkPackageJson(), true);
 		});
 
-		it("should return false if package.json does not exist", async () => {
-			await useInMemoryFileSystem({});
+		it("should return false if package.json does not exist", () => {
+			useInMemoryFileSystem({});
 
 			assert.strictEqual(checkPackageJson(), false);
 		});
@@ -179,13 +179,11 @@ describe("npmUtils", () => {
 				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "npm");
-			assert.strictEqual(stub.mock.calls.length, 1);
-			assert.strictEqual(stub.mock.calls[0][0], "npm");
-			assert.deepStrictEqual(stub.mock.calls[0][1], [
-				"install",
-				"-D",
-				"desired-package",
-			]);
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"npm",
+				["install", "-D", "desired-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should invoke yarn to install a single desired package", () => {
@@ -194,13 +192,11 @@ describe("npmUtils", () => {
 				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "yarn");
-			assert.strictEqual(stub.mock.calls.length, 1);
-			assert.strictEqual(stub.mock.calls[0][0], "yarn");
-			assert.deepStrictEqual(stub.mock.calls[0][1], [
-				"add",
-				"-D",
-				"desired-package",
-			]);
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"yarn",
+				["add", "-D", "desired-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should invoke bun to install a single desired package", () => {
@@ -209,13 +205,11 @@ describe("npmUtils", () => {
 				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "bun");
-			assert.strictEqual(stub.mock.calls.length, 1);
-			assert.strictEqual(stub.mock.calls[0][0], "bun");
-			assert.deepStrictEqual(stub.mock.calls[0][1], [
-				"install",
-				"-D",
-				"desired-package",
-			]);
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"bun",
+				["install", "-D", "desired-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should accept an array of packages to install", () => {
@@ -224,14 +218,11 @@ describe("npmUtils", () => {
 				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev(["first-package", "second-package"], "npm");
-			assert.strictEqual(stub.mock.calls.length, 1);
-			assert.strictEqual(stub.mock.calls[0][0], "npm");
-			assert.deepStrictEqual(stub.mock.calls[0][1], [
-				"install",
-				"-D",
-				"first-package",
-				"second-package",
-			]);
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"npm",
+				["install", "-D", "first-package", "second-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should log an error message if npm throws ENOENT error", async () => {
@@ -309,10 +300,9 @@ describe("npmUtils", () => {
 
 			const result = await fetchPeerDependencies("desired-package");
 
-			assert.strictEqual(fetchStub.mock.calls.length, 1);
-			assert.deepStrictEqual(fetchStub.mock.calls[0], [
+			expect(fetchStub).toHaveBeenCalledExactlyOnceWith(
 				"https://registry.npmjs.org/desired-package",
-			]);
+			);
 			assert.deepStrictEqual(result, ["eslint@9.0.0"]);
 		});
 
