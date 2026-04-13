@@ -8,7 +8,6 @@
 //------------------------------------------------------------------------------
 
 import spawn from "cross-spawn";
-import sinon from "sinon";
 import {
 	installSyncSaveDev,
 	fetchPeerDependencies,
@@ -18,9 +17,8 @@ import {
 	parsePackageName,
 } from "../../lib/utils/npm-utils.js";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
-import { assert, describe, afterEach, it, expect } from "vitest";
+import { assert, describe, afterEach, it, expect, vi } from "vitest";
 import fs from "node:fs";
-import process from "node:process";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -31,12 +29,12 @@ import process from "node:process";
  * @param {Object} files The file definitions.
  * @returns {void}
  */
-async function useInMemoryFileSystem(files) {
+function useInMemoryFileSystem(files) {
 	const inMemoryFs = defineInMemoryFs({ files });
 
-	sinon.replace(fs, "readFileSync", inMemoryFs.readFileSync);
-	sinon.replace(fs, "existsSync", inMemoryFs.existsSync);
-	sinon.replace(fs, "statSync", inMemoryFs.statSync);
+	vi.spyOn(fs, "readFileSync").mockImplementation(inMemoryFs.readFileSync);
+	vi.spyOn(fs, "existsSync").mockImplementation(inMemoryFs.existsSync);
+	vi.spyOn(fs, "statSync").mockImplementation(inMemoryFs.statSync);
 }
 
 //------------------------------------------------------------------------------
@@ -45,7 +43,7 @@ async function useInMemoryFileSystem(files) {
 
 describe("npmUtils", () => {
 	afterEach(() => {
-		sinon.verifyAndRestore();
+		vi.restoreAllMocks();
 	});
 
 	describe("checkDevDeps()", () => {
@@ -77,8 +75,8 @@ describe("npmUtils", () => {
 			assert.isFalse(installStatus.notarealpackage);
 		});
 
-		it("should handle missing devDependencies key", async () => {
-			await useInMemoryFileSystem({
+		it("should handle missing devDependencies key", () => {
+			useInMemoryFileSystem({
 				"package.json": JSON.stringify({
 					private: true,
 					dependencies: {},
@@ -89,8 +87,8 @@ describe("npmUtils", () => {
 			checkDevDeps(["some-package"]);
 		});
 
-		it("should throw with message when parsing invalid package.json", async () => {
-			await useInMemoryFileSystem({
+		it("should throw with message when parsing invalid package.json", () => {
+			useInMemoryFileSystem({
 				"package.json": '{ "not: "valid json" }',
 			});
 
@@ -135,8 +133,8 @@ describe("npmUtils", () => {
 			}, "Could not find a package.json file");
 		});
 
-		it("should handle missing dependencies key", async () => {
-			await useInMemoryFileSystem({
+		it("should handle missing dependencies key", () => {
+			useInMemoryFileSystem({
 				"package.json": JSON.stringify({
 					private: true,
 					devDependencies: {},
@@ -147,8 +145,8 @@ describe("npmUtils", () => {
 			checkDeps(["some-package"]);
 		});
 
-		it("should throw with message when parsing invalid package.json", async () => {
-			await useInMemoryFileSystem({
+		it("should throw with message when parsing invalid package.json", () => {
+			useInMemoryFileSystem({
 				"package.json": '{ "not: "valid json" }',
 			});
 
@@ -159,16 +157,16 @@ describe("npmUtils", () => {
 	});
 
 	describe("checkPackageJson()", () => {
-		it("should return true if package.json exists", async () => {
-			await useInMemoryFileSystem({
+		it("should return true if package.json exists", () => {
+			useInMemoryFileSystem({
 				"package.json": '{ "file": "contents" }',
 			});
 
 			assert.strictEqual(checkPackageJson(), true);
 		});
 
-		it("should return false if package.json does not exist", async () => {
-			await useInMemoryFileSystem({});
+		it("should return false if package.json does not exist", () => {
+			useInMemoryFileSystem({});
 
 			assert.strictEqual(checkPackageJson(), false);
 		});
@@ -176,76 +174,69 @@ describe("npmUtils", () => {
 
 	describe("installSyncSaveDev()", () => {
 		it("should invoke npm to install a single desired package", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "npm");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "npm");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
-				"install",
-				"-D",
-				"desired-package",
-			]);
-			stub.restore();
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"npm",
+				["install", "-D", "desired-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should invoke yarn to install a single desired package", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "yarn");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "yarn");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
-				"add",
-				"-D",
-				"desired-package",
-			]);
-			stub.restore();
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"yarn",
+				["add", "-D", "desired-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should invoke bun to install a single desired package", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev("desired-package", "bun");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "bun");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
-				"install",
-				"-D",
-				"desired-package",
-			]);
-			stub.restore();
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"bun",
+				["install", "-D", "desired-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should accept an array of packages to install", () => {
-			const stub = sinon.stub(spawn, "sync").returns({ stdout: "" });
+			const stub = vi
+				.spyOn(spawn, "sync")
+				.mockReturnValue({ stdout: "" });
 
 			installSyncSaveDev(["first-package", "second-package"], "npm");
-			assert(stub.calledOnce);
-			assert.strictEqual(stub.firstCall.args[0], "npm");
-			assert.deepStrictEqual(stub.firstCall.args[1], [
-				"install",
-				"-D",
-				"first-package",
-				"second-package",
-			]);
-			stub.restore();
+			expect(stub).toHaveBeenCalledExactlyOnceWith(
+				"npm",
+				["install", "-D", "first-package", "second-package"],
+				{ stdio: "inherit" },
+			);
 		});
 
 		it("should log an error message if npm throws ENOENT error", async () => {
-			const logErrorStub = sinon.spy();
-			const npmUtilsStub = sinon
-				.stub(spawn, "sync")
-				.returns({ error: { code: "ENOENT" } });
+			vi.spyOn(spawn, "sync").mockReturnValue({
+				error: { code: "ENOENT" },
+			});
 			const log = await import("../../lib/utils/logging.js");
-
-			sinon.replaceGetter(log, "error", () => logErrorStub);
+			const logErrorStub = vi
+				.spyOn(log, "error")
+				.mockImplementation(() => {});
 
 			installSyncSaveDev("some-package");
 
-			assert(logErrorStub.calledOnce);
-
-			npmUtilsStub.restore();
+			assert.strictEqual(logErrorStub.mock.calls.length, 1);
 		});
 	});
 
@@ -290,46 +281,34 @@ describe("npmUtils", () => {
 	});
 
 	describe("fetchPeerDependencies()", () => {
-		// Skip on Node.js v21 due to a bug where fetch cannot be stubbed
-		// See: https://github.com/sinonjs/sinon/issues/2590
-		it.skipIf(process.version.startsWith("v21"))(
-			"should fetch peer dependencies from npm registry",
-			async () => {
-				const fetchStub = sinon.stub(globalThis, "fetch");
-
-				const mockResponse = {
-					json: sinon.stub().resolves({
-						"dist-tags": { latest: "9.0.0" },
-						versions: {
-							"9.0.0": {
-								peerDependencies: { eslint: "9.0.0" },
-							},
+		it("should fetch peer dependencies from npm registry", async () => {
+			const mockResponse = {
+				json: vi.fn().mockResolvedValue({
+					"dist-tags": { latest: "9.0.0" },
+					versions: {
+						"9.0.0": {
+							peerDependencies: { eslint: "9.0.0" },
 						},
-					}),
-					ok: true,
-					status: 200,
-				};
+					},
+				}),
+				ok: true,
+				status: 200,
+			};
+			const fetchStub = vi
+				.spyOn(globalThis, "fetch")
+				.mockResolvedValue(mockResponse);
 
-				fetchStub.resolves(mockResponse);
+			const result = await fetchPeerDependencies("desired-package");
 
-				const result = await fetchPeerDependencies("desired-package");
-
-				assert(
-					fetchStub.calledOnceWith(
-						"https://registry.npmjs.org/desired-package",
-					),
-				);
-				assert.deepStrictEqual(result, ["eslint@9.0.0"]);
-
-				fetchStub.restore();
-			},
-		);
+			expect(fetchStub).toHaveBeenCalledExactlyOnceWith(
+				"https://registry.npmjs.org/desired-package",
+			);
+			assert.deepStrictEqual(result, ["eslint@9.0.0"]);
+		});
 
 		it("should handle package with version tag", async () => {
-			const stub = sinon.stub(globalThis, "fetch");
-
 			const mockResponse = {
-				json: sinon.stub().resolves({
+				json: vi.fn().mockResolvedValue({
 					"dist-tags": { latest: "9.0.0" },
 					versions: {
 						"9.0.0": {
@@ -346,21 +325,16 @@ describe("npmUtils", () => {
 				ok: true,
 				status: 200,
 			};
-
-			stub.resolves(mockResponse);
+			vi.spyOn(globalThis, "fetch").mockResolvedValue(mockResponse);
 
 			await expect(
 				fetchPeerDependencies("desired-package@8"),
 			).resolves.toEqual(["eslint@8.0.0"]);
-
-			stub.restore();
 		});
 
 		it("should handle package with dist tag", async () => {
-			const stub = sinon.stub(globalThis, "fetch");
-
 			const mockResponse = {
-				json: sinon.stub().resolves({
+				json: vi.fn().mockResolvedValue({
 					"dist-tags": {
 						latest: "9.0.0",
 						legacy: "7.0.0",
@@ -380,32 +354,24 @@ describe("npmUtils", () => {
 				ok: true,
 				status: 200,
 			};
-
-			stub.resolves(mockResponse);
+			vi.spyOn(globalThis, "fetch").mockResolvedValue(mockResponse);
 
 			await expect(
 				fetchPeerDependencies("desired-package@legacy"),
 			).resolves.toEqual(["eslint@7.0.0"]);
-
-			stub.restore();
 		});
 
 		it("should throw if an error is thrown", async () => {
-			const stub = sinon.stub(globalThis, "fetch");
-
 			const mockResponse = {
-				json: sinon.stub().resolves({ error: "Not found" }),
+				json: vi.fn().mockResolvedValue({ error: "Not found" }),
 				ok: false,
 				status: 404,
 			};
-
-			stub.resolves(mockResponse);
+			vi.spyOn(globalThis, "fetch").mockResolvedValue(mockResponse);
 
 			await expect(() =>
 				fetchPeerDependencies("desired-package"),
 			).rejects.toThrowError();
-
-			stub.restore();
 		});
 	});
 });
