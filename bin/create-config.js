@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
+/* eslint-disable jsdoc/escape-inline-tags -- false positive */
 /**
- * @fileoverview Main CLI that is run via the `npm init \@eslint/config` command.
+ * @fileoverview Main CLI that is run via the `npm init @eslint/config` command.
  * @author 唯然<weiran.zsd@outlook.com>
  */
+/* eslint-enable jsdoc/escape-inline-tags -- false positive */
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
