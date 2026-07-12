@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * @fileoverview Main CLI that is run via the `npm init @eslint/config` command.
+ * @fileoverview Main CLI that is run via the `npm init \@eslint/config` command.
  * @author 唯然<weiran.zsd@outlook.com>
  */
 
