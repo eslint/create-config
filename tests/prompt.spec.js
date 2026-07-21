@@ -70,16 +70,16 @@ describe("promptQuestions()", () => {
 			},
 		]);
 
-		expect(answers).toEqual({
+		expect(answers).toStrictEqual({
 			languages: ["javascript"],
 			purpose: "problems",
 		});
-		expect(clack.multiselect).toHaveBeenCalledWith(
+		expect(clack.multiselect).toHaveBeenCalledExactlyOnceWith(
 			expect.objectContaining({
 				initialValues: ["javascript"],
 			}),
 		);
-		expect(clack.select).toHaveBeenCalledWith(
+		expect(clack.select).toHaveBeenCalledExactlyOnceWith(
 			expect.objectContaining({ initialValue: "problems" }),
 		);
 	});
@@ -105,7 +105,7 @@ describe("promptQuestions()", () => {
 			},
 		]);
 
-		expect(answers).toEqual({ useTs: false });
+		expect(answers).toStrictEqual({ useTs: false });
 		expect(clack.select).not.toHaveBeenCalled();
 	});
 
@@ -117,6 +117,8 @@ describe("promptQuestions()", () => {
 		await expect(promptQuestions([])).rejects.toBeInstanceOf(
 			PromptCancelError,
 		);
-		expect(clack.cancel).toHaveBeenCalledWith("Operation canceled.");
+		expect(clack.cancel).toHaveBeenCalledExactlyOnceWith(
+			"Operation canceled.",
+		);
 	});
 });
