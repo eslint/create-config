@@ -16,6 +16,7 @@ import {
 	checkPackageJson,
 	parsePackageName,
 } from "../../lib/utils/npm-utils.js";
+import { log } from "@clack/prompts";
 import { defineInMemoryFs } from "../_utils/in-memory-fs.js";
 import { assert, describe, afterEach, it, expect, vi } from "vitest";
 import fs from "node:fs";
@@ -100,14 +101,14 @@ describe("npmUtils", () => {
 
 	describe("checkDeps()", () => {
 		let installStatus = checkDeps([
-			"enquirer",
+			"@clack/prompts",
 			"mocha",
 			"notarealpackage",
 			"jshint",
 		]);
 
 		it("should find a direct dependency of the project", () => {
-			assert.isTrue(installStatus.enquirer);
+			assert.isTrue(installStatus["@clack/prompts"]);
 		});
 
 		it("should not find a dev dependency of the project", () => {
@@ -229,7 +230,6 @@ describe("npmUtils", () => {
 			vi.spyOn(spawn, "sync").mockReturnValue({
 				error: { code: "ENOENT" },
 			});
-			const log = await import("../../lib/utils/logging.js");
 			const logErrorStub = vi
 				.spyOn(log, "error")
 				.mockImplementation(() => {});
