@@ -16,6 +16,7 @@
   "license": "MIT",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "type": "module",
+  "exports": {},
   "bin": {
     "create-config": "./bin/create-config.js"
   },
