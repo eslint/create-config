@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/eslint/create-config/compare/create-config-v2.0.0...create-config-v3.0.0) (2026-09-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* restrict access to internal modules ([#262](https://github.com/eslint/create-config/issues/262))
+
+### Features
+
+* restrict access to internal modules ([#262](https://github.com/eslint/create-config/issues/262)) ([90f46b0](https://github.com/eslint/create-config/commit/90f46b0d87fd52a09ac7aba8577db2ddaa05c552))
+
 ## [2.0.0](https://github.com/eslint/create-config/compare/create-config-v1.11.0...create-config-v2.0.0) (2026-05-19)
 
 
