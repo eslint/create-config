@@ -58,5 +58,9 @@ jobs:
                   node-version: ${{ matrix.node }}
             - name: Install dependencies
               run: npm install
+            # Node 22 ships npm 10, which crashes while resolving this project's
+            # peer-dependency graph (`Cannot read properties of null (reading 'edgesOut')`).
+            - name: Update npm
+              run: npm install -g npm@latest
             - name: Run tests
               run: npm run test
