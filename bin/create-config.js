@@ -6,21 +6,23 @@
  */
 
 import { ConfigGenerator } from "../lib/config-generator.js";
+import { PromptCancelError } from "../lib/prompt.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
-import * as log from "../lib/utils/logging.js";
+import pkg from "../package.json" with { type: "json" };
+import { intro, log } from "@clack/prompts";
 import process from "node:process";
-import fs from "node:fs/promises";
 import { parseArgs } from "node:util";
 
-const pkg = JSON.parse(
-	await fs.readFile(new URL("../package.json", import.meta.url), "utf8"),
-);
+/**
+ * Runs the CLI.
+ * @returns {Promise<void>}
+ */
+async function init() {
+	const cwd = process.cwd();
+	const args = process.argv.slice(2);
 
-log.log(`${pkg.name}: v${pkg.version}`);
+	intro(`${pkg.name}: v${pkg.version}`);
 
-let options;
-
-try {
 	const { values } = parseArgs({
 		options: {
 			config: {
@@ -30,48 +32,44 @@ try {
 				type: "boolean",
 			},
 		},
-		args: process.argv.slice(2),
+		args,
 	});
 
-	options = values;
-} catch (error) {
-	log.error(error.message);
-	// eslint-disable-next-line n/no-process-exit -- exit gracefully on invalid arguments
-	process.exit(1);
-}
+	const packageJsonPath = findPackageJson(cwd);
 
-process.on("uncaughtException", error => {
-	if (error instanceof Error && error.code === "ERR_USE_AFTER_CLOSE") {
-		log.error("Operation canceled");
-		// eslint-disable-next-line n/no-process-exit -- exit gracefully on Ctrl+C
-		process.exit(1);
-	} else {
-		throw error;
+	if (!packageJsonPath) {
+		throw new Error(
+			"A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.",
+		);
 	}
+
+	if (values.config) {
+		const packageName = values.config;
+		const type = values.eslintrc ? "eslintrc" : "flat";
+		const answers = { config: { packageName, type } };
+		const generator = new ConfigGenerator({
+			cwd,
+			packageJsonPath,
+			answers,
+		});
+
+		await generator.calc();
+		await generator.output();
+	} else {
+		const generator = new ConfigGenerator({ cwd, packageJsonPath });
+
+		await generator.prompt();
+		await generator.calc();
+		await generator.output();
+	}
+}
+
+init().catch(error => {
+	if (error instanceof PromptCancelError) {
+		// eslint-disable-next-line n/no-process-exit -- exit gracefully on prompt cancellation
+		process.exit(0);
+	}
+	log.error(error instanceof Error ? error.message : String(error));
+	// eslint-disable-next-line n/no-process-exit -- exit gracefully on an unexpected error
+	process.exit(1);
 });
-
-const cwd = process.cwd();
-const packageJsonPath = findPackageJson(cwd);
-
-if (packageJsonPath === null) {
-	throw new Error(
-		"A package.json file is necessary to initialize ESLint. Run `npm init` to create a package.json file and try again.",
-	);
-}
-
-if (!options.config) {
-	const generator = new ConfigGenerator({ cwd, packageJsonPath });
-
-	await generator.prompt();
-	await generator.calc();
-	await generator.output();
-} else {
-	// passed "--config"
-	const packageName = options.config;
-	const type = options.eslintrc ? "eslintrc" : "flat";
-	const answers = { config: { packageName, type } };
-	const generator = new ConfigGenerator({ cwd, packageJsonPath, answers });
-
-	await generator.calc();
-	await generator.output();
-}
