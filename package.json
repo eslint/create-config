@@ -1,6 +1,6 @@
 {
   "name": "@eslint/create-config",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Utility to create ESLint config files.",
   "keywords": [
     "ast",
@@ -16,6 +16,7 @@
   "license": "MIT",
   "author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
   "type": "module",
+  "exports": {},
   "bin": {
     "create-config": "./bin/create-config.js"
   },
@@ -37,6 +38,9 @@
     "test:snapshots": "vitest run snapshots",
     "test:snapshots:update": "vitest -u run snapshots"
   },
+  "allowScripts": {
+    "yorkie": true
+  },
   "dependencies": {
     "ansi-colors": "^4.1.3",
     "cross-spawn": "^7.0.2",
@@ -49,8 +53,8 @@
     "eslint-config-eslint": "^14.0.0",
     "lint-staged": "^16.2.7",
     "memfs": "^4.0.0",
-    "prettier": "3.9.4",
-    "vitest": "^4.0.18",
+    "prettier": "3.9.6",
+    "vitest": "^4.1.9",
     "yorkie": "^2.0.0"
   },
   "engines": {

@@ -11,15 +11,15 @@ jobs:
             contents: read
             id-token: write
         steps:
-            - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
+            - uses: googleapis/release-please-action@45996ed1f6d02564a971a2fa1b5860e934307cf7 # v5
               id: release
               with:
                   token: ${{ secrets.WORKFLOW_PUSH_BOT_TOKEN }}
 
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
               if: ${{ steps.release.outputs.release_created }}
 
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version: lts/*
                   registry-url: https://registry.npmjs.org
@@ -38,13 +38,9 @@ jobs:
 
               # Post to social media
             - name: Post release announcement
-              run: 'npx @humanwhocodes/crosspost -t -m -b "eslint/create-config v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }} has been released:\n\n${{ steps.release.outputs.html_url }}"'
+              run: 'npx @humanwhocodes/crosspost -m -b "eslint/create-config v${{ steps.release.outputs.major }}.${{ steps.release.outputs.minor }}.${{ steps.release.outputs.patch }} has been released:\n\n${{ steps.release.outputs.html_url }}"'
               if: ${{ steps.release.outputs.release_created }}
               env:
-                  TWITTER_API_CONSUMER_KEY: ${{ secrets.TWITTER_CONSUMER_KEY }}
-                  TWITTER_API_CONSUMER_SECRET: ${{ secrets.TWITTER_CONSUMER_SECRET }}
-                  TWITTER_ACCESS_TOKEN_KEY: ${{ secrets.TWITTER_ACCESS_TOKEN_KEY }}
-                  TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
                   MASTODON_ACCESS_TOKEN: ${{ secrets.MASTODON_ACCESS_TOKEN }}
                   MASTODON_HOST: ${{ secrets.MASTODON_HOST }}
                   BLUESKY_IDENTIFIER: ${{ vars.BLUESKY_IDENTIFIER }}
