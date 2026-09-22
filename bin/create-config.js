@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
+/* eslint-disable jsdoc/escape-inline-tags -- TODO: remove eslint-disable when eslint-plugin-jsdoc is updated to v63.0.14 or later, which fixes https://github.com/gajus/eslint-plugin-jsdoc/issues/1723 */
 /**
  * @fileoverview Main CLI that is run via the `npm init @eslint/config` command.
  * @author 唯然<weiran.zsd@outlook.com>
  */
+/* eslint-enable jsdoc/escape-inline-tags -- false positive */
 
 import { ConfigGenerator } from "../lib/config-generator.js";
 import { findPackageJson } from "../lib/utils/npm-utils.js";
