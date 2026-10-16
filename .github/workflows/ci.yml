@@ -58,8 +58,11 @@ jobs:
                   node-version: ${{ matrix.node }}
             # Node 22 and 20 ships npm 10, which crashes while resolving this project's
             # peer-dependency graph (`Cannot read properties of null (reading 'edgesOut')`).
-            - name: Update npm
-              if: matrix.node == '22.x' || matrix.node == '20.x'
+            - name: Update npm (Node 22)
+              if: matrix.node == '22.x'
+              run: npm install -g npm@latest
+            - name: Update npm (Node 20)
+              if: startsWith(matrix.node, '20.')
               run: npm install -g npm@11 # `npm@12` is not supported in Node 20.
             - name: Install dependencies
               run: npm install
