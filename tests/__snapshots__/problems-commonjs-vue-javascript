@@ -7,7 +7,7 @@ import { defineConfig } from "eslint/config";
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,vue}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
-  pluginVue.configs["flat/essential"],
+  { files: ["**/*.{js,mjs,cjs,vue}"], extends: [pluginVue.configs["flat/essential"]] },
 ]);
 ",
   "configFilename": "eslint.config.js",
