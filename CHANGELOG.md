@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/eslint/create-config/compare/create-config-v3.0.0...create-config-v3.0.1) (2026-10-23)
+
+
+### Bug Fixes
+
+* scope Vue config to JavaScript, TypeScript, and Vue files ([#274](https://github.com/eslint/create-config/issues/274)) ([0e1e825](https://github.com/eslint/create-config/commit/0e1e825d931057a9015db5c9d8708575603ac10b))
+
 ## [3.0.0](https://github.com/eslint/create-config/compare/create-config-v2.0.0...create-config-v3.0.0) (2026-09-17)
 
 
