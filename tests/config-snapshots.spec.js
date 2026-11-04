@@ -7,9 +7,19 @@
  * @author 唯然<weiran.zsd@outlook.com>
  */
 import { ConfigGenerator } from "../lib/config-generator.js";
+import { langQuestions } from "../lib/questions.js";
 import { expect, describe, test } from "vitest";
 import { fileURLToPath } from "node:url";
 import { join } from "node:path";
+
+describe("language questions", () => {
+	test("includes Shell", () => {
+		expect(langQuestions[0].choices).toContainEqual({
+			message: "Shell scripts (Bash, sh)",
+			name: "shell",
+		});
+	});
+});
 
 const __filename = fileURLToPath(import.meta.url); // eslint-disable-line no-underscore-dangle -- commonjs convention
 
@@ -90,6 +100,25 @@ describe("generate config for esm projects", () => {
 		{
 			name: "esm-css-problems",
 			answers: { languages: ["css"], purpose: "problems" },
+		},
+		{
+			name: "esm-shell-syntax",
+			answers: { languages: ["shell"], purpose: "syntax" },
+		},
+		{
+			name: "esm-shell-problems",
+			answers: { languages: ["shell"], purpose: "problems" },
+		},
+		{
+			name: "esm-javascript-shell-problems",
+			answers: {
+				languages: ["javascript", "shell"],
+				purpose: "problems",
+				moduleType: "esm",
+				framework: "none",
+				useTs: false,
+				env: ["node"],
+			},
 		},
 		{
 			name: "esm-configfile-js",
@@ -295,6 +324,10 @@ describe("generate config for cjs projects", () => {
 				addJiti: true,
 				env: ["node"],
 			},
+		},
+		{
+			name: "cjs-shell-problems",
+			answers: { languages: ["shell"], purpose: "problems" },
 		},
 	];
 

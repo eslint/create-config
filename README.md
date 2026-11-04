@@ -18,6 +18,10 @@ npm init @eslint/config@latest
 npx @eslint/create-config@latest
 ```
 
+The language selector also supports Shell. Generated shell configurations use
+the Bash language for `.sh` and `.bash` files; choosing problem checking enables
+the recommended rules from [`@eslint/shell`](https://www.npmjs.com/package/@eslint/shell).
+
 If you want to use a specific shareable config that is hosted on npm, you can use the `--config` option and specify the package name:
 
 ```bash
