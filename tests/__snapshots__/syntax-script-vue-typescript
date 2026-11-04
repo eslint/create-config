@@ -18,6 +18,7 @@ export default defineConfig([
     "globals",
     "typescript-eslint",
     "eslint-plugin-vue",
+    "typescript@~6.0.3",
   ],
   "installFlags": [
     "-D",
