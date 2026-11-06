@@ -1,0 +1,18 @@
+{
+  "configContent": "import shell from "@eslint/shell";
+import { defineConfig } from "eslint/config";
+
+export default defineConfig([
+  { ignores: ["**/*.js", "**/*.cjs", "**/*.mjs"] },
+  { files: ["**/*.sh", "**/*.bash"], plugins: { shell }, language: "shell/bash", extends: ["shell/recommended"] },
+]);
+",
+  "configFilename": "eslint.config.js",
+  "devDependencies": [
+    "eslint",
+    "@eslint/shell",
+  ],
+  "installFlags": [
+    "-D",
+  ],
+}
