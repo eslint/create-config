@@ -13,7 +13,6 @@ export default defineConfig([
     "eslint",
     "globals",
     "typescript-eslint",
-    "typescript@~6.0.3",
   ],
   "installFlags": [
     "-D",

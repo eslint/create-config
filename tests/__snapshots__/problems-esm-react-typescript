@@ -18,7 +18,6 @@ export default defineConfig([
     "globals",
     "typescript-eslint",
     "@eslint-react/eslint-plugin",
-    "typescript@~6.0.3",
   ],
   "installFlags": [
     "-D",
