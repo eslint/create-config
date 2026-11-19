@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.0](https://github.com/eslint/create-config/compare/create-config-v3.1.0...create-config-v3.2.0) (2026-11-19)
+
+
+### Features
+
+* replace eslint-plugin-react with [@eslint-react](https://github.com/eslint-react) ([#273](https://github.com/eslint/create-config/issues/273)) ([3ac27b2](https://github.com/eslint/create-config/commit/3ac27b27fec428e7d409d243984ee2e2d1594d6b))
+
 ## [3.1.0](https://github.com/eslint/create-config/compare/create-config-v3.0.0...create-config-v3.1.0) (2026-11-06)
 
 
