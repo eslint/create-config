@@ -1,12 +1,12 @@
 {
   "configContent": "import js from "@eslint/js";
 import globals from "globals";
-import pluginReact from "eslint-plugin-react";
+import eslintReact from "@eslint-react/eslint-plugin";
 import { defineConfig } from "eslint/config";
 
 export default defineConfig([
   { files: ["**/*.{js,mjs,cjs,jsx}"], plugins: { js }, extends: ["js/recommended"], languageOptions: { globals: {...globals.browser, ...globals.node} } },
-  pluginReact.configs.flat.recommended,
+  eslintReact.configs.recommended,
 ]);
 ",
   "configFilename": "eslint.config.js",
@@ -14,7 +14,7 @@ export default defineConfig([
     "eslint",
     "@eslint/js",
     "globals",
-    "eslint-plugin-react",
+    "@eslint-react/eslint-plugin",
   ],
   "installFlags": [
     "-D",
